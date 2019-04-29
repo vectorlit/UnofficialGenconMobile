@@ -19,6 +19,9 @@ Please make sure to document/comment and follow reasonable coding practices. Ple
 ### Other Contributions
 The maps for 2019 must be completely made from scratch. We cannot use screenshots from the website. The contents (including names, room numbers, and other details) may be present on the maps, but they cannot be directly screen-shotted from the website. If you are interested in redrawing the maps, please do so!! You may submit a pull-request here, or if you don't understand github, please send an email to SUPPORT @ VECTORLIT . NET and we will help you get what you need started.
 
+### Web services and foundation support
+There are several underlying REST web services which provide app state management, file downloads, user event list synchronization, and event downloads. The code for these services is not yet open source, but the services will remain available for use with this app. The endpoints are described in the code and are generally self-explanatory. If you have any issues or need changes for an update, please open an issue.
+
 ### A note about versions
 This is the XAMARIN version of the app, which has been in production for visitors from 2015-Present. A newer attempt to recreate this app in Flutter has been started at https://github.com/vectorlit/unofficial_gencon_mobile . If you want to try to advance the state of the newer app (and potentially replace this one), please visit that repository instead.
 
