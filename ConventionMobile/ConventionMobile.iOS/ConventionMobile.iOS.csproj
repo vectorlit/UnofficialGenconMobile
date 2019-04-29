@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F47B755C-68EC-4093-8D57-76F7ACBA4F3D}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TemplateGuid>{6143fdea-f3c2-4a09-aafa-6e230626515e}</TemplateGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ConventionMobile.iOS</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>ConventionMobile.iOS</AssemblyName>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>i386, x86_64</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>true</MtouchDebug>
+    <NoWarn>NU1608;</NoWarn>
+    <CodesignKey>iPhone Developer: Logan Schuster (5X4C26TYM9)</CodesignKey>
+    <CodesignProvision>VS: com.vectorlit.genconevents Development</CodesignProvision>
+    <CodesignExtraArgs />
+    <CodesignResourceRules />
+    <CodesignEntitlements />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>ARM64</MtouchArch>
+    <CodesignKey>iPhone Developer: Logan Schuster (5X4C26TYM9)</CodesignKey>
+    <MtouchDebug>true</MtouchDebug>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>VS: com.vectorlit.genconevents Development</CodesignProvision>
+<MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Distribution: VectorLit Games Limited (YXT4K3G363)</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignExtraArgs />
+    <CodesignResourceRules />
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <BuildIpa>true</BuildIpa>
+<MtouchSdkVersion>11.4</MtouchSdkVersion>
+<MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+<CodesignProvision>BBDT-OSXDistrib</CodesignProvision>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
+    <BuildIpa>True</BuildIpa>
+    <CodesignProvision>BBDT-OSXDistrib</CodesignProvision>
+    <CodesignKey>iPhone Distribution: VectorLit Games Limited (YXT4K3G363)</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\AppStore</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
+    <CodesignProvision>BBDT-OSXDistrib</CodesignProvision>
+    <CodesignKey>iPhone Distribution: VectorLit Games Limited (YXT4K3G363)</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Calendar_iOS.cs" />
+    <Compile Include="CustomWebViewRenderer.cs" />
+    <Compile Include="FileOps_iOS.cs" />
+    <Compile Include="LongPressedEffect_iOS.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="SafeAreaInsets_iOS.cs" />
+    <Compile Include="SQLite_iOS.cs" />
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\GenCon2018_1024.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-120.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-152.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-167.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-180.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-20.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-29.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-58.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-60.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-76.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-80.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-87.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImages.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <None Include="Entitlements.plist" />
+    <None Include="Info.plist">
+      <SubType>Designer</SubType>
+    </None>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs">
+      <Version>7.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="modernhttpclient">
+      <Version>2.4.2</Version>
+    </PackageReference>
+    <PackageReference Include="morelinq">
+      <Version>2.10.0</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Plugin.Share">
+      <Version>7.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-standard">
+      <Version>1.5.1</Version>
+    </PackageReference>
+    <PackageReference Include="SQLiteNetExtensionsCore.Async">
+      <Version>2.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Reactive.Linq">
+      <Version>4.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.561731" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <BundleResource Include="Content\jwmarriott.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Content\lucasoilstadium.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Content\marriott.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Content\omni.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Content\Parking.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Content\Skywalk-DTHotel.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Content\unionstation.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Content\convention-1.jpg" />
+    <BundleResource Include="Content\convention-2.jpg" />
+    <BundleResource Include="Content\crowneplaza.jpg" />
+    <Content Include="Content\DrivingDirections.html" />
+    <BundleResource Include="Content\embassysuites.jpg" />
+    <BundleResource Include="Content\exhibithallmap2018.jpg" />
+    <Content Include="Content\foodtrucks.html" />
+    <BundleResource Include="Content\hyattregency.jpg" />
+    <Content Include="Content\vegan.html" />
+    <BundleResource Include="Content\westin.jpg" />
+    <BundleResource Include="Resources\ic_refresh_black_24dp.png" />
+    <BundleResource Include="Resources\ic_refresh_black_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_refresh_black_24dp%403x.png" />
+    <BundleResource Include="Resources\ic_share_black_24dp.png" />
+    <BundleResource Include="Resources\ic_share_black_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_share_black_24dp%403x.png" />
+    <BundleResource Include="Resources\ic_today_black_24dp.png" />
+    <BundleResource Include="Resources\ic_today_black_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_today_black_24dp%403x.png" />
+    <BundleResource Include="Resources\Icon-whatever%402x.png" />
+    <BundleResource Include="Resources\Icon-whatever%403x.png" />
+    <BundleResource Include="Resources\Icons\icon-error.png" />
+    <BundleResource Include="Resources\Icons\icon-error%402x.png" />
+    <BundleResource Include="Resources\Icons\icon-info.png" />
+    <BundleResource Include="Resources\Icons\icon-info%402x.png" />
+    <BundleResource Include="Resources\Icons\icon-success.png" />
+    <BundleResource Include="Resources\Icons\icon-success%402x.png" />
+    <BundleResource Include="Resources\Icons\icon-warning.png" />
+    <BundleResource Include="Resources\Icons\icon-warning%402x.png" />
+    <BundleResource Include="Resources\addlist%403x.png" />
+    <BundleResource Include="Resources\addlist.png" />
+    <BundleResource Include="Resources\addlist%402x.png" />
+    <BundleResource Include="Resources\add_list_plus%402x.png" />
+    <BundleResource Include="Resources\add_list_plus%403x.png" />
+    <BundleResource Include="Resources\ic_arrow_downward_black_24dp.png" />
+    <BundleResource Include="Resources\ic_arrow_downward_black_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_arrow_downward_black_24dp%403x.png" />
+    <BundleResource Include="Resources\ic_arrow_upward_black_24dp.png" />
+    <BundleResource Include="Resources\ic_arrow_upward_black_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_arrow_upward_black_24dp%403x.png" />
+    <BundleResource Include="Resources\ic_cancel_black_24dp.png" />
+    <BundleResource Include="Resources\ic_cancel_black_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_cancel_black_24dp%403x.png" />
+    <BundleResource Include="Resources\ic_directions_black_24dp.png" />
+    <BundleResource Include="Resources\ic_directions_black_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_directions_black_24dp%403x.png" />
+    <BundleResource Include="Resources\ic_map_black_24dp.png" />
+    <BundleResource Include="Resources\ic_map_black_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_map_black_24dp%403x.png" />
+    <BundleResource Include="Resources\ic_public_black_24dp.png" />
+    <BundleResource Include="Resources\ic_public_black_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_public_black_24dp%403x.png" />
+    <BundleResource Include="Resources\ic_public_white_24dp.png" />
+    <BundleResource Include="Resources\ic_public_white_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_public_white_24dp%403x.png" />
+    <BundleResource Include="Resources\ic_search_black_24dp.png" />
+    <BundleResource Include="Resources\ic_search_black_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_search_black_24dp%403x.png" />
+    <BundleResource Include="Resources\ic_share_white_24dp.png" />
+    <BundleResource Include="Resources\ic_share_white_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_share_white_24dp%403x.png" />
+    <BundleResource Include="Resources\ic_today_white_24dp.png" />
+    <BundleResource Include="Resources\ic_today_white_24dp%402x.png" />
+    <BundleResource Include="Resources\ic_today_white_24dp%403x.png" />
+    <BundleResource Include="Resources\move_to_list.png" />
+    <BundleResource Include="Resources\move_to_list%402x.png" />
+    <BundleResource Include="Resources\move_to_list%403x.png" />
+    <BundleResource Include="Resources\rename_list.png" />
+    <BundleResource Include="Resources\rename_list%402x.png" />
+    <BundleResource Include="Resources\rename_list%403x.png" />
+    <BundleResource Include="Resources\transparent.png" />
+    <BundleResource Include="Resources\transparent%402x.png" />
+    <BundleResource Include="Resources\transparent%403x.png" />
+    <BundleResource Include="Resources\trash.png" />
+    <BundleResource Include="Resources\trash%402x.png" />
+    <BundleResource Include="Resources\trash%403x.png" />
+    <BundleResource Include="Resources\vl_logo.png" />
+    <BundleResource Include="Resources\vl_logo%402x.png" />
+    <BundleResource Include="Resources\vl_logo%403x.png" />
+    <BundleResource Include="Resources\add_list_plus.png" />
+    <ITunesArtwork Include="iTunesArtwork.png" />
+    <ITunesArtwork Include="iTunesArtwork%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConventionMobile\ConventionMobile.csproj">
+      <Project>{cb79fb5d-8254-4bd0-9cb4-893ca7f2b90c}</Project>
+      <Name>ConventionMobile</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

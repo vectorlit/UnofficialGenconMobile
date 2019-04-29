@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1705;NU1701;NU1608</NoWarn>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;1705;NU1701;NU1608</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\addlist.png" />
+    <None Remove="Resources\blacksquare.png" />
+    <None Remove="Resources\icon.png" />
+    <None Remove="Resources\icons8-plus-math-96.png" />
+    <None Remove="Resources\icons8-rename-96.png" />
+    <None Remove="Resources\icons8-transparent-96.png" />
+    <None Remove="Resources\icons8-trash-96.png" />
+    <None Remove="Resources\ic_arrow_downward_black_24dp.png" />
+    <None Remove="Resources\ic_arrow_upward_black_24dp.png" />
+    <None Remove="Resources\ic_cancel_black_24dp.png" />
+    <None Remove="Resources\ic_directions_black_24dp.png" />
+    <None Remove="Resources\ic_map_black_24dp.png" />
+    <None Remove="Resources\ic_public_black_24dp.png" />
+    <None Remove="Resources\ic_public_white_24dp.png" />
+    <None Remove="Resources\ic_refresh_black_24dp.png" />
+    <None Remove="Resources\ic_search_black_24dp.png" />
+    <None Remove="Resources\ic_share_black_24dp.png" />
+    <None Remove="Resources\ic_share_white_24dp.png" />
+    <None Remove="Resources\ic_today_black_24dp.png" />
+    <None Remove="Resources\ic_today_white_24dp.png" />
+    <None Remove="Resources\move-to-list.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
+    <PackageReference Include="modernhttpclient" Version="2.4.2" />
+    <PackageReference Include="morelinq" Version="2.10.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Plugin.Share" Version="7.1.1" />
+    <PackageReference Include="sqlite-net-standard" Version="1.5.1" />
+    <PackageReference Include="SQLiteNetExtensionsCore.Async" Version="2.0.0" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.561731" />
+  </ItemGroup>
+</Project>

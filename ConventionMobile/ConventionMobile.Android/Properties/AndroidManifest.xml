@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="30" android:versionName="4.0" package="com.vectorlit.genconevents" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="27" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<application android:label="Unofficial Gen Con 2018" android:icon="@drawable/cm_launcher" android:theme="@android:style/Theme.Material.Light"></application>
+</manifest>
