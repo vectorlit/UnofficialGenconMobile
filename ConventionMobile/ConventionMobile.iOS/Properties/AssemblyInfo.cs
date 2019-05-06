@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ConventionMobile.iOS")]
-[assembly: AssemblyCopyright("Copyright ©  2018 VectorLit Games Limited")]
+[assembly: AssemblyCopyright("Copyright ©  2019 VectorLit Games Limited")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

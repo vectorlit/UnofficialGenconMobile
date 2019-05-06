@@ -119,7 +119,7 @@ namespace ConventionMobile.Data
 
         private void CheckDBVersion()
         {
-            if (GlobalVars.dbVersion <= 5)
+            if (GlobalVars.dbVersion <= 6)
             {
                 //delete tables
                 try
@@ -152,7 +152,7 @@ namespace ConventionMobile.Data
 
 
                 GlobalVars.resetDefaultOptions();
-                GlobalVars.dbVersion = 6;
+                GlobalVars.dbVersion = 7;
 
                 GlobalVars.isActivityReloadRequested = true;
             }
