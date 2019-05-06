@@ -148,7 +148,7 @@
     <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-76-1.png" />
     <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-76%402x.png" />
     <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-83.5%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-1024.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\web_hi_res_1024_nontransparent.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
