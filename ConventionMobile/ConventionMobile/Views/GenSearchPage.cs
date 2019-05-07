@@ -143,22 +143,13 @@ namespace ConventionMobile.Views
             };
 
             //run the below on every keypress
-//            var clearWatcher = searchTerm.observer
-//                .ObserveOn(SynchronizationContext.Current)
-//                .Subscribe(final =>
-//            {
-//                searchTerm.isIgnoringNextEvent = false;
-//                outerContainer.Children.Remove(autoCompleteHolder);
-//            });
-
-            //var searchWatcher = searchTerm.observer
-            //    .Throttle(TimeSpan.FromMilliseconds(350))            //Wait for the user to pause typing 
-            //    //.Where(x => !string.IsNullOrEmpty(x) && x.Length > 2)  //Make sure the search term is long enough
-            //    .ObserveOn(SynchronizationContext.Current)
-            //    .Subscribe(final =>
-            //{
-            //    setGenListContent();
-            //});
+            var clearWatcher = searchTerm.observer
+                .ObserveOn(SynchronizationContext.Current)
+                .Subscribe(final =>
+            {
+                searchTerm.isIgnoringNextEvent = false;
+                outerContainer.Children.Remove(autoCompleteHolder);
+            });
 
             //only run the below on legit text entry
             var autoCompleteWatcher = searchTerm.observer
