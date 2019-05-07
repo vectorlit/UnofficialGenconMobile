@@ -265,7 +265,7 @@ namespace ConventionMobile
         {
             get
             {
-                return getOption<string>("appTitle", "Unofficial Gen Con 2018");
+                return getOption<string>("appTitle", "Unofficial Gen Con 2019");
             }
             set
             {
@@ -280,7 +280,7 @@ namespace ConventionMobile
         {
             get
             {
-                return getOption<string>("shortTitle", "Gen Con 2018");
+                return getOption<string>("shortTitle", "Gen Con 2019");
             }
             set
             {
@@ -414,7 +414,7 @@ namespace ConventionMobile
         {
             get
             {
-                return getOption<DateTime>("startingDate", new DateTime(2018, 8, 1, 0, 0, 0));
+                return getOption<DateTime>("startingDate", new DateTime(2019, 7, 31, 0, 0, 0));
             }
             set
             {
@@ -429,7 +429,7 @@ namespace ConventionMobile
         {
             get
             {
-                return getOption<DateTime>("yearlyStartingDate", new DateTime(2018, 5, 1));
+                return getOption<DateTime>("yearlyStartingDate", new DateTime(2019, 4, 30));
             }
             set
             {
@@ -790,7 +790,7 @@ namespace ConventionMobile
         {
             get
             {
-                return getOption<string>("eventsFinalInfoPretty", "** Food trucks and other outstanding information will be added/updated to 2018 as soon as Gen Con releases them!\r\n\r\nThis app is NOT officially endorsed by Gen Con. It is a fan-created app service, provided for free.");
+                return getOption<string>("eventsFinalInfoPretty", "** Food trucks and other outstanding information will be added/updated to 2019 as soon as Gen Con releases them!\r\n\r\nThis app is NOT officially endorsed by Gen Con. It is a fan-created app service, provided for free.");
             }
             set
             {
@@ -836,7 +836,7 @@ namespace ConventionMobile
                         {
                             new DetailChoice ("Convention Floor 1", "convention-1.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Convention Floor 2", "convention-2.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Exhibit Hall", "exhibithallmap2018.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Exhibit Hall", "exhibithallmap2019.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Parking", "Parking.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Skywalk/Downtown", "Skywalk-DTHotel.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Crowne Plaza", "crowneplaza.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
