@@ -3,21 +3,21 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using System.Windows.Input;
 using ConventionMobile.Data;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using ConventionMobile.Model;
-using System.ComponentModel;
-using System.Linq.Expressions;
 using System.Linq;
 using MoreLinq;
 using System.Collections.ObjectModel;
+using ConventionMobile.Business;
 
 namespace ConventionMobile.Views
 {
     public class GenSearchPage : OrientationContentPage
     {
+        private readonly IGenConBusiness _business;
+
         private StackLayout eventDisplay;
         private StackLayout eventDisplayWrapper;
         
@@ -75,7 +75,6 @@ namespace ConventionMobile.Views
                 this.Name = Name;
                 this.isSortDescending = isSortDescending;
             }
-
         }
 
         private List<DefaultSortChoice> defaultSortChoices = new List<DefaultSortChoice>()
@@ -87,8 +86,11 @@ namespace ConventionMobile.Views
         };
                 
 
-        public GenSearchPage()
+        public GenSearchPage(IGenConBusiness business)
         {
+            _business = business;
+
+
             CalculatePaddingAmount();
 
             this.Title = GlobalVars.searchTitle;
@@ -141,13 +143,13 @@ namespace ConventionMobile.Views
             };
 
             //run the below on every keypress
-            var clearWatcher = searchTerm.observer
-                .ObserveOn(SynchronizationContext.Current)
-                .Subscribe(final =>
-            {
-                searchTerm.isIgnoringNextEvent = false;
-                outerContainer.Children.Remove(autoCompleteHolder);
-            });
+//            var clearWatcher = searchTerm.observer
+//                .ObserveOn(SynchronizationContext.Current)
+//                .Subscribe(final =>
+//            {
+//                searchTerm.isIgnoringNextEvent = false;
+//                outerContainer.Children.Remove(autoCompleteHolder);
+//            });
 
             //var searchWatcher = searchTerm.observer
             //    .Throttle(TimeSpan.FromMilliseconds(350))            //Wait for the user to pause typing 
@@ -241,14 +243,7 @@ namespace ConventionMobile.Views
             startSearchTap.Tapped += StartSearchTap_Tapped;
             //startSearchTap.Tapped += DEBUGDEMO_Tapped;
             searchStartButton.GestureRecognizers.Add(startSearchTap);
-
-            //StackLayout searchEntryHolder = new StackLayout
-            //{
-            //    Orientation = StackOrientation.Vertical,
-            //    Padding = 0,
-            //    HorizontalOptions = LayoutOptions.FillAndExpand
-            //};
-
+            
             autoCompleteHolder = new StackLayout
             {
                 Padding = 0,
@@ -258,21 +253,7 @@ namespace ConventionMobile.Views
                 Orientation = StackOrientation.Vertical,
                 BackgroundColor = Color.FromRgba(0.2, 0.2, 0.2, 0.5)
             };
-
-            //var absoluteBGLayover = new Image { Aspect = Aspect.Fill, HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand, Opacity = 0.2, MinimumHeightRequest = wholePage.Height, HeightRequest = wholePage.Height };
-            //absoluteBGLayover.Source = ImageSource.FromResource("ConventionMobile.Resources.blacksquare.png");
-
-            //autoCompleteHolder.BindingContext = this;
-            //autoCompleteHolder.SetBinding(StackLayout.IsVisibleProperty, "ShowResult");
-
-            //Label matchCountLabel = new Label
-            //{
-
-            //};
-
-            //matchCountLabel.BindingContext = this;
-            //matchCountLabel.SetBinding(Label.TextProperty, "MatchCount");
-
+            
             var matchListTemplate = new DataTemplate(typeof(TextCell));
             matchListTemplate.SetBinding(TextCell.TextProperty, "Title");
 
@@ -284,16 +265,13 @@ namespace ConventionMobile.Views
                 ItemTemplate = matchListTemplate,
                 BackgroundColor = Color.White
             };
-
-            //autoCompleteHolder.Children.Add(matchCountLabel);
+            
             autoCompleteHolder.Children.Add(matchListView);
-
-            //autoCompleteHolder.Children.Add(absoluteBGLayover);
             
             searchNavSection.Children.Add(searchEntry);
             searchNavSection.Children.Add(clearSearchButton);
             searchNavSection.Children.Add(searchStartButton);
-
+            
             wholePage.Children.Add(searchNavSection);
 
             //searchNavSectionTwo
@@ -488,34 +466,12 @@ namespace ConventionMobile.Views
                 MinimumHeightRequest = 400
             };
 
-            //loadingLabel = new Label()
-            //{
-            //    Text = "Loading...",
-            //    IsVisible = false,
-            //    BackgroundColor = Color.White,
-                
-
-            //};
-
-            //genEventListView.SeparatorColor = Color.FromRgb(0.95, 0.95, 0.95);
-            
-
             outerContainer.Children.Add(wholePage);
-
-            //outerContainer.Children.Add(loadingLabel);
+            
             outerContainer.Children.Add(loadingIndicator);
 
-            //outerContainer.Children.Add(autoCompleteHolder);
-            
-            
             AbsoluteLayout.SetLayoutBounds(wholePage, new Rectangle(0, 0, 1, 1));
             AbsoluteLayout.SetLayoutFlags(wholePage, AbsoluteLayoutFlags.All);
-
-            //AbsoluteLayout.SetLayoutFlags(loadingLabel,
-            //    AbsoluteLayoutFlags.PositionProportional);
-            //AbsoluteLayout.SetLayoutBounds(loadingLabel,
-            //    new Rectangle(0.5,
-            //        0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
             AbsoluteLayout.SetLayoutFlags(loadingIndicator,
                 AbsoluteLayoutFlags.PositionProportional);
@@ -523,16 +479,20 @@ namespace ConventionMobile.Views
                 new Rectangle(0.5,
                               0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
+           
+
             Content = outerContainer;
 
 
             ToolbarItems.Add(new ToolbarItem("Refresh", "ic_refresh_black_24dp.png", () =>
             {
-                var homePage = ((App)Application.Current).homePage;
+                
+                //var homePage = ((App)Application.Current).HomePage;
 
-                homePage.overrideUpdateCheckEvents = true;
-                homePage.overrideUpdateCheckOptions = true;
-                Task.Factory.StartNew(homePage.CheckForNewEventsAsync);
+                //homePage.overrideUpdateCheckEvents = true;
+                //homePage.overrideUpdateCheckOptions = true;
+                //Task.Factory.StartNew(homePage.CheckForNewEventsAsync);
+                //GlobalVars.LoadingView.Start();
             }));
 
             //Start of hidden event portion RESUME CODING HERE
@@ -1115,10 +1075,9 @@ namespace ConventionMobile.Views
         {
             base.OnAppearing();
 
-            if (genEventListView != null)
-            {
-                genEventListView.ClearValue(ListView.SelectedItemProperty);
-            }
+            _business.ShowLoadingEventMessage("Data is still loading, Events may not be up to date.");
+
+            genEventListView?.ClearValue(ListView.SelectedItemProperty);
 
 
             //checkForNewEvents();

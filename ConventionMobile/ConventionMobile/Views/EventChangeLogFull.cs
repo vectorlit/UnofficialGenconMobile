@@ -48,14 +48,13 @@ namespace ConventionMobile.Views
 
         protected override void OnDisappearing()
         {
-            var eventItem = BindingContext as GenEvent;
-            if (eventItem != null)
+            if (BindingContext is GenEvent eventItem)
             {
                 Task.Factory.StartNew(async () =>
                 {
                     await GlobalVars.db.DeleteAllEventChangeLogsAsync(eventChangeLogList);
                     await GlobalVars.db.SetGenEventUpdateNotificationAsReadAsync(eventItem);
-                    ((App)Application.Current).homePage.userListPage.IsUpdateRequested = true;
+                    ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested = true;
                 });
             }
             base.OnDisappearing();

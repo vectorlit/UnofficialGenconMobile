@@ -3,19 +3,16 @@ using ConventionMobile.Model;
 using Plugin.Share;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ConventionMobile.Business;
 using Xamarin.Forms;
 
 namespace ConventionMobile.Views
 {
 	public class UserListPage : OrientationContentPage
 	{
-
         private AbsoluteLayout outerContainer;
         private Thickness paddingAmount = new Thickness(0, 0, 0, 0);
         private Picker eventListPicker;
@@ -75,8 +72,12 @@ namespace ConventionMobile.Views
 
         private ToolbarItem shareListToolbarItem;
 
-        public UserListPage ()
-		{
+	    private readonly IGenConBusiness _business;
+
+        public UserListPage (IGenConBusiness business)
+        {
+            _business = business;
+
             CalculatePaddingAmount();
 
             this.Title = GlobalVars.userListsTitle;
@@ -156,7 +157,7 @@ namespace ConventionMobile.Views
             eventListManagementPane.Children.Add(eventListPicker);
 
             wholePage.Children.Add(eventListManagementPane);
-
+            //wholePage.Children.Add(((App)Application.Current).HomePage.LoadingView);
 
             //START OF THE SELECTED ITEM MANAGEMENT PANE (HIDDEN BY DEFAULT)
             selectedItemManagementPane = new StackLayout
@@ -276,25 +277,11 @@ namespace ConventionMobile.Views
 
             // start here, and add the bookmarked multi-select-view functionality to a new class, copied from geneventlist
 
-            genEventListView = new ListView(ListViewCachingStrategy.RecycleElement)
-            {
-                RowHeight = (int)GlobalVars.sizeListCellHeight,
-                SeparatorVisibility = SeparatorVisibility.None
-            };
-
-            //var longPressedEffect = Effect.Resolve("ConventionMobile.LongPressedEffect");
-            //LongPressedEffect.SetCommand(genEventListView, new Command(() =>
-            //{
-            //    int t = 0;
-            //    t++;
-            //    t += 5;
-            //    Console.WriteLine(t);
-            //}));
-            //genEventList.Effects.Add(longPressedEffect);
-
-            //genEventListView.ItemSelected += GenEventListView_ItemSelected;
-            //genEventListView.ItemTapped += GenEventListView_ItemTapped;
-            //genEventListView.OnLongPressed += GenEventListView_LongPressed;
+		    genEventListView = new ListView(ListViewCachingStrategy.RecycleElement)
+		    {
+		        RowHeight = (int) GlobalVars.sizeListCellHeight,
+		        SeparatorVisibility = SeparatorVisibility.None
+		    };
 
             loadingListView = new ListView
             {
@@ -530,10 +517,10 @@ namespace ConventionMobile.Views
             base.OnAppearing();
             try
             {
-                if (IsUpdateRequested || ((App)Application.Current).homePage.userListPage.IsUpdateRequested)
+                if (IsUpdateRequested || ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested)
                 {
                     IsUpdateRequested = false;
-                    ((App)Application.Current).homePage.userListPage.IsUpdateRequested = false;
+                    ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested = false;
                     UpdateUserLists();
                 }
                 //UserListPage updatePage = this.CurrentPage as UserListPage;
