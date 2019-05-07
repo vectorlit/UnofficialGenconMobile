@@ -46,7 +46,7 @@ namespace ConventionMobile.Views
 
             GenMapPage = new GenMapPage(_business);
             GenSearchPage = new GenSearchPage(_business);
-            UserListPage = new UserListPage(_business);
+            UserListPage = new UserListPage();
             
             Children.Add(GenMapPage);
             Children.Add(GenSearchPage);

@@ -72,12 +72,8 @@ namespace ConventionMobile.Views
 
         private ToolbarItem shareListToolbarItem;
 
-	    private readonly IGenConBusiness _business;
-
-        public UserListPage (IGenConBusiness business)
+        public UserListPage ()
         {
-            _business = business;
-
             CalculatePaddingAmount();
 
             this.Title = GlobalVars.userListsTitle;
@@ -157,7 +153,6 @@ namespace ConventionMobile.Views
             eventListManagementPane.Children.Add(eventListPicker);
 
             wholePage.Children.Add(eventListManagementPane);
-            //wholePage.Children.Add(((App)Application.Current).HomePage.LoadingView);
 
             //START OF THE SELECTED ITEM MANAGEMENT PANE (HIDDEN BY DEFAULT)
             selectedItemManagementPane = new StackLayout
