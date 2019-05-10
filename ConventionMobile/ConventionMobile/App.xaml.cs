@@ -1,4 +1,3 @@
-using ConventionMobile.Business;
 using ConventionMobile.Data;
 using ConventionMobile.Views;
 using Xamarin.Forms;
@@ -28,12 +27,9 @@ namespace ConventionMobile
 
         public void ShowMainPage()
         {
-            // dependency injection here...
-            IGenConBusiness business = new GenConBusiness();
-
             Device.BeginInvokeOnMainThread(() =>
             {
-                HomePage = new GenHomeTabPage(business);
+                HomePage = new GenHomeTabPage();
                 MainPage = new NavigationPage(HomePage);
             });
         }

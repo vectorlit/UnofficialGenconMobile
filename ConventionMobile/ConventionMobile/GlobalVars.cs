@@ -12,12 +12,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using ConventionMobile.Business;
 using Xamarin.Forms;
 
 namespace ConventionMobile
 {
     public class GlobalVars
     {
+        public static GenConBusiness GenConBusiness = new GenConBusiness();
+
         public static GenconMobileDatabase db
         {
             get

@@ -16,8 +16,6 @@ namespace ConventionMobile.Views
 {
     public class GenSearchPage : OrientationContentPage
     {
-        private readonly IGenConBusiness _business;
-
         private StackLayout eventDisplay;
         private StackLayout eventDisplayWrapper;
         
@@ -86,11 +84,8 @@ namespace ConventionMobile.Views
         };
                 
 
-        public GenSearchPage(IGenConBusiness business)
+        public GenSearchPage()
         {
-            _business = business;
-
-
             CalculatePaddingAmount();
 
             this.Title = GlobalVars.searchTitle;
@@ -1066,7 +1061,7 @@ namespace ConventionMobile.Views
         {
             base.OnAppearing();
 
-            _business.ShowLoadingEventMessage("Data is still loading, Events may not be up to date.");
+            GlobalVars.GenConBusiness.ShowLoadingEventMessage("Data is still loading, Events may not be up to date.");
 
             genEventListView?.ClearValue(ListView.SelectedItemProperty);
 

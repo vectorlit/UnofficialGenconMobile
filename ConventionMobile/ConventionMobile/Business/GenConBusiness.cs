@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using ConventionMobile.Views;
 using Xamarin.Forms;
 
 namespace ConventionMobile.Business
@@ -13,13 +12,7 @@ namespace ConventionMobile.Business
         LoadingMaps
     }
 
-    public interface IGenConBusiness
-    {
-        void ShowLoadingEventMessage(string message, int timeout = 1000);
-        Task CheckForNewEventsAsync();
-    }
-
-    public class GenConBusiness : IGenConBusiness
+    public class GenConBusiness
     {
         private LoadingState _loadingState = LoadingState.NotLoading;
 

@@ -8,16 +8,14 @@ namespace ConventionMobile.Views
     public class GenMapPage : ContentPage
     {
         private readonly ListView _nagivationListView;
-        private readonly IGenConBusiness _business;
 
         public void ClearNavOption(BindableProperty property)
         {
             _nagivationListView?.ClearValue(property);
         }
 
-        public GenMapPage(IGenConBusiness business)
+        public GenMapPage()
         {
-            _business = business;
 
             this.Title = GlobalVars.navigationTitle;
 
@@ -29,7 +27,7 @@ namespace ConventionMobile.Views
 
             _nagivationListView.ItemSelected += (async (sender, args) => {
 
-                _business.ShowLoadingEventMessage("Data is still loading, map may not be up to date");
+                GlobalVars.GenConBusiness.ShowLoadingEventMessage("Data is still loading, map may not be up to date");
 
                 if (args.SelectedItem != null)
                 {

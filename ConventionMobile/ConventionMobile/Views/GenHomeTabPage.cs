@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ConventionMobile.Business;
 using Xamarin.Forms;
 
 namespace ConventionMobile.Views
@@ -10,7 +9,6 @@ namespace ConventionMobile.Views
         public readonly GenMapPage GenMapPage;
         public readonly GenSearchPage GenSearchPage;
         public readonly UserListPage UserListPage;
-        private readonly IGenConBusiness _business;
 
         protected override void OnCurrentPageChanged()
         {
@@ -38,14 +36,12 @@ namespace ConventionMobile.Views
             }
         }
         
-        public GenHomeTabPage(IGenConBusiness business)
+        public GenHomeTabPage()
         {
-            _business = business;
-
             this.Title = GlobalVars.appTitle;
 
-            GenMapPage = new GenMapPage(_business);
-            GenSearchPage = new GenSearchPage(_business);
+            GenMapPage = new GenMapPage();
+            GenSearchPage = new GenSearchPage();
             UserListPage = new UserListPage();
             
             Children.Add(GenMapPage);
@@ -59,7 +55,7 @@ namespace ConventionMobile.Views
         {
             base.OnAppearing();
             GenMapPage.ClearNavOption(ListView.SelectedItemProperty);
-            Task.Factory.StartNew(_business.CheckForNewEventsAsync);
+            Task.Factory.StartNew(GlobalVars.GenConBusiness.CheckForNewEventsAsync);
         }
     }
 }
