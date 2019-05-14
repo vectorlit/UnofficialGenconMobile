@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CarouselView.FormsPlugin.iOS;
 using Foundation;
 using UIKit;
 using UserNotifications;
@@ -31,6 +32,7 @@ namespace ConventionMobile.iOS
             DependencyService.Register<Calendar_iOS>();
             DependencyService.Register<FileOps_iOS>();
             DependencyService.Register<SafeAreaInsets_iOS>();
+            CarouselViewRenderer.Init();
             //DependencyService.Register<ToastNotification>(); // Register your dependency
             //ToastNotification.Init();
 

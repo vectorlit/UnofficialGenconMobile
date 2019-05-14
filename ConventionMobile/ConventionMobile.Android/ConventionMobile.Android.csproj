@@ -15,10 +15,11 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,16 +29,10 @@
     <DefineConstants>TRACE;DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <AotAssemblies>false</AotAssemblies>
-    <EnableLLVM>false</EnableLLVM>
-    <BundleAssemblies>false</BundleAssemblies>
-    <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <AndroidTlsProvider>btls</AndroidTlsProvider>
     <AndroidLinkSkip>--linkskip=SQLiteNetExtensions --linkskip=SQLiteNetExtensions.Async --linkskip=SQLite-net --linkskip=SQLitePCLRaw.batteries_green --linkskip=SQLitePCLRaw.batteries_v2 --linkskip=SQLitePCLRaw.core --linkskip=SQLitePCLRaw.provider.sqlite3 --linkskip=MvvmCross.Plugins.Sqlite --linkskip=MvvmCross.Plugins.Sqlite.iOS --linkskip=sqlite-net-standard --linkskip=sqlitenetstandard --linkskip=sqlitepclraw</AndroidLinkSkip>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <EnableProguard>false</EnableProguard>
     <NoWarn>NU1608;</NoWarn>
   </PropertyGroup>
@@ -49,18 +44,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <AotAssemblies>false</AotAssemblies>
-    <EnableLLVM>false</EnableLLVM>
-    <BundleAssemblies>false</BundleAssemblies>
     <EnableProguard>true</EnableProguard>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <DefineConstants>
     </DefineConstants>
-    <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <AndroidTlsProvider>btls</AndroidTlsProvider>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <NoWarn>NU1608;</NoWarn>
   </PropertyGroup>
   <ItemGroup>

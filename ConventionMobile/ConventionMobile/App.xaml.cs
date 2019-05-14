@@ -11,7 +11,6 @@ namespace ConventionMobile
 	{
         public static GenEventManager GenEventManager { get; private set; }
 
-        //public GenHomeTabPage HomePage;
 	    public GenMainPage HomePage;
 
         public App ()
@@ -32,7 +31,6 @@ namespace ConventionMobile
             Device.BeginInvokeOnMainThread(() =>
             {
                 HomePage = new GenMainPage();
-                // HomePage = new GenHomeTabPage();
                 MainPage = new NavigationPage(HomePage);
             });
         }
