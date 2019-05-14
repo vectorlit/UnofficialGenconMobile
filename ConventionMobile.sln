@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConventionMobile.Android", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConventionMobile.iOS", "ConventionMobile\ConventionMobile.iOS\ConventionMobile.iOS.csproj", "{F47B755C-68EC-4093-8D57-76F7ACBA4F3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConventionMobile", "ConventionMobile\ConventionMobile\ConventionMobile.csproj", "{CB79FB5D-8254-4BD0-9CB4-893CA7F2B90C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConventionMobile", "ConventionMobile\ConventionMobile\ConventionMobile.csproj", "{CB79FB5D-8254-4BD0-9CB4-893CA7F2B90C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

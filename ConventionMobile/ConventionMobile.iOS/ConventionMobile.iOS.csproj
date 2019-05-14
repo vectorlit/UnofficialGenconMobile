@@ -61,7 +61,7 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
-<MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -77,8 +77,8 @@
     <CodesignResourceRules />
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <BuildIpa>true</BuildIpa>
-<MtouchSdkVersion>12.2</MtouchSdkVersion>
-<MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <MtouchSdkVersion>12.2</MtouchSdkVersion>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -131,24 +131,60 @@
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-20%403x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-29%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-29%403x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40%403x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-60%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-60%403x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-20-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-20%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-29-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-29%402x-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40%402x-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-76-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-76%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-83.5%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\web_hi_res_1024_nontransparent.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-20%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-29%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-29%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-60%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-60%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-20-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-20%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-29-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-29%402x-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-40%402x-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-76-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-76%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Icon-83.5%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\web_hi_res_1024_nontransparent.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

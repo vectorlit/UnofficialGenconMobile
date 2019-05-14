@@ -352,13 +352,6 @@ namespace ConventionMobile.Data
             }
         }
 
-        //public async Task<IList<GenEvent>> GetGenEvents(List<string> IDs)
-        //{
-        //    var returnMe = await database.Table<GenEvent>().Where(d => IDs.Contains(d.ID)).OrderBy(d => d.StartDateTime).ToListAsync();
-
-        //    return returnMe;
-        //}
-
         public async Task<UserEventList> GetUserEventListWithChildrenAsync(UserEventList list)
         {
             return await database.GetWithChildrenAsync<UserEventList>(list.ID);
@@ -849,7 +842,6 @@ namespace ConventionMobile.Data
                         var detectedChanges = GenEventHelpers.GetChanges(oldEvent, newEvent, changeTime);
                         if (detectedChanges.Count > 0)
                         {
-                            //oldEvent.ChangeLogs.AddRange(detectedChanges);
                             newChangeLogs.AddRange(detectedChanges);
                         }
                     }
@@ -944,17 +936,6 @@ namespace ConventionMobile.Data
                 }
             }
             
-
-            //dog slow, don't bother. like millions of times slower.
-            //foreach(var item in items)
-            //{
-            //    rowsAffected = await database.UpdateAsync(item);
-            //    if (rowsAffected == 0)
-            //    {
-            //        await database.InsertAsync(item);
-            //    }
-            //}
-
             GlobalVars.eventCount = await InternalEventCountAsync();
 
             var returnMe = "";
@@ -964,7 +945,7 @@ namespace ConventionMobile.Data
                 returnMe = "Some events in your saved lists were updated! They have been marked in yellow.";
             }
 
-            ((App)Application.Current).homePage.userListPage.IsUpdateRequested = true;
+            GlobalVars.View_GenUserListView.IsUpdateRequested = true;
 
             return returnMe;
         }

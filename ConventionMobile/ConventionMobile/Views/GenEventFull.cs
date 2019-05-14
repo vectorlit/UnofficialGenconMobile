@@ -5,26 +5,29 @@ using Plugin.Share;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using ConventionMobile.Pages;
+using ConventionMobile.ToolbarItems;
+using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
 namespace ConventionMobile.Views
 {
-    public class GenEventFull : OrientationContentPage
+    public class GenEventFull : PopupPage
     {
         public Grid wholePage;
         public ScrollView wholePageScroller;
         public StackLayout wholePageHolder;
         public StackLayout popupHolder;
         public ListView userListPicker;
+        
 
         public const string newListString = "(Create a new list and add to it)";
 
         private Thickness paddingAmount = 0;
-        private List<UserEventList> userEventLists = new List<UserEventList>();
+        public List<UserEventList> userEventLists = new List<UserEventList>();
 
-        private List<string> UserListsTitles
+        public List<string> UserListsTitles
         {
             get
             {
@@ -402,8 +405,7 @@ namespace ConventionMobile.Views
             Label emailAddressStaticLabel = new Label { FontSize = GlobalVars.sizeMedium, FontAttributes = FontAttributes.Bold, Text = "Email Address For More Info:", Margin = new Thickness(0, 1, 0, 0) };
             wholePage.Children.Add(emailAddressStaticLabel, 0, 20);
             Grid.SetColumnSpan(emailAddressStaticLabel, 6);
-
-
+            
             //Row 22
             //Web address
             Label emailAddressLabel = new Label { FontSize = GlobalVars.sizeMedium, Margin = new Thickness(10, 0, 0, 0), TextColor = GlobalVars.colorLink };
@@ -433,7 +435,6 @@ namespace ConventionMobile.Views
             wholePage.Children.Add(lastUpdatedLabel, 0, 22);
             Grid.SetColumnSpan(lastUpdatedLabel, 6);
 
-
             wholePageScroller.Content = wholePage;
 
             popupHolder = new StackLayout
@@ -443,7 +444,7 @@ namespace ConventionMobile.Views
                 BackgroundColor = Color.White
             };
 
-            Label entryLabel = new Label
+            var entryLabel = new Label
             {
                 Text = "Select a list from below: "
             };
@@ -459,7 +460,7 @@ namespace ConventionMobile.Views
 
             popupHolder.Children.Add(userListPicker);
 
-            StackLayout buttonHolder = new StackLayout
+            var buttonHolder = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
                 Padding = new Thickness(10, 10, 10, 10),
@@ -488,54 +489,49 @@ namespace ConventionMobile.Views
 
             wholePageHolder.Children.Add(popupHolder);
 
-            ToolbarItems.Add(new ToolbarItem("Add To Calendar", "ic_today_black_24dp.png", () =>
-            {
-                GenEvent currentEvent = (GenEvent)this.BindingContext;
-                GlobalVars.AddToCalendar(currentEvent);
-
-            }));
-
-            ToolbarItems.Add(new ToolbarItem("Share", "ic_share_black_24dp.png", () =>
-            {
-                GenEvent currentEvent = (GenEvent)this.BindingContext;
-                CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
-                {
-                    Url = currentEvent.LiveURL,
-                    Text = currentEvent.Description,
-                    Title = currentEvent.Title
-                },
-                new Plugin.Share.Abstractions.ShareOptions
-                {
-                    ChooserTitle = "Share Event"
-                });
-                // CrossShare.Current.ShareLink(currentEvent.LiveURL, currentEvent.Description, currentEvent.Title);
-            }));
-
-            ToolbarItems.Add(new ToolbarItem("Add To List", "addlist.png", () =>
-            {
-                OpenAddToListPrompt();
-            }));
-
             AbsoluteLayout.SetLayoutBounds(wholePageHolder, new Rectangle(0, 0, 1, 1));
             AbsoluteLayout.SetLayoutFlags(wholePageHolder, AbsoluteLayoutFlags.All);
 
-            //AbsoluteLayout.SetLayoutFlags(loadingLabel,
-            //    AbsoluteLayoutFlags.PositionProportional);
-            //AbsoluteLayout.SetLayoutBounds(loadingLabel,
-            //    new Rectangle(0.5,
-            //        0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
-
-            //AbsoluteLayout.SetLayoutFlags(popupHolder,
-            //    AbsoluteLayoutFlags.PositionProportional);
-            //AbsoluteLayout.SetLayoutBounds(popupHolder,
-            //    new Rectangle(0.5,
-            //                  0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
-
             wholePageHolder.Children.Add(wholePageScroller);
+            this.BackgroundColor = Color.White;
+            
+            // changing to popup, need to rearrange this a bit
 
-            this.Content = wholePageHolder;
+            // top section, grid layout, with toolbar buttons [Calendar] [List] [Share] [close]
+            // bottom section .. actual content
+            var buttons = new Grid
+            {
+                ColumnDefinitions = new ColumnDefinitionCollection
+                {
+                    new ColumnDefinition{Width = GridLength.Star},
+                    new ColumnDefinition{Width = GridLength.Star},
+                    new ColumnDefinition{Width = GridLength.Star},
+                    new ColumnDefinition{Width = GridLength.Star}
+                },
+                RowDefinitions = new RowDefinitionCollection
+                {
+                    new RowDefinition{Height = 25}
+                },
+                Children =
+                {
+                    { new CalendarToolbarItem(),           0, 0},
+                    { new AddEventToListToolbarItem(this), 1, 0},
+                    { new ShareEventToolbarItem(this),     2, 0},
+                    { new CloseEventPageToolbarItem(),     3, 0}
+                }
+            };
 
-            OnOrientationChanged += DeviceRotated;
+            var actualContent = new StackLayout
+            {
+                Children =
+                {
+                    buttons,
+                    wholePageHolder
+
+                }
+            };
+
+            this.Content = actualContent;
         }
 
         private void Cancel_Clicked(object sender, EventArgs e)
@@ -563,7 +559,7 @@ namespace ConventionMobile.Views
                                 newList.Events.Add(currentEvent);
                                 newList.HasEventListChangedSinceSync = true;
                                 await GlobalVars.db.UpdateUserEventListWithChildrenAsync(newList);
-                                ((App)Application.Current).homePage.userListPage.IsUpdateRequested = true;
+                                GlobalVars.View_GenUserListView.IsUpdateRequested = true;
                                 //selectedList = newList.Title;
                             }
                             else
@@ -575,7 +571,7 @@ namespace ConventionMobile.Views
                                     currentList.Events = currentList.Events.Distinct().OrderBy(d => d.StartDateTime).ToList();
                                     currentList.HasEventListChangedSinceSync = true;
                                     await GlobalVars.db.UpdateUserEventListWithChildrenAsync(currentList);
-                                    ((App)Application.Current).homePage.userListPage.IsUpdateRequested = true;
+                                    GlobalVars.View_GenUserListView.IsUpdateRequested = true;
                                 }
                             }
 

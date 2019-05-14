@@ -7,19 +7,23 @@ using Newtonsoft.Json.Linq;
 //using Plugin.Toasts;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using ConventionMobile.Business;
 using Xamarin.Forms;
 
 namespace ConventionMobile
 {
     public class GlobalVars
     {
+        public static GenConBusiness GenConBusiness = new GenConBusiness();
+        public static GenSearchView View_GenSearchView = null;
+        public static GenMapView View_GenMapView = null;
+        public static GenUserListView View_GenUserListView = null;
+
         public static GenconMobileDatabase db
         {
             get
@@ -32,7 +36,6 @@ namespace ConventionMobile
             }
         }
         private static GenconMobileDatabase _db = null;
-        
 
         public static List<GlobalOption> allOptions
         {
@@ -895,7 +898,7 @@ namespace ConventionMobile
                     DoToast("Successfully imported list " + name.ToString() + "!", ToastType.Green, 5000);
                     try
                     {
-                        ((App)Application.Current).homePage.userListPage.IsUpdateRequested = true;
+                        View_GenUserListView.IsUpdateRequested = true;
                     }
                     catch (Exception) { }
                 }
@@ -1261,59 +1264,6 @@ namespace ConventionMobile
         /// The actual "data" of the choice (not displayed, used for data binding)
         /// </summary>
         public string data { get; set; }
-
-        //[JsonIgnore]
-        //public ImageSource dataImage
-        //{
-        //    get
-        //    {
-        //        return ImageSource.FromResource("ConventionMobile.Resources." + data);
-        //    }
-        //}
-
-        //[JsonIgnore]
-        //public string formattedHTMLEmbeddedImageData
-        //{
-        //    get
-        //    {
-        //        var extension = Path.GetExtension(data).ToLower().Replace(".", "");
-        //        if (extension == "jpg")
-        //        {
-        //            extension = "jpeg";
-        //        }
-
-        //        var assembly = typeof(GlobalVars).GetTypeInfo().Assembly;
-        //        Stream stream = assembly.GetManifestResourceStream("ConventionMobile.Resources." + data);
-
-        //        if (extension == "html" || extension == "htm" )
-        //        {
-        //            string text = "";
-        //            using (var reader = new StreamReader(stream))
-        //            {
-        //                text = reader.ReadToEnd();
-        //            }
-
-        //            return text;
-        //        }
-        //        else
-        //        {
-        //            byte[] byteData = getByteData(stream);
-        //            String encodedImageData = Convert.ToBase64String(byteData);
-
-        //            return String.Format("<html><head></head><body><img src=\"data:image/{0};base64,{1}\" /></body></html>", extension, encodedImageData);
-        //        }
-        //    }
-        //}
-
-
-        //private byte[] getByteData(Stream sourceStream)
-        //{
-        //    using (var memoryStream = new MemoryStream())
-        //    {
-        //        sourceStream.CopyTo(memoryStream);
-        //        return memoryStream.ToArray();
-        //    }
-        //}
 
         [JsonIgnore]
         /// <summary>

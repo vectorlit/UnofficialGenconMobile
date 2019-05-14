@@ -2,15 +2,11 @@
 
 using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
 using Xamarin.Forms;
 using Acr.UserDialogs;
 using Plugin.CurrentActivity;
 using Android.Content;
-using ConventionMobile.Droid;
 using System.Threading.Tasks;
 //using Plugin.Toasts;
 
@@ -35,7 +31,8 @@ namespace ConventionMobile.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
-            
+            Rg.Plugins.Popup.Popup.Init(this, bundle);
+
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             DependencyService.Register<Calendar_Android>();
@@ -44,9 +41,6 @@ namespace ConventionMobile.Droid
             DependencyService.Register<SafeAreaInsets_Android>();
 
             UserDialogs.Init(() => (Activity)CurrentContext);
-
-            //DependencyService.Register<IToastNotificator>();
-            //ToastNotification.Init(this);
             
             if (Intent != null && Intent.DataString != null)
             {
