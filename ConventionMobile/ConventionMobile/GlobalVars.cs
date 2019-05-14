@@ -19,10 +19,11 @@ namespace ConventionMobile
 {
     public class GlobalVars
     {
-        public static GenConBusiness GenConBusiness = new GenConBusiness();
+        public static GenEventsLoadingViewModel GenConBusiness = new GenEventsLoadingViewModel();
         public static GenSearchView View_GenSearchView = null;
         public static GenMapView View_GenMapView = null;
         public static GenUserListView View_GenUserListView = null;
+        public static GenEventsLoadingView View_GenEventsLoadingView = null;
 
         public static GenconMobileDatabase db
         {

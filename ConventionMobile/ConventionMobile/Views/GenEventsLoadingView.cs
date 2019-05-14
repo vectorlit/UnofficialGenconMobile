@@ -14,14 +14,23 @@ namespace ConventionMobile.Views
         public Label TotalDownloadCountLabel;
         public double TotalEventsDownloading = 0;
 
-        private readonly GenEventManager _genEventManager;
-        private readonly GenConBusiness _genConBusiness;
+        private GenEventManager _genEventManager;
+        private GenEventsLoadingViewModel _model;
         private event EventHandler OnDoneLoadingHandler;
 
         public GenEventsLoadingView() : base("Now Loading...")
         {
+            GlobalVars.View_GenEventsLoadingView = null;
+
+            StartLoad();
+
+            GlobalVars.View_GenEventsLoadingView = this;
+        }
+
+        public void StartLoad()
+        {
             _genEventManager = new GenEventManager(new RestService());
-            _genConBusiness = new GenConBusiness();
+            _model = new GenEventsLoadingViewModel();
 
             TotalDownloadCountLabel = new Label
             {
@@ -29,11 +38,11 @@ namespace ConventionMobile.Views
                 Text = "    "
             };
 
-            var downloadCountInfoLabel = new Label
-            {
-                HorizontalTextAlignment = TextAlignment.Center,
-                Text = "Now downloading all " + GlobalVars.shortTitle + " events...\r\nThis is the whole catalog, so please be patient!"
-            };
+            //var downloadCountInfoLabel = new Label
+            //{
+            //    HorizontalTextAlignment = TextAlignment.Center,
+            //    Text = "Now downloading all " + GlobalVars.shortTitle + " events...\r\nThis is the whole catalog, so please be patient!"
+            //};
 
             TotalDownloadProgressBar = new ProgressBar
             {
@@ -47,7 +56,7 @@ namespace ConventionMobile.Views
                 Padding = 20,
                 Children =
                 {
-                    downloadCountInfoLabel,
+                    //downloadCountInfoLabel,
                     TotalDownloadProgressBar,
                     TotalDownloadCountLabel
                 }
@@ -56,9 +65,9 @@ namespace ConventionMobile.Views
             Task.Factory.StartNew(GetAllGenConEvents);
 
             this.OnDoneLoadingHandler += (sender, args) =>
-                {
-                    Device.BeginInvokeOnMainThread(() => { this.IsVisible = false; });
-                };
+            {
+                Device.BeginInvokeOnMainThread(() => { this.IsVisible = false; });
+            };
         }
 
         private async Task GetAllGenConEvents()
@@ -93,7 +102,7 @@ namespace ConventionMobile.Views
 
             if (GlobalVars.hasSuccessfullyLoadedEvents)
             {
-                await _genConBusiness.CheckForNewGlobalVarsAsync(false);
+                await _model.CheckForNewGlobalVarsAsync(false);
                 OnDoneLoadingHandler?.Invoke(null, EventArgs.Empty);
             }
         }

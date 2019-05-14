@@ -415,15 +415,18 @@ namespace ConventionMobile.Views
 
             this.ToolbarItems.Add(new ToolbarItem("Refresh", "ic_refresh_black_24dp.png", () =>
             {
-                var testView = new Label
-                {
-                    Text = "testing refresh",
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    BackgroundColor = Color.Lavender
-                };
+                //var testView = new Label
+                //{
+                //    Text = "testing refresh",
+                //    HorizontalOptions = LayoutOptions.FillAndExpand,
+                //    VerticalOptions = LayoutOptions.FillAndExpand,
+                //    BackgroundColor = Color.Lavender
+                //};
 
-                _parentPage.NotificationBox.UpdateView(testView);
+                //_parentPage.NotificationBox.UpdateView(testView);
+
+                GlobalVars.View_GenEventsLoadingView.StartLoad();
+
                 //var homePage = ((App)Application.Current).HomePage;
 
                 //homePage.overrideUpdateCheckEvents = true;

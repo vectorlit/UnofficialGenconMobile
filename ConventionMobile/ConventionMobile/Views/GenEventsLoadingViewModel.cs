@@ -12,7 +12,7 @@ namespace ConventionMobile.Business
         LoadingMaps
     }
 
-    public class GenConBusiness
+    public class GenEventsLoadingViewModel
     {
         private LoadingState _loadingState = LoadingState.NotLoading;
 
