@@ -17,6 +17,7 @@ namespace ConventionMobile.ToolbarItems
                     await PopupNavigation.Instance.PopAsync();
                 })
             });
+            this.Margin = new Thickness(10);
         }
     }
 }

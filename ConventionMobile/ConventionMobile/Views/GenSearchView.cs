@@ -620,6 +620,10 @@ namespace ConventionMobile.Views
                 page.BindingContext = selectedEvent;
                 //await this.Navigation.PushAsync(page);
                 await PopupNavigation.Instance.PushAsync(page);
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    genEventListView.SelectedItem = null;
+                });
             }
         }
         private void ClearSearchTap_Tapped(object sender, EventArgs e)

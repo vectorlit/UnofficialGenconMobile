@@ -95,13 +95,13 @@ namespace ConventionMobile.Views
                 VerticalOptions = LayoutOptions.Fill
             };
 
-            //Row 1
-            //Title
-            Label titleLabel = new Label { FontSize = GlobalVars.sizeLarge, FontAttributes = FontAttributes.Bold };
-            titleLabel.SetBinding(Label.TextProperty, "Title");
-            wholePage.Children.Add(titleLabel, 0, 0);
-            Grid.SetColumnSpan(titleLabel, 4);
 
+            //Row 1
+            //GroupCompany
+            Label groupCompanyLabel = new Label { FontSize = GlobalVars.sizeMedium, VerticalTextAlignment = TextAlignment.End/*, Margin = new Thickness(10, 0, 0, 0)*/ };
+            groupCompanyLabel.SetBinding(Label.TextProperty, "GroupCompany");
+            wholePage.Children.Add(groupCompanyLabel, 0, 0);
+            Grid.SetColumnSpan(groupCompanyLabel, 3);
 
             //Avl. Tickets
             StackLayout avlTicketHorizStack = new StackLayout { Orientation = StackOrientation.Horizontal, Padding = 0, Spacing = 0, HorizontalOptions = LayoutOptions.End };
@@ -110,30 +110,14 @@ namespace ConventionMobile.Views
             avlTicketsDynamic.SetBinding(Label.TextProperty, "AvailableTickets");
             avlTicketHorizStack.Children.Add(avlTicketsStatic);
             avlTicketHorizStack.Children.Add(avlTicketsDynamic);
-            wholePage.Children.Add(avlTicketHorizStack, 4, 0);
-            Grid.SetColumnSpan(avlTicketHorizStack, 2);
-
+            wholePage.Children.Add(avlTicketHorizStack, 3, 0);
+            Grid.SetColumnSpan(avlTicketHorizStack, 3);
 
             //Row 2
-            //GroupCompany
-            Label groupCompanyLabel = new Label { FontSize = GlobalVars.sizeMedium, Margin = new Thickness(10, 0, 0, 0) };
-            groupCompanyLabel.SetBinding(Label.TextProperty, "GroupCompany");
-            wholePage.Children.Add(groupCompanyLabel, 0, 1);
-            Grid.SetColumnSpan(groupCompanyLabel, 4);
-
-
-            //FormattedPlayers
-            Label playerNumLabel = new Label { FontSize = GlobalVars.sizeMedium, HorizontalTextAlignment = TextAlignment.End };
-            playerNumLabel.SetBinding(Label.TextProperty, "FormattedPlayers");
-            wholePage.Children.Add(playerNumLabel, 4, 1);
-            Grid.SetColumnSpan(playerNumLabel, 2);
-
-
-            //Row 3
             //EventID
             Label eventIDLabel = new Label { FontSize = GlobalVars.sizeMedium, TextColor = GlobalVars.colorLink };
             eventIDLabel.SetBinding(Label.TextProperty, "ID");
-            wholePage.Children.Add(eventIDLabel, 0, 2);
+            wholePage.Children.Add(eventIDLabel, 0, 1);
             Grid.SetColumnSpan(eventIDLabel, 4);
 
             eventIDLabel.GestureRecognizers.Add(new TapGestureRecognizer
@@ -177,6 +161,18 @@ namespace ConventionMobile.Views
                 CommandParameter = eventIDLabel
             });
 
+            //FormattedPlayers
+            Label playerNumLabel = new Label { FontSize = GlobalVars.sizeMedium, HorizontalTextAlignment = TextAlignment.End };
+            playerNumLabel.SetBinding(Label.TextProperty, "FormattedPlayers");
+            wholePage.Children.Add(playerNumLabel, 4, 1);
+            Grid.SetColumnSpan(playerNumLabel, 2);
+
+            //Row 3
+            //EventType
+            Label eventTypeLabel = new Label { FontSize = GlobalVars.sizeMedium };
+            eventTypeLabel.SetBinding(Label.TextProperty, "EventType");
+            wholePage.Children.Add(eventTypeLabel, 0, 2);
+            Grid.SetColumnSpan(eventTypeLabel, 4);
 
             //MinimumAge
             Label minimumAgeLabel = new Label { FontSize = GlobalVars.sizeMedium, HorizontalTextAlignment = TextAlignment.End };
@@ -184,29 +180,19 @@ namespace ConventionMobile.Views
             wholePage.Children.Add(minimumAgeLabel, 4, 2);
             Grid.SetColumnSpan(minimumAgeLabel, 2);
 
-
             //Row 4
-            //EventType
-            Label eventTypeLabel = new Label { FontSize = GlobalVars.sizeMedium };
-            eventTypeLabel.SetBinding(Label.TextProperty, "EventType");
-            wholePage.Children.Add(eventTypeLabel, 0, 3);
-            Grid.SetColumnSpan(eventTypeLabel, 4);
-
+            //FormattedDate
+            Label formattedDateLabel = new Label { FontSize = GlobalVars.sizeMedium, Margin = new Thickness(0, 1, 0, 0) };
+            formattedDateLabel.SetBinding(Label.TextProperty, "FormattedDate");
+            wholePage.Children.Add(formattedDateLabel, 0, 3);
+            Grid.SetColumnSpan(formattedDateLabel, 4);
 
             //Cost
             Label costLabel = new Label { FontSize = GlobalVars.sizeLarge, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.End, LineBreakMode = LineBreakMode.NoWrap };
             costLabel.SetBinding(Label.TextProperty, "FormattedCost");
             wholePage.Children.Add(costLabel, 4, 3);
             Grid.SetColumnSpan(costLabel, 2);
-
-
-            //Row 5
-            //FormattedDate
-            Label formattedDateLabel = new Label { FontSize = GlobalVars.sizeMedium, Margin = new Thickness(0, 1, 0, 0) };
-            formattedDateLabel.SetBinding(Label.TextProperty, "FormattedDate");
-            wholePage.Children.Add(formattedDateLabel, 0, 4);
-            Grid.SetColumnSpan(formattedDateLabel, 6);
-
+            
 
             //Row 6
             //Location
@@ -493,20 +479,45 @@ namespace ConventionMobile.Views
             AbsoluteLayout.SetLayoutFlags(wholePageHolder, AbsoluteLayoutFlags.All);
 
             wholePageHolder.Children.Add(wholePageScroller);
-            this.BackgroundColor = Color.White;
+            wholePageHolder.BackgroundColor = Color.White;
 
-            // changing to popup, need to rearrange this a bit
 
-            // top section, grid layout, with toolbar buttons [Calendar] [List] [Share] [close]
-            // bottom section .. actual content
-            var backButton = new StackLayout
+            BackgroundColor = Color.Transparent;
+
+            //Title Bar
+            //Title
+            Label titleLabel = new Label {
+                FontSize = GlobalVars.sizeLarge,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = GlobalVars.ThemeColorsText[(int)GlobalVars.ThemeColors.Primary],
+                HorizontalTextAlignment = TextAlignment.Start,
+                VerticalTextAlignment = TextAlignment.Center,
+                Margin = new Thickness(4)
+            };
+            titleLabel.SetBinding(Label.TextProperty, "Title");
+            //wholePage.Children.Add(titleLabel, 0, 0);
+            //Grid.SetColumnSpan(titleLabel, 4);
+
+            // TODO: I cannot figure out how to get label word-wrap to expand the height properly. FlexLayout sort of works, but it refuses to stay in bounds of the page.
+            var titleBar = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
                 Children =
                 {
-                    new CloseEventPageToolbarItem()
+                    new CloseEventPageToolbarItem(),
+                    new StackLayout
+                    {
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                        Orientation = StackOrientation.Vertical,
+                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                        Children =
+                        {
+                            titleLabel
+                        },
+                        Margin = new Thickness(4)
+                    }
                 },
-                HorizontalOptions = LayoutOptions.Start
+                BackgroundColor = GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Primary],
             };
 
             var optionButtons = new Grid
@@ -526,18 +537,20 @@ namespace ConventionMobile.Views
                     { new CalendarToolbarItem(), 0, 0},
                     { new AddEventToListToolbarItem(this), 1, 0},
                     { new ShareEventToolbarItem(this), 2, 0}
-                }
+                },
+                BackgroundColor = GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Secondary],
+                Padding = new Thickness(6)
             };
 
             var actualContent = new StackLayout
             {
                 Children =
                 {
-                    backButton,
+                    titleBar,
                     optionButtons,
                     wholePageHolder
-
-                }
+                },
+                Spacing = 0
             };
 
             this.Content = actualContent;

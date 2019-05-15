@@ -4,7 +4,6 @@ using ConventionMobile.Model;
 using ConventionMobile.Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-//using Plugin.Toasts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +23,30 @@ namespace ConventionMobile
         public static GenMapView View_GenMapView = null;
         public static GenUserListView View_GenUserListView = null;
         public static GenEventsLoadingView View_GenEventsLoadingView = null;
+
+        public enum ThemeColors
+        {
+            Primary = 0,
+            Secondary = 1,
+            ActionElement = 2
+        };
+
+        public readonly static List<Color> ThemeColorsBG = new List<Color>()
+        {
+            //new Color(244/255, 178/255, 52/255),
+            //new Color(252/255, 205/255, 116/255),
+            //new Color(213/255, 36/255, 36/255)
+            new Color(0.9568, 0.6980, 0.2039),
+            new Color(0.9882, 0.8039, 0.4549),
+            new Color(0.8352, 0.1412, 0.1412)
+        };
+
+        public readonly static List<Color> ThemeColorsText = new List<Color>()
+        {
+            new Color(0, 0, 0),
+            new Color(0, 0, 0),
+            new Color(1, 1, 1)
+        };
 
         public static GenconMobileDatabase db
         {

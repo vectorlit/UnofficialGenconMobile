@@ -25,6 +25,8 @@ namespace ConventionMobile.Views
 
             // main tabbed view
             var tabViewControl = new TabViewControl(_tabList.Select(x => x.AsTabItem()).ToList());
+            tabViewControl.HeaderBackgroundColor = GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Secondary];
+            tabViewControl.HeaderTabTextColor = GlobalVars.ThemeColorsText[(int)GlobalVars.ThemeColors.Secondary];
 
             this.Content = tabViewControl;
             this.VerticalOptions = LayoutOptions.FillAndExpand;

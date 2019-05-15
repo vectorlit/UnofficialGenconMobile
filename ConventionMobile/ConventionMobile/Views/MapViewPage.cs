@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using ConventionMobile.ToolbarItems;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
@@ -10,6 +11,7 @@ namespace ConventionMobile.Views
     public class MapViewPage : PopupPage
     {
         private readonly CustomWebView _customWeb;
+        private Label titleLabel;
 
         public MapViewPage()
         {
@@ -20,21 +22,37 @@ namespace ConventionMobile.Views
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
 
-            var closeButton = new Button
+            BackgroundColor = Color.Transparent;
+            
+            titleLabel = new Label
             {
-                Text = "Close",
-                BackgroundColor = Color.Red,
-                TextColor = Color.White
+                Text = "",
+                FontSize = GlobalVars.sizeLarge,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = GlobalVars.ThemeColorsText[(int)GlobalVars.ThemeColors.Primary],
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalTextAlignment = TextAlignment.Center
             };
 
-            closeButton.Clicked += async (sender, args) => { await PopupNavigation.Instance.PopAsync(); };
+            var titleBar = new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                Children =
+                {
+                    new CloseEventPageToolbarItem(),
+                    titleLabel
+                },
+                BackgroundColor = GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Primary],
+            };
+
             Content = new StackLayout
             {
                 Children =
                 {
-                    _customWeb,
-                    closeButton
-                }
+                    titleBar,
+                    _customWeb
+                },
+                Spacing = 0
             };
         }
 
@@ -45,6 +63,7 @@ namespace ConventionMobile.Views
             {
                 var fileName = DependencyService.Get<IFileOps>().GetFileLocation(dc.data);
                 _customWeb.Uri = DependencyService.Get<IFileOps>().FileExists(fileName) ? fileName : dc.data;
+                titleLabel.Text = dc.title;
             }
         }
     }

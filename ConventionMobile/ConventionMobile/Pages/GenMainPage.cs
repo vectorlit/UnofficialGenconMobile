@@ -12,6 +12,9 @@ namespace ConventionMobile.Pages
             NotificationBox = new ClosableNotificationBox();
             var loadingView = new GenEventsLoadingView();
             
+            // doesn't work
+            //this.SetValue(NavigationPage.BarBackgroundColorProperty, GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Primary]);
+
             this.Title = GlobalVars.appTitle;
             this.Content = new StackLayout
             {

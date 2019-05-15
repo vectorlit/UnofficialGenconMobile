@@ -32,6 +32,7 @@ namespace ConventionMobile
             {
                 HomePage = new GenMainPage();
                 MainPage = new NavigationPage(HomePage);
+                ((NavigationPage)MainPage).BarTextColor = GlobalVars.ThemeColorsText[(int)GlobalVars.ThemeColors.Primary];
             });
         }
 

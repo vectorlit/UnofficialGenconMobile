@@ -39,7 +39,7 @@ namespace ConventionMobile.Views
 
                     if (selectedDetailChoice.data.ToLower().StartsWith("http:") || selectedDetailChoice.data.ToLower().StartsWith("https:"))
                     {
-                        //todo put this in a popup container as well???
+                        // don't put this in a popup container - it uses a plugin to determine the fastest option to open (uses embedded chrome options)
                         await CrossShare.Current.OpenBrowser(selectedDetailChoice.data, null);
                     }
                     else
@@ -48,6 +48,11 @@ namespace ConventionMobile.Views
                         page.BindingContext = selectedDetailChoice;
                         await PopupNavigation.Instance.PushAsync(page);
                     }
+
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        _nagivationListView.SelectedItem = null;
+                    });
                 }
             });
 
