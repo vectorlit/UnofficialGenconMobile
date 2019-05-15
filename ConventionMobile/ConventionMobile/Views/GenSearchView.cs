@@ -575,15 +575,6 @@ namespace ConventionMobile.Views
             }
         }
 
-        private async void DEBUGDEMO_Tapped(object sender, EventArgs e)
-        {
-            FileManager fileManager = new FileManager(new FileService());
-
-            fileManager.FileDownloadProgressUpdated += FileManager_FileDownloadProgressUpdated;
-
-            List<bool> result = await fileManager.DownloadFiles(new List<string>() { "https://vectorlit.net/Default-Portrait.png" }, new List<string>() { "Default-Fart.png" });
-        }
-
         private void FileManager_FileDownloadProgressUpdated(object sender, EventArgs e)
         {
             var args = ((FileDownloadUpdateEventArgs)e);

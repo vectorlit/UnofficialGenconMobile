@@ -13,7 +13,7 @@ namespace ConventionMobile.Views
 
         public MapViewPage()
         {
-            Padding = new Thickness(20, 20, 20, 20);
+            Padding = new Thickness(0);
             _customWeb = new CustomWebView
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand,

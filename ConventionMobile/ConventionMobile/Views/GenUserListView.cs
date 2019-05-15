@@ -506,28 +506,31 @@ namespace ConventionMobile.Views
 
             Content = outerContainer;
 
+            this.OnAppearingHandler += GenUserListView_OnAppearingHandler;
+
             GlobalVars.View_GenUserListView = this;
         }
 
-//        protected override void OnAppearing()
-//        {
-//            base.OnAppearing();
-//            try
-//            {
-//                if (IsUpdateRequested || ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested)
-//                {
-//                    IsUpdateRequested = false;
-//                    ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested = false;
-//                    UpdateUserLists();
-//                }
-//                //UserListPage updatePage = this.CurrentPage as UserListPage;
-//                //updatePage.UpdateUserLists();
-//            }
-//            catch (Exception)
-//            {
-//
-//            }
-//        }
+        /// <summary>
+        /// This method fires in place of OnAppearing. 
+        /// We need to check if another point in the program has altered the contents of this page and need it updated
+        /// </summary>
+        private void GenUserListView_OnAppearingHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                if (IsUpdateRequested || GlobalVars.View_GenUserListView.IsUpdateRequested)
+                {
+                    IsUpdateRequested = false;
+                    GlobalVars.View_GenUserListView.IsUpdateRequested = false;
+                    UpdateUserLists();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
 
         private void ShareListCancelButton_Clicked(object sender, EventArgs e)
         {

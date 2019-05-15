@@ -494,30 +494,38 @@ namespace ConventionMobile.Views
 
             wholePageHolder.Children.Add(wholePageScroller);
             this.BackgroundColor = Color.White;
-            
+
             // changing to popup, need to rearrange this a bit
 
             // top section, grid layout, with toolbar buttons [Calendar] [List] [Share] [close]
             // bottom section .. actual content
-            var buttons = new Grid
+            var backButton = new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                Children =
+                {
+                    new CloseEventPageToolbarItem()
+                },
+                HorizontalOptions = LayoutOptions.Start
+            };
+
+            var optionButtons = new Grid
             {
                 ColumnDefinitions = new ColumnDefinitionCollection
                 {
-                    new ColumnDefinition{Width = GridLength.Star},
                     new ColumnDefinition{Width = GridLength.Star},
                     new ColumnDefinition{Width = GridLength.Star},
                     new ColumnDefinition{Width = GridLength.Star}
                 },
                 RowDefinitions = new RowDefinitionCollection
                 {
-                    new RowDefinition{Height = 25}
+                    new RowDefinition{Height = 40}
                 },
                 Children =
                 {
-                    { new CalendarToolbarItem(),           0, 0},
+                    { new CalendarToolbarItem(), 0, 0},
                     { new AddEventToListToolbarItem(this), 1, 0},
-                    { new ShareEventToolbarItem(this),     2, 0},
-                    { new CloseEventPageToolbarItem(),     3, 0}
+                    { new ShareEventToolbarItem(this), 2, 0}
                 }
             };
 
@@ -525,7 +533,8 @@ namespace ConventionMobile.Views
             {
                 Children =
                 {
-                    buttons,
+                    backButton,
+                    optionButtons,
                     wholePageHolder
 
                 }

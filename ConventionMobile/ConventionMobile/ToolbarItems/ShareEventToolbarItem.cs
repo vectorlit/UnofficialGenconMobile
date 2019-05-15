@@ -6,11 +6,10 @@ namespace ConventionMobile.ToolbarItems
 {
     public class ShareEventToolbarItem : GenToolbarItem
     {
-        private const string ImageSource = "ic_share_black_24dp.png";
-
         public ShareEventToolbarItem(GenEventFull eventPage)
         {
-            this.Source = ImageSource;
+            this.ImageSource = "ic_share_black_24dp.png";
+            this.Title = "Share Event";
 
             this.OnClickHandler += (sender, args) =>
             {
@@ -27,7 +26,7 @@ namespace ConventionMobile.ToolbarItems
                 });
             };
 
-            this.AddGesture();
+            this.Initialize();
         }
     }
 }

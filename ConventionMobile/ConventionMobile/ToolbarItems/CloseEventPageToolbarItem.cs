@@ -1,16 +1,22 @@
 ﻿using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
 
 namespace ConventionMobile.ToolbarItems
 {
-    public class CloseEventPageToolbarItem : GenToolbarItem
+    public class CloseEventPageToolbarItem : Image
     {
-        private const string ImageSource = "ic_cancel_black_24dp.png";
+        private const string ImageSource = "baseline_arrow_back_24.png";
 
         public CloseEventPageToolbarItem()
         {
             this.Source = ImageSource;
-            this.OnClickHandler += async (sender, args) => { await PopupNavigation.Instance.PopAsync(); };
-            this.AddGesture();
+            this.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new Command(async () =>
+                {
+                    await PopupNavigation.Instance.PopAsync();
+                })
+            });
         }
     }
 }

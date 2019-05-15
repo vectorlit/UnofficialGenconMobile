@@ -5,15 +5,15 @@ namespace ConventionMobile.ToolbarItems
 {
     public class AddEventToListToolbarItem : GenToolbarItem
     {
-        private const string ImageSource = "addlist.png";
         private readonly GenEventFull _eventPage;
 
         public AddEventToListToolbarItem(GenEventFull eventPage)
         {
             this._eventPage = eventPage;
-            this.Source = ImageSource;
+            this.ImageSource = "addlist.png";
+            this.Title = "Add To List";
             this.OnClickHandler += (sender, args) => { OpenAddToListPrompt(); };
-            this.AddGesture();
+            this.Initialize();
         }
 
         private void OpenAddToListPrompt()
