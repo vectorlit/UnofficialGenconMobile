@@ -326,9 +326,9 @@
     <BundleResource Include="Resources\vl_logo%402x.png" />
     <BundleResource Include="Resources\vl_logo%403x.png" />
     <BundleResource Include="Resources\add_list_plus.png" />
-    <BundleResource Include="Resources\baseline_arrow_back_black_24pt_2x.png" />
-    <BundleResource Include="Resources\baseline_arrow_back_black_24pt_3x.png" />
-    <BundleResource Include="Resources\baseline_arrow_back_black_24pt_1x.png" />
+    <BundleResource Include="Resources\baseline_arrow_back_24%402x.png" />
+    <BundleResource Include="Resources\baseline_arrow_back_24%403x.png" />
+    <BundleResource Include="Resources\baseline_arrow_back_24.png" />
     <ITunesArtwork Include="iTunesArtwork.png" />
     <ITunesArtwork Include="iTunesArtwork%402x.png" />
   </ItemGroup>

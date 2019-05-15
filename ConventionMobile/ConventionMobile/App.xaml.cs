@@ -31,8 +31,10 @@ namespace ConventionMobile
             Device.BeginInvokeOnMainThread(() =>
             {
                 HomePage = new GenMainPage();
-                MainPage = new NavigationPage(HomePage);
-                ((NavigationPage)MainPage).BarTextColor = GlobalVars.ThemeColorsText[(int)GlobalVars.ThemeColors.Primary];
+                var mainPage = new NavigationPage(HomePage);
+                mainPage.BarTextColor = GlobalVars.ThemeColorsText[(int)GlobalVars.ThemeColors.Primary];
+                mainPage.BarBackgroundColor = GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Primary];
+                MainPage = mainPage;
             });
         }
 
