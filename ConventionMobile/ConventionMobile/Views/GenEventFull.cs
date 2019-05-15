@@ -10,6 +10,7 @@ using ConventionMobile.Pages;
 using ConventionMobile.ToolbarItems;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
+using Rg.Plugins.Popup.Services;
 
 namespace ConventionMobile.Views
 {
@@ -215,9 +216,9 @@ namespace ConventionMobile.Views
                         }
                         else
                         {
-                            Page page = (Page)Activator.CreateInstance(typeof(MapViewPage));
+                            var page = (PopupPage)Activator.CreateInstance(typeof(MapViewPage));
+                            PopupNavigation.Instance.PushAsync(page);
                             page.BindingContext = navigationLocation;
-                            this.Navigation.PushAsync(page);
                         }
                     }
 

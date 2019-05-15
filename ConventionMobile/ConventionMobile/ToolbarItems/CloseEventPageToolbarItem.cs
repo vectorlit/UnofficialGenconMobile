@@ -1,4 +1,5 @@
 ﻿using Rg.Plugins.Popup.Services;
+using System;
 using Xamarin.Forms;
 
 namespace ConventionMobile.ToolbarItems
@@ -14,7 +15,14 @@ namespace ConventionMobile.ToolbarItems
             {
                 Command = new Command(async () =>
                 {
-                    await PopupNavigation.Instance.PopAsync();
+                    try
+                    {
+                        await PopupNavigation.Instance.PopAsync();
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                 })
             });
             this.Margin = new Thickness(10);
