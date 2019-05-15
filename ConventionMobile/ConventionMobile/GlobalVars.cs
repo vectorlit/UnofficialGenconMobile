@@ -562,31 +562,40 @@ namespace ConventionMobile
             }
         }
 
+        ///// <summary>
+        ///// Convenience URL to retrieve count of all events
+        ///// </summary>
+        //public static string GenEventAllEventsCountURL
+        //{
+        //    get
+        //    {
+        //        return String.Format(GenEventAllEventsCustomizableURL, yearlyStartingDate.ToString("yyyy-MM-dd't'HH:mm:ss")) + getOption<string>("GenEventAllEventsCountURL", "/numResults");
+        //    }
+        //    set
+        //    {
+        //        setOption("GenEventAllEventsCountURL", value);
+        //    }
+        //}
+
         /// <summary>
         /// Convenience URL to retrieve count of all events
         /// </summary>
-        public static string GenEventAllEventsCountURL
+        public static string GenEventAfterDateEventsCountURL(DateTime? lastSyncTime = null)
         {
-            get
-            {
-                return String.Format(GenEventAllEventsCustomizableURL, yearlyStartingDate.ToString("yyyy-MM-dd't'HH:mm:ss")) + getOption<string>("GenEventAllEventsCountURL", "/numResults");
-            }
-            set
-            {
-                setOption("GenEventAllEventsCountURL", value);
-            }
+            lastSyncTime = lastSyncTime == null ? yearlyStartingDate : lastSyncTime;
+            return String.Format(GenEventAllEventsCustomizableURL, ((DateTime)lastSyncTime).ToString("yyyy-MM-dd't'HH:mm:ss")) + getOption<string>("GenEventAllEventsCountURL", "/numResults");
         }
 
-        /// <summary>
-        /// URL to retrieve gencon events synchronized after a certain time.
-        /// </summary>
-        /// <param name="lastSyncTime">The time after which you wish to retrieve events</param>
-        /// <param name="numResults">Optional: set to true if you only want COUNT of these events, not the events themselves</param>
-        /// <returns></returns>
-        public static string GenEventAfterDateURL(DateTime lastSyncTime, bool countOnly = false)
-        {
-            return GenEventURL + "timeDelay/" + lastSyncTime.ToString("s") + (countOnly ? "/numResults" : "");
-        }
+        ///// <summary>
+        ///// URL to retrieve gencon events synchronized after a certain time.
+        ///// </summary>
+        ///// <param name="lastSyncTime">The time after which you wish to retrieve events</param>
+        ///// <param name="numResults">Optional: set to true if you only want COUNT of these events, not the events themselves</param>
+        ///// <returns></returns>
+        //public static string GenEventAfterDateURL(DateTime lastSyncTime, bool countOnly = false)
+        //{
+        //    return GenEventURL + "timeDelay/" + lastSyncTime.ToString("s") + (countOnly ? "/numResults" : "");
+        //}
 
         /// <summary>
         /// Color of text regarding money

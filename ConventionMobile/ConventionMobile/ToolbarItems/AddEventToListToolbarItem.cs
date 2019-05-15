@@ -18,11 +18,18 @@ namespace ConventionMobile.ToolbarItems
 
         private void OpenAddToListPrompt()
         {
-            var currentEvent = (GenEvent)_eventPage.BindingContext;
+            if (_eventPage.popupHolder.IsVisible)
+            {
+                _eventPage.popupHolder.IsVisible = false;
+            }
+            else
+            {
+                var currentEvent = (GenEvent)_eventPage.BindingContext;
 
-            _eventPage.userEventLists = GlobalVars.db.UserEventLists;
-            _eventPage.userListPicker.ItemsSource = _eventPage.UserListsTitles;
-            _eventPage.popupHolder.IsVisible = true;
+                _eventPage.userEventLists = GlobalVars.db.UserEventLists;
+                _eventPage.userListPicker.ItemsSource = _eventPage.UserListsTitles;
+                _eventPage.popupHolder.IsVisible = true;
+            }
         }
     }
 }

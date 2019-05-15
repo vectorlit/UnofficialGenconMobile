@@ -101,7 +101,7 @@ namespace ConventionMobile.Views
                             string term = x.Trim();
                             if ((term.Length == 10 || term.Length == 11) && GlobalVars.isTypedEventID(term))
                             {
-                                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                                Device.BeginInvokeOnMainThread(() =>
                                 {
                                     SetGenListContent();
                                 });
@@ -390,7 +390,7 @@ namespace ConventionMobile.Views
                 IsVisible = false,
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-                BackgroundColor = Color.White,
+                BackgroundColor = Color.Transparent,
                 MinimumWidthRequest = 400,
                 MinimumHeightRequest = 400
             };

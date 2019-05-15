@@ -1,12 +1,10 @@
 ﻿using ConventionMobile.Data;
 using ConventionMobile.Model;
-//using Plugin.Toasts;
 using Plugin.Share;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ConventionMobile.Pages;
 using ConventionMobile.ToolbarItems;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
@@ -127,37 +125,12 @@ namespace ConventionMobile.Views
                 {
                     string newURL = ((GenEvent)this.BindingContext).LiveURL;
 
-                    //string args = label.Text;
-
-                    //string newArgs = args.Substring(
-                    //                args.Length - Math.Min(5, args.Length)
-                    //            );
-
-                    //if (newArgs.StartsWith("0"))
-                    //{
-                    //    newArgs = args.Substring(
-                    //                args.Length - Math.Min(6, args.Length)
-                    //            );
-                    //}
-
-                    //CrossShare.Current.OpenBrowser(String.Format("https://www.gencon.com/events/{0}", newArgs), null);
-                    // CrossShare.Current.OpenBrowser(newURL, null);
                     CrossShare.Current.OpenBrowser(newURL, new Plugin.Share.Abstractions.BrowserOptions
                     {
                         ChromeShowTitle = true,
                         UseSafariReaderMode = true,
                         UseSafariWebViewController = true
                     });
-
-                    //Device.OpenUri(
-                    //    new Uri(
-                    //        String.Format("https://www.gencon.com/events/{0}", 
-                    //            args.Substring(
-                    //                args.Length - Math.Min(5, args.Length)
-                    //            )
-                    //        )
-                    //    )
-                    //);
                 }),
                 CommandParameter = eventIDLabel
             });
@@ -613,61 +586,7 @@ namespace ConventionMobile.Views
 
             popupHolder.IsVisible = false;
         }
-
-        private void OpenAddToListPrompt()
-        {
-            GenEvent currentEvent = (GenEvent)this.BindingContext;
-
-            userEventLists = GlobalVars.db.UserEventLists;
-            userListPicker.ItemsSource = UserListsTitles;
-
-            popupHolder.IsVisible = true;
-        }
-
-        //internal void AddToUserEventList(GenEvent copyEvent, string selectedItemString, UserEventList selectedList)
-        //{
-            
-        //    if (copyEvent != null && selectedItemString != null)
-        //    {
-
-        //        Task.Factory.StartNew(async () =>
-        //        {
-        //            var copy2Event = copyEvent;
-        //            if (selectedItemString == ListSelectionModal.newListString)
-        //            {
-        //                selectedItemString = "My New List";
-        //                var newList = await GlobalVars.db.AddUserEventList(selectedItemString);
-        //                newList.Events.Add(copy2Event);
-        //                await GlobalVars.db.UpdateUserEventListWithChildrenAsync(newList);
-        //                selectedItemString = newList.Title;
-        //            }
-        //            else
-        //            {
-        //                var currentList = await GlobalVars.db.GetUserEventListWithChildrenAsync(selectedList);
-        //                if (currentList != null)
-        //                {
-        //                    currentList.Events.Add(copy2Event);
-        //                    currentList.Events = currentList.Events.Distinct().OrderBy(d => d.StartDateTime).ToList();
-        //                    await GlobalVars.db.UpdateUserEventListWithChildrenAsync(currentList);
-        //                }
-        //            }
-        //        });
-        //    }
-
-        //    Task.Factory.StartNew(() =>
-        //    {
-        //        PopupNavigation.Instance.PopAllAsync();
-        //    });
-
-
-        //    Device.BeginInvokeOnMainThread(() =>
-        //    {
-        //        GlobalVars.DoToast($"Added \"{copyEvent.ID}\" to list.", GlobalVars.ToastType.Green);
-        //    });
-
-
-        //}
-
+        
         private void CalculatePaddingAmount()
         {
             paddingAmount = DependencyService.Get<ISafeAreaInsets>().Padding();

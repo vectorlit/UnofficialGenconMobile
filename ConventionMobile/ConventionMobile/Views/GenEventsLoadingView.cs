@@ -38,12 +38,6 @@ namespace ConventionMobile.Views
                 Text = "    "
             };
 
-            //var downloadCountInfoLabel = new Label
-            //{
-            //    HorizontalTextAlignment = TextAlignment.Center,
-            //    Text = "Now downloading all " + GlobalVars.shortTitle + " events...\r\nThis is the whole catalog, so please be patient!"
-            //};
-
             TotalDownloadProgressBar = new ProgressBar
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -79,7 +73,8 @@ namespace ConventionMobile.Views
 
             try
             {
-                allEvents = await _genEventManager.GetEventsAsync(await GlobalVars.serverLastSyncTime());
+                var lastSyncTime = await GlobalVars.serverLastSyncTime();
+                allEvents = await _genEventManager.GetEventsAsync(lastSyncTime);
             }
             catch (Exception)
             {
@@ -111,6 +106,15 @@ namespace ConventionMobile.Views
         {
             Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
             {
+                if (TotalEventsDownloading > ((DownloadUpdateEventArgs)e).number)
+                {
+                    this.IsVisible = true;
+                }
+                else if (TotalEventsDownloading <= 0)
+                {
+                    this.IsVisible = false;
+                }
+                
                 TotalDownloadProgressBar.Progress = ((DownloadUpdateEventArgs)e).number / TotalEventsDownloading;
                 if (((DownloadUpdateEventArgs)e).number < TotalEventsDownloading)
                 {
