@@ -609,16 +609,72 @@ namespace ConventionMobile.Views
             wholePageScroller.Padding = paddingAmount;
         }
 
+        // Invoked after an animation appearing
+        protected override void OnAppearingAnimationEnd()
+        {
+            base.OnAppearingAnimationEnd();
+            //hasOnAppearingAnimationEnded = true;
+            //if (hasOnBindingContextChanged && !hasEventChangeLogFullOpened)
+            //{
+            //    try
+            //    {
+            //        var eventItem = BindingContext as GenEvent;
+            //        if (eventItem != null && eventItem.HasUpdateNotifications)
+            //        {
+            //            var changePopup = (PopupPage)Activator.CreateInstance(typeof(EventChangeLogFull));
+            //            changePopup.BindingContext = eventItem;
+            //            //await this.Navigation.PushAsync(page);
+
+            //            if (!hasEventChangeLogFullOpened)
+            //            {
+            //                hasEventChangeLogFullOpened = true;
+            //                PopupNavigation.Instance.PushAsync(changePopup);
+            //            }
+            //        }
+            //    }
+            //    catch (Exception)
+            //    {
+            //        // binding exception occurred, just skip display
+            //    }
+            //}
+        }
+
+        //bool hasOnAppearingAnimationEnded = false;
+        //bool hasOnBindingContextChanged = false;
+        //bool hasEventChangeLogFullOpened = false;
+
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
+            //hasOnBindingContextChanged = true;
 
             var eventItem = BindingContext as GenEvent;
             if (eventItem != null && eventItem.HasUpdateNotifications)
             {
-                var changePopup = new EventChangeLogFull();
+                var changePopup = (PopupPage)Activator.CreateInstance(typeof(EventChangeLogFull));
                 changePopup.BindingContext = eventItem;
-                Navigation.PushModalAsync(changePopup);
+                //await this.Navigation.PushAsync(page);
+
+                //if (!hasEventChangeLogFullOpened)
+                //{
+                //    hasEventChangeLogFullOpened = true;
+                //    PopupNavigation.Instance.PushAsync(changePopup);
+                //}
+
+                // this is a bad solution but I can't figure out any other way at present on slower devices. it seems to always pop up 2 windows otherwise
+                // or a pop-under.
+                Task.Factory.StartNew(async () =>
+                {
+                    await Task.Delay(1500);
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await PopupNavigation.Instance.PushAsync(changePopup);
+                    });
+                });
+
+                //var changePopup = new EventChangeLogFull();
+                //changePopup.BindingContext = eventItem;
+                //Navigation.PushModalAsync(changePopup);
             }
         }
     }

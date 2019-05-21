@@ -83,7 +83,7 @@ namespace ConventionMobile.Views
 
             if (allEvents.Count > 0)
             {
-                GlobalVars.db.SaveItems(allEvents);
+                await GlobalVars.db.SaveItemsAsync(allEvents);
                 GlobalVars.hasSuccessfullyLoadedEvents = true;
                 GlobalVars.lastSyncTime = DateTime.Now;
             }

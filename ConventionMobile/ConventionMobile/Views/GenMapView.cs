@@ -29,13 +29,13 @@ namespace ConventionMobile.Views
                 ItemsSource = GlobalVars.NavigationChoices
             };
 
-            _nagivationListView.ItemSelected += (async (sender, args) => {
+            _nagivationListView.ItemTapped += async (object sender, ItemTappedEventArgs e) =>
+            {
+                //GlobalVars.GenConBusiness.ShowLoadingEventMessage("Data is still loading, map may not be up to date");
 
-                GlobalVars.GenConBusiness.ShowLoadingEventMessage("Data is still loading, map may not be up to date");
-
-                if (args.SelectedItem != null)
+                if (e != null && e.Item != null)
                 {
-                    var selectedDetailChoice = (DetailChoice)args.SelectedItem;
+                    var selectedDetailChoice = (DetailChoice)e.Item;
 
                     if (selectedDetailChoice.data.ToLower().StartsWith("http:") || selectedDetailChoice.data.ToLower().StartsWith("https:"))
                     {
@@ -54,7 +54,12 @@ namespace ConventionMobile.Views
                         _nagivationListView.SelectedItem = null;
                     });
                 }
-            });
+            };
+
+            //_nagivationListView.ItemSelected += (async (sender, args) => {
+
+                
+            //});
 
             this.OnAppearedHandler += (sender, args) =>
             {

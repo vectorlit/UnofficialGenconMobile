@@ -8,6 +8,8 @@ using ConventionMobile.Data;
 using ConventionMobile.Model;
 using ConventionMobile.Pages;
 using Plugin.Share;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 
 namespace ConventionMobile.Views
@@ -1126,9 +1128,10 @@ namespace ConventionMobile.Views
                 {
                     GenEvent selectedEvent = (GenEvent)sender;
 
-                    Page page = (Page)Activator.CreateInstance(typeof(GenEventFull));
+                    var page = (PopupPage)Activator.CreateInstance(typeof(GenEventFull));
                     page.BindingContext = selectedEvent;
-                    this.Navigation.PushAsync(page);
+                    //await this.Navigation.PushAsync(page);
+                    PopupNavigation.Instance.PushAsync(page);
                 }
             }
         }
