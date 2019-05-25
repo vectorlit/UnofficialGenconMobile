@@ -885,7 +885,7 @@ namespace ConventionMobile
                             new DetailChoice ("Marriott", "marriott.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("JW Marriott", "jwmarriott.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Omni", "omni.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Westin", "westin.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Westin", "westin.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Union Station", "unionstation.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Vegan/Vegetarian Guide", "vegan.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
                             new DetailChoice ("Food Trucks", "foodtrucks.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),

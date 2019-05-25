@@ -580,5 +580,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\baseline_arrow_back_black_24.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\westin.svg" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

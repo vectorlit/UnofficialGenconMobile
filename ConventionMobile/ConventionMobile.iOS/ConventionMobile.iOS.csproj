@@ -330,6 +330,7 @@
     <BundleResource Include="Resources\baseline_arrow_back_24%402x.png" />
     <BundleResource Include="Resources\baseline_arrow_back_24%403x.png" />
     <BundleResource Include="Resources\baseline_arrow_back_24.png" />
+    <Content Include="Content\westin.svg" />
     <ITunesArtwork Include="iTunesArtwork.png" />
     <ITunesArtwork Include="iTunesArtwork%402x.png" />
   </ItemGroup>
