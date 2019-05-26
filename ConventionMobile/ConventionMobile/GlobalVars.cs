@@ -33,11 +33,17 @@ namespace ConventionMobile
 
         public readonly static List<Color> ThemeColorsBG = new List<Color>()
         {
+            // 2019 Colors: 
+            // Primary: Orange
             //new Color(244/255, 178/255, 52/255),
-            //new Color(252/255, 205/255, 116/255),
-            //new Color(213/255, 36/255, 36/255)
             new Color(0.9568, 0.6980, 0.2039),
+
+            // Secondary: Light Orange
+            //new Color(252/255, 205/255, 116/255),
             new Color(0.9882, 0.8039, 0.4549),
+
+            // Action Element: Red
+            //new Color(213/255, 36/255, 36/255)
             new Color(0.8352, 0.1412, 0.1412)
         };
 
@@ -85,10 +91,6 @@ namespace ConventionMobile
                     new GlobalOption("minSyncTimeSpanMinutes", minSyncTimeSpanMinutes),
                     new GlobalOption("lastSyncTime", lastSyncTime),
                     new GlobalOption("NavigationChoices", NavigationChoices),
-                    //new GlobalOption("GlobalOptionsURL", GlobalOptionsURL),
-                    //new GlobalOption("GlobalOptionsURLCustomizableURL", GlobalOptionsURLCustomizableURL),
-                    //new GlobalOption("GenEventAllEventsCustomizableURL", GenEventAllEventsCustomizableURL),
-                    //new GlobalOption("GenEventAllEventsCountURL", GenEventAllEventsCountURL),
                     new GlobalOption("dbVersion", dbVersion),
                     new GlobalOption("lastGlobalVarUpdateTime", lastGlobalVarUpdateTime)
                 };
@@ -232,10 +234,6 @@ namespace ConventionMobile
             GlobalVars.lastGlobalVarUpdateTime = GlobalVars.lastGlobalVarUpdateTime;
             GlobalVars.lastSyncTime = GlobalVars.lastSyncTime;
             GlobalVars.GenEventURL = GlobalVars.GenEventURL;
-            //GlobalVars.GlobalOptionsURL = GlobalVars.GlobalOptionsURL;
-            //GlobalVars.GlobalOptionsURLCustomizableURL = GlobalVars.GlobalOptionsURLCustomizableURL;
-            //GlobalVars.GenEventAllEventsCustomizableURL = GlobalVars.GenEventAllEventsCustomizableURL;
-            //GlobalVars.GenEventAllEventsCountURL = GlobalVars.GenEventAllEventsCountURL;
             GlobalVars.useDefaultOnly = false;
         }
 
@@ -317,26 +315,6 @@ namespace ConventionMobile
                 setOption("shortTitle", value);
             }
         }
-
-        ///// <summary>
-        ///// Convenience method for checking DB first then using default value as backup
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="title"></param>
-        ///// <param name="defaultVal"></param>
-        ///// <returns></returns>
-        //private static T getDBOption<T>(string title, object defaultVal)
-        //{
-        //    var option = db.GetOption(title);
-        //    if (option != null)
-        //    {
-        //        return option.getData<T>();
-        //    }
-        //    else
-        //    {
-        //        return (T)defaultVal;
-        //    }
-        //}
 
         private static void setOption(string title, object value, bool commitToDatabase = true)
         {
@@ -530,22 +508,6 @@ namespace ConventionMobile
             }
         }
 
-
-        ///// <summary>
-        ///// Convenience URL to retrieve all events
-        ///// </summary>
-        //public static string GenEventAllEventsURL
-        //{
-        //    get
-        //    {
-        //        return GenEventURL + getOption<string>("GenEventAllEventsURL", "/timedelay/2011-01-01T01:01:01");
-        //    }
-        //    set
-        //    {
-        //        setOption("GenEventAllEventsURL", value);
-        //    }
-        //}
-
         /// <summary>
         /// Convenience URL to retrieve events after a certain sync_time (use String_Format and replace {0} with date)
         /// If you want to only return a specific # of results, add "/{1}" after this string, where {1} is the integer amount of desired results
@@ -562,21 +524,6 @@ namespace ConventionMobile
             }
         }
 
-        ///// <summary>
-        ///// Convenience URL to retrieve count of all events
-        ///// </summary>
-        //public static string GenEventAllEventsCountURL
-        //{
-        //    get
-        //    {
-        //        return String.Format(GenEventAllEventsCustomizableURL, yearlyStartingDate.ToString("yyyy-MM-dd't'HH:mm:ss")) + getOption<string>("GenEventAllEventsCountURL", "/numResults");
-        //    }
-        //    set
-        //    {
-        //        setOption("GenEventAllEventsCountURL", value);
-        //    }
-        //}
-
         /// <summary>
         /// Convenience URL to retrieve count of all events
         /// </summary>
@@ -585,17 +532,6 @@ namespace ConventionMobile
             lastSyncTime = lastSyncTime == null ? yearlyStartingDate : lastSyncTime;
             return String.Format(GenEventAllEventsCustomizableURL, ((DateTime)lastSyncTime).ToString("yyyy-MM-dd't'HH:mm:ss")) + getOption<string>("GenEventAllEventsCountURL", "/numResults");
         }
-
-        ///// <summary>
-        ///// URL to retrieve gencon events synchronized after a certain time.
-        ///// </summary>
-        ///// <param name="lastSyncTime">The time after which you wish to retrieve events</param>
-        ///// <param name="numResults">Optional: set to true if you only want COUNT of these events, not the events themselves</param>
-        ///// <returns></returns>
-        //public static string GenEventAfterDateURL(DateTime lastSyncTime, bool countOnly = false)
-        //{
-        //    return GenEventURL + "timeDelay/" + lastSyncTime.ToString("s") + (countOnly ? "/numResults" : "");
-        //}
 
         /// <summary>
         /// Color of text regarding money
@@ -882,7 +818,7 @@ namespace ConventionMobile
                             new DetailChoice ("Embassy Suites", "embassysuites.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Hyatt Regency", "hyattregency.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Lucas Oil Stadium", "lucasoilstadium.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Marriott", "marriott.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Marriott", "marriott.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("JW Marriott", "jwmarriott.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Omni", "omni.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Westin", "westin.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),

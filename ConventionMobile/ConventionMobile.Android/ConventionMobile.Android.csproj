@@ -583,5 +583,8 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\westin.svg" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\marriott.svg" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
