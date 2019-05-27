@@ -255,6 +255,7 @@
     <BundleResource Include="Content\exhibithallmap2018.jpg" />
     <Content Include="Content\foodtrucks.html" />
     <BundleResource Include="Content\hyattregency.jpg" />
+    <Content Include="Content\jwmarriott.svg" />
     <Content Include="Content\marriott.svg" />
     <Content Include="Content\vegan.html" />
     <BundleResource Include="Content\westin.jpg" />

@@ -819,7 +819,7 @@ namespace ConventionMobile
                             new DetailChoice ("Hyatt Regency", "hyattregency.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Lucas Oil Stadium", "lucasoilstadium.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Marriott", "marriott.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("JW Marriott", "jwmarriott.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("JW Marriott", "jwmarriott.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Omni", "omni.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Westin", "westin.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Union Station", "unionstation.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
