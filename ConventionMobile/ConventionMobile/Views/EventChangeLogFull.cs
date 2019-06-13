@@ -95,8 +95,7 @@ namespace ConventionMobile.Views
 
         protected override void OnDisappearing()
         {
-            var eventItem = BindingContext as GenEvent;
-            if (eventItem != null)
+            if (BindingContext is GenEvent eventItem)
             {
                 Task.Factory.StartNew(async () =>
                 {

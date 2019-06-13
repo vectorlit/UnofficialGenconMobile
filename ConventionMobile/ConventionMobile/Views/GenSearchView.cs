@@ -172,7 +172,6 @@ namespace ConventionMobile.Views
             startSearchTap.Tapped += StartSearchTap_Tapped;
             //startSearchTap.Tapped += DEBUGDEMO_Tapped;
             searchStartButton.GestureRecognizers.Add(startSearchTap);
-
             autoCompleteHolder = new StackLayout
             {
                 Padding = 0,
@@ -182,7 +181,6 @@ namespace ConventionMobile.Views
                 Orientation = StackOrientation.Vertical,
                 BackgroundColor = Color.FromRgba(0.2, 0.2, 0.2, 0.5)
             };
-
             var matchListTemplate = new DataTemplate(typeof(TextCell));
             matchListTemplate.SetBinding(TextCell.TextProperty, "Title");
 
@@ -200,7 +198,7 @@ namespace ConventionMobile.Views
             searchNavSection.Children.Add(searchEntry);
             searchNavSection.Children.Add(clearSearchButton);
             searchNavSection.Children.Add(searchStartButton);
-
+            
             wholePage.Children.Add(searchNavSection);
 
             //searchNavSectionTwo
@@ -396,7 +394,6 @@ namespace ConventionMobile.Views
             };
 
             outerContainer.Children.Add(wholePage);
-
             outerContainer.Children.Add(loadingIndicator);
 
             AbsoluteLayout.SetLayoutBounds(wholePage, new Rectangle(0, 0, 1, 1));
@@ -407,7 +404,6 @@ namespace ConventionMobile.Views
             AbsoluteLayout.SetLayoutBounds(loadingIndicator,
                 new Rectangle(0.5,
                               0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
-
 
 
             Content = outerContainer;
