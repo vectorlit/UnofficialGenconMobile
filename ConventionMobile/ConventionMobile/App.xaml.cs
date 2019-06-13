@@ -1,4 +1,5 @@
 using ConventionMobile.Data;
+using ConventionMobile.Pages;
 using ConventionMobile.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -10,8 +11,8 @@ namespace ConventionMobile
 	{
         public static GenEventManager GenEventManager { get; private set; }
 
-        public GenHomeTabPage HomePage;
-        
+	    public GenMainPage HomePage;
+
         public App ()
 		{
 			InitializeComponent();
@@ -29,8 +30,11 @@ namespace ConventionMobile
         {
             Device.BeginInvokeOnMainThread(() =>
             {
-                HomePage = new GenHomeTabPage();
-                MainPage = new NavigationPage(HomePage);
+                HomePage = new GenMainPage();
+                var mainPage = new NavigationPage(HomePage);
+                mainPage.BarTextColor = GlobalVars.ThemeColorsText[(int)GlobalVars.ThemeColors.Primary];
+                mainPage.BarBackgroundColor = GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Primary];
+                MainPage = mainPage;
             });
         }
 

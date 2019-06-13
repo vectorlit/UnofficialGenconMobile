@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,7 +47,7 @@ namespace ConventionMobile.Data
 
             int downloadedCount = 0;
 
-            var totalNumberOfEvents = await GetNumberOfEvents();
+            var totalNumberOfEvents = await GetNumberOfEvents(lastSyncTime);
 
             bool requestStop = false;
 
@@ -137,11 +137,11 @@ namespace ConventionMobile.Data
         //    return events;
         //}
 
-        public async Task<int> GetNumberOfEvents()
+        public async Task<int> GetNumberOfEvents(DateTime? lastSyncTime = null)
         {
             int numEvents = -1;
 
-            var uri = new Uri(GlobalVars.GenEventAllEventsCountURL);
+            var uri = new Uri(GlobalVars.GenEventAfterDateEventsCountURL(lastSyncTime));
 
             try
             {
@@ -171,39 +171,39 @@ namespace ConventionMobile.Data
             return numEvents;
         }
 
-        public async Task<int> GetNumberOfEventsAfterSyncTime(DateTime lastSyncTime)
-        {
-            var numEvents = -1;
+        //public async Task<int> GetNumberOfEventsAfterSyncTime(DateTime lastSyncTime)
+        //{
+        //    var numEvents = -1;
 
-            var uri = new Uri(GlobalVars.GenEventAfterDateURL(lastSyncTime, true));
+        //    var uri = new Uri(GlobalVars.GenEventAfterDateURL(lastSyncTime, true));
 
-            try
-            {
-                //using (var client = new HttpClient(new NativeMessageHandler()
-                //{
-                //    Timeout = new TimeSpan(0, 0, 9),
-                //    EnableUntrustedCertificates = true,
-                //    DisableCaching = true
-                //}))
-                using (var client = new HttpClient())
-                {
-                    client.MaxResponseContentBufferSize = 25600000;
+        //    try
+        //    {
+        //        //using (var client = new HttpClient(new NativeMessageHandler()
+        //        //{
+        //        //    Timeout = new TimeSpan(0, 0, 9),
+        //        //    EnableUntrustedCertificates = true,
+        //        //    DisableCaching = true
+        //        //}))
+        //        using (var client = new HttpClient())
+        //        {
+        //            client.MaxResponseContentBufferSize = 25600000;
 
-                    var response = await client.GetAsync(uri).ConfigureAwait(false);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        numEvents = JsonConvert.DeserializeObject<int>(content);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(@"     ERROR {0}: {1}", DateTime.Now.ToString(), ex.Message);
-            }
+        //            var response = await client.GetAsync(uri).ConfigureAwait(false);
+        //            if (response.IsSuccessStatusCode)
+        //            {
+        //                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        //                numEvents = JsonConvert.DeserializeObject<int>(content);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine(@"     ERROR {0}: {1}", DateTime.Now.ToString(), ex.Message);
+        //    }
 
-            return numEvents;
-        }
+        //    return numEvents;
+        //}
 
         public class UserEventListViewModel
         {

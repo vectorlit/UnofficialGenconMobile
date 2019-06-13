@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CarouselView.FormsPlugin.iOS;
 using Foundation;
 using UIKit;
 using UserNotifications;
@@ -24,12 +25,14 @@ namespace ConventionMobile.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Rg.Plugins.Popup.Popup.Init();
             global::Xamarin.Forms.Forms.Init();
 
             DependencyService.Register<SQLite_iOS>();
             DependencyService.Register<Calendar_iOS>();
             DependencyService.Register<FileOps_iOS>();
             DependencyService.Register<SafeAreaInsets_iOS>();
+            CarouselViewRenderer.Init();
             //DependencyService.Register<ToastNotification>(); // Register your dependency
             //ToastNotification.Init();
 

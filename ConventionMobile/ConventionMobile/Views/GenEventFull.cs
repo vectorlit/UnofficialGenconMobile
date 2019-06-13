@@ -1,30 +1,32 @@
 ﻿using ConventionMobile.Data;
 using ConventionMobile.Model;
-//using Plugin.Toasts;
 using Plugin.Share;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using ConventionMobile.ToolbarItems;
+using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
+using Rg.Plugins.Popup.Services;
 
 namespace ConventionMobile.Views
 {
-    public class GenEventFull : OrientationContentPage
+    public class GenEventFull : PopupPage
     {
         public Grid wholePage;
         public ScrollView wholePageScroller;
         public StackLayout wholePageHolder;
         public StackLayout popupHolder;
         public ListView userListPicker;
+        
 
         public const string newListString = "(Create a new list and add to it)";
 
         private Thickness paddingAmount = 0;
-        private List<UserEventList> userEventLists = new List<UserEventList>();
+        public List<UserEventList> userEventLists = new List<UserEventList>();
 
-        private List<string> UserListsTitles
+        public List<string> UserListsTitles
         {
             get
             {
@@ -92,13 +94,13 @@ namespace ConventionMobile.Views
                 VerticalOptions = LayoutOptions.Fill
             };
 
-            //Row 1
-            //Title
-            Label titleLabel = new Label { FontSize = GlobalVars.sizeLarge, FontAttributes = FontAttributes.Bold };
-            titleLabel.SetBinding(Label.TextProperty, "Title");
-            wholePage.Children.Add(titleLabel, 0, 0);
-            Grid.SetColumnSpan(titleLabel, 4);
 
+            //Row 1
+            //GroupCompany
+            Label groupCompanyLabel = new Label { FontSize = GlobalVars.sizeMedium, VerticalTextAlignment = TextAlignment.End/*, Margin = new Thickness(10, 0, 0, 0)*/ };
+            groupCompanyLabel.SetBinding(Label.TextProperty, "GroupCompany");
+            wholePage.Children.Add(groupCompanyLabel, 0, 0);
+            Grid.SetColumnSpan(groupCompanyLabel, 3);
 
             //Avl. Tickets
             StackLayout avlTicketHorizStack = new StackLayout { Orientation = StackOrientation.Horizontal, Padding = 0, Spacing = 0, HorizontalOptions = LayoutOptions.End };
@@ -107,30 +109,14 @@ namespace ConventionMobile.Views
             avlTicketsDynamic.SetBinding(Label.TextProperty, "AvailableTickets");
             avlTicketHorizStack.Children.Add(avlTicketsStatic);
             avlTicketHorizStack.Children.Add(avlTicketsDynamic);
-            wholePage.Children.Add(avlTicketHorizStack, 4, 0);
-            Grid.SetColumnSpan(avlTicketHorizStack, 2);
-
+            wholePage.Children.Add(avlTicketHorizStack, 3, 0);
+            Grid.SetColumnSpan(avlTicketHorizStack, 3);
 
             //Row 2
-            //GroupCompany
-            Label groupCompanyLabel = new Label { FontSize = GlobalVars.sizeMedium, Margin = new Thickness(10, 0, 0, 0) };
-            groupCompanyLabel.SetBinding(Label.TextProperty, "GroupCompany");
-            wholePage.Children.Add(groupCompanyLabel, 0, 1);
-            Grid.SetColumnSpan(groupCompanyLabel, 4);
-
-
-            //FormattedPlayers
-            Label playerNumLabel = new Label { FontSize = GlobalVars.sizeMedium, HorizontalTextAlignment = TextAlignment.End };
-            playerNumLabel.SetBinding(Label.TextProperty, "FormattedPlayers");
-            wholePage.Children.Add(playerNumLabel, 4, 1);
-            Grid.SetColumnSpan(playerNumLabel, 2);
-
-
-            //Row 3
             //EventID
             Label eventIDLabel = new Label { FontSize = GlobalVars.sizeMedium, TextColor = GlobalVars.colorLink };
             eventIDLabel.SetBinding(Label.TextProperty, "ID");
-            wholePage.Children.Add(eventIDLabel, 0, 2);
+            wholePage.Children.Add(eventIDLabel, 0, 1);
             Grid.SetColumnSpan(eventIDLabel, 4);
 
             eventIDLabel.GestureRecognizers.Add(new TapGestureRecognizer
@@ -139,41 +125,28 @@ namespace ConventionMobile.Views
                 {
                     string newURL = ((GenEvent)this.BindingContext).LiveURL;
 
-                    //string args = label.Text;
-
-                    //string newArgs = args.Substring(
-                    //                args.Length - Math.Min(5, args.Length)
-                    //            );
-
-                    //if (newArgs.StartsWith("0"))
-                    //{
-                    //    newArgs = args.Substring(
-                    //                args.Length - Math.Min(6, args.Length)
-                    //            );
-                    //}
-
-                    //CrossShare.Current.OpenBrowser(String.Format("https://www.gencon.com/events/{0}", newArgs), null);
-                    // CrossShare.Current.OpenBrowser(newURL, null);
                     CrossShare.Current.OpenBrowser(newURL, new Plugin.Share.Abstractions.BrowserOptions
                     {
                         ChromeShowTitle = true,
                         UseSafariReaderMode = true,
                         UseSafariWebViewController = true
                     });
-
-                    //Device.OpenUri(
-                    //    new Uri(
-                    //        String.Format("https://www.gencon.com/events/{0}", 
-                    //            args.Substring(
-                    //                args.Length - Math.Min(5, args.Length)
-                    //            )
-                    //        )
-                    //    )
-                    //);
                 }),
                 CommandParameter = eventIDLabel
             });
 
+            //FormattedPlayers
+            Label playerNumLabel = new Label { FontSize = GlobalVars.sizeMedium, HorizontalTextAlignment = TextAlignment.End };
+            playerNumLabel.SetBinding(Label.TextProperty, "FormattedPlayers");
+            wholePage.Children.Add(playerNumLabel, 4, 1);
+            Grid.SetColumnSpan(playerNumLabel, 2);
+
+            //Row 3
+            //EventType
+            Label eventTypeLabel = new Label { FontSize = GlobalVars.sizeMedium };
+            eventTypeLabel.SetBinding(Label.TextProperty, "EventType");
+            wholePage.Children.Add(eventTypeLabel, 0, 2);
+            Grid.SetColumnSpan(eventTypeLabel, 4);
 
             //MinimumAge
             Label minimumAgeLabel = new Label { FontSize = GlobalVars.sizeMedium, HorizontalTextAlignment = TextAlignment.End };
@@ -181,29 +154,19 @@ namespace ConventionMobile.Views
             wholePage.Children.Add(minimumAgeLabel, 4, 2);
             Grid.SetColumnSpan(minimumAgeLabel, 2);
 
-
             //Row 4
-            //EventType
-            Label eventTypeLabel = new Label { FontSize = GlobalVars.sizeMedium };
-            eventTypeLabel.SetBinding(Label.TextProperty, "EventType");
-            wholePage.Children.Add(eventTypeLabel, 0, 3);
-            Grid.SetColumnSpan(eventTypeLabel, 4);
-
+            //FormattedDate
+            Label formattedDateLabel = new Label { FontSize = GlobalVars.sizeMedium, Margin = new Thickness(0, 1, 0, 0) };
+            formattedDateLabel.SetBinding(Label.TextProperty, "FormattedDate");
+            wholePage.Children.Add(formattedDateLabel, 0, 3);
+            Grid.SetColumnSpan(formattedDateLabel, 4);
 
             //Cost
             Label costLabel = new Label { FontSize = GlobalVars.sizeLarge, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.End, LineBreakMode = LineBreakMode.NoWrap };
             costLabel.SetBinding(Label.TextProperty, "FormattedCost");
             wholePage.Children.Add(costLabel, 4, 3);
             Grid.SetColumnSpan(costLabel, 2);
-
-
-            //Row 5
-            //FormattedDate
-            Label formattedDateLabel = new Label { FontSize = GlobalVars.sizeMedium, Margin = new Thickness(0, 1, 0, 0) };
-            formattedDateLabel.SetBinding(Label.TextProperty, "FormattedDate");
-            wholePage.Children.Add(formattedDateLabel, 0, 4);
-            Grid.SetColumnSpan(formattedDateLabel, 6);
-
+            
 
             //Row 6
             //Location
@@ -226,9 +189,9 @@ namespace ConventionMobile.Views
                         }
                         else
                         {
-                            Page page = (Page)Activator.CreateInstance(typeof(MapViewPage));
+                            var page = (PopupPage)Activator.CreateInstance(typeof(MapViewPage));
+                            PopupNavigation.Instance.PushAsync(page);
                             page.BindingContext = navigationLocation;
-                            this.Navigation.PushAsync(page);
                         }
                     }
 
@@ -402,8 +365,7 @@ namespace ConventionMobile.Views
             Label emailAddressStaticLabel = new Label { FontSize = GlobalVars.sizeMedium, FontAttributes = FontAttributes.Bold, Text = "Email Address For More Info:", Margin = new Thickness(0, 1, 0, 0) };
             wholePage.Children.Add(emailAddressStaticLabel, 0, 20);
             Grid.SetColumnSpan(emailAddressStaticLabel, 6);
-
-
+            
             //Row 22
             //Web address
             Label emailAddressLabel = new Label { FontSize = GlobalVars.sizeMedium, Margin = new Thickness(10, 0, 0, 0), TextColor = GlobalVars.colorLink };
@@ -433,7 +395,6 @@ namespace ConventionMobile.Views
             wholePage.Children.Add(lastUpdatedLabel, 0, 22);
             Grid.SetColumnSpan(lastUpdatedLabel, 6);
 
-
             wholePageScroller.Content = wholePage;
 
             popupHolder = new StackLayout
@@ -459,7 +420,7 @@ namespace ConventionMobile.Views
 
             popupHolder.Children.Add(userListPicker);
 
-            StackLayout buttonHolder = new StackLayout
+            var buttonHolder = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
                 Padding = new Thickness(10, 10, 10, 10),
@@ -488,42 +449,85 @@ namespace ConventionMobile.Views
 
             wholePageHolder.Children.Add(popupHolder);
 
-            ToolbarItems.Add(new ToolbarItem("Add To Calendar", "ic_today_black_24dp.png", () =>
-            {
-                GenEvent currentEvent = (GenEvent)this.BindingContext;
-                GlobalVars.AddToCalendar(currentEvent);
-
-            }));
-
-            ToolbarItems.Add(new ToolbarItem("Share", "ic_share_black_24dp.png", () =>
-            {
-                GenEvent currentEvent = (GenEvent)this.BindingContext;
-                CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
-                {
-                    Url = currentEvent.LiveURL,
-                    Text = currentEvent.Description,
-                    Title = currentEvent.Title
-                },
-                new Plugin.Share.Abstractions.ShareOptions
-                {
-                    ChooserTitle = "Share Event"
-                });
-                // CrossShare.Current.ShareLink(currentEvent.LiveURL, currentEvent.Description, currentEvent.Title);
-            }));
-
-            ToolbarItems.Add(new ToolbarItem("Add To List", "addlist.png", () =>
-            {
-                OpenAddToListPrompt();
-            }));
-
             AbsoluteLayout.SetLayoutBounds(wholePageHolder, new Rectangle(0, 0, 1, 1));
             AbsoluteLayout.SetLayoutFlags(wholePageHolder, AbsoluteLayoutFlags.All);
 
             wholePageHolder.Children.Add(wholePageScroller);
+            wholePageHolder.BackgroundColor = Color.White;
 
-            this.Content = wholePageHolder;
 
-            OnOrientationChanged += DeviceRotated;
+            BackgroundColor = Color.Transparent;
+
+            //Title Bar
+            //Title
+            Label titleLabel = new Label {
+                FontSize = GlobalVars.sizeLarge,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = GlobalVars.ThemeColorsText[(int)GlobalVars.ThemeColors.Primary],
+                HorizontalTextAlignment = TextAlignment.Start,
+                VerticalTextAlignment = TextAlignment.Center,
+                Margin = new Thickness(4)
+            };
+            titleLabel.SetBinding(Label.TextProperty, "Title");
+            //wholePage.Children.Add(titleLabel, 0, 0);
+            //Grid.SetColumnSpan(titleLabel, 4);
+
+            // TODO: I cannot figure out how to get label word-wrap to expand the height properly. FlexLayout sort of works, but it refuses to stay in bounds of the page.
+            var titleBar = new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                Children =
+                {
+                    new CloseEventPageToolbarItem(),
+                    new StackLayout
+                    {
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                        Orientation = StackOrientation.Vertical,
+                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                        Children =
+                        {
+                            titleLabel
+                        },
+                        Margin = new Thickness(4)
+                    }
+                },
+                BackgroundColor = GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Primary],
+            };
+
+            var optionButtons = new Grid
+            {
+                ColumnDefinitions = new ColumnDefinitionCollection
+                {
+                    new ColumnDefinition{Width = GridLength.Star},
+                    new ColumnDefinition{Width = GridLength.Star},
+                    new ColumnDefinition{Width = GridLength.Star}
+                },
+                RowDefinitions = new RowDefinitionCollection
+                {
+                    new RowDefinition{Height = 40}
+                },
+                Children =
+                {
+                    { new CalendarToolbarItem(), 0, 0},
+                    { new AddEventToListToolbarItem(this), 1, 0},
+                    { new ShareEventToolbarItem(this), 2, 0}
+                },
+                BackgroundColor = GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Secondary],
+                Padding = new Thickness(6)
+            };
+
+            var actualContent = new StackLayout
+            {
+                Children =
+                {
+                    titleBar,
+                    optionButtons,
+                    wholePageHolder
+                },
+                Spacing = 0
+            };
+
+            this.Content = actualContent;
         }
 
         private void Cancel_Clicked(object sender, EventArgs e)
@@ -551,7 +555,7 @@ namespace ConventionMobile.Views
                                 newList.Events.Add(currentEvent);
                                 newList.HasEventListChangedSinceSync = true;
                                 await GlobalVars.db.UpdateUserEventListWithChildrenAsync(newList);
-                                ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested = true;
+                                GlobalVars.View_GenUserListView.IsUpdateRequested = true;
                                 //selectedList = newList.Title;
                             }
                             else
@@ -563,7 +567,7 @@ namespace ConventionMobile.Views
                                     currentList.Events = currentList.Events.Distinct().OrderBy(d => d.StartDateTime).ToList();
                                     currentList.HasEventListChangedSinceSync = true;
                                     await GlobalVars.db.UpdateUserEventListWithChildrenAsync(currentList);
-                                    ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested = true;
+                                    GlobalVars.View_GenUserListView.IsUpdateRequested = true;
                                 }
                             }
 
@@ -582,61 +586,7 @@ namespace ConventionMobile.Views
 
             popupHolder.IsVisible = false;
         }
-
-        private void OpenAddToListPrompt()
-        {
-            GenEvent currentEvent = (GenEvent)this.BindingContext;
-
-            userEventLists = GlobalVars.db.UserEventLists;
-            userListPicker.ItemsSource = UserListsTitles;
-
-            popupHolder.IsVisible = true;
-        }
-
-        //internal void AddToUserEventList(GenEvent copyEvent, string selectedItemString, UserEventList selectedList)
-        //{
-            
-        //    if (copyEvent != null && selectedItemString != null)
-        //    {
-
-        //        Task.Factory.StartNew(async () =>
-        //        {
-        //            var copy2Event = copyEvent;
-        //            if (selectedItemString == ListSelectionModal.newListString)
-        //            {
-        //                selectedItemString = "My New List";
-        //                var newList = await GlobalVars.db.AddUserEventList(selectedItemString);
-        //                newList.Events.Add(copy2Event);
-        //                await GlobalVars.db.UpdateUserEventListWithChildrenAsync(newList);
-        //                selectedItemString = newList.Title;
-        //            }
-        //            else
-        //            {
-        //                var currentList = await GlobalVars.db.GetUserEventListWithChildrenAsync(selectedList);
-        //                if (currentList != null)
-        //                {
-        //                    currentList.Events.Add(copy2Event);
-        //                    currentList.Events = currentList.Events.Distinct().OrderBy(d => d.StartDateTime).ToList();
-        //                    await GlobalVars.db.UpdateUserEventListWithChildrenAsync(currentList);
-        //                }
-        //            }
-        //        });
-        //    }
-
-        //    Task.Factory.StartNew(() =>
-        //    {
-        //        PopupNavigation.Instance.PopAllAsync();
-        //    });
-
-
-        //    Device.BeginInvokeOnMainThread(() =>
-        //    {
-        //        GlobalVars.DoToast($"Added \"{copyEvent.ID}\" to list.", GlobalVars.ToastType.Green);
-        //    });
-
-
-        //}
-
+        
         private void CalculatePaddingAmount()
         {
             paddingAmount = DependencyService.Get<ISafeAreaInsets>().Padding();
@@ -659,16 +609,72 @@ namespace ConventionMobile.Views
             wholePageScroller.Padding = paddingAmount;
         }
 
+        // Invoked after an animation appearing
+        protected override void OnAppearingAnimationEnd()
+        {
+            base.OnAppearingAnimationEnd();
+            //hasOnAppearingAnimationEnded = true;
+            //if (hasOnBindingContextChanged && !hasEventChangeLogFullOpened)
+            //{
+            //    try
+            //    {
+            //        var eventItem = BindingContext as GenEvent;
+            //        if (eventItem != null && eventItem.HasUpdateNotifications)
+            //        {
+            //            var changePopup = (PopupPage)Activator.CreateInstance(typeof(EventChangeLogFull));
+            //            changePopup.BindingContext = eventItem;
+            //            //await this.Navigation.PushAsync(page);
+
+            //            if (!hasEventChangeLogFullOpened)
+            //            {
+            //                hasEventChangeLogFullOpened = true;
+            //                PopupNavigation.Instance.PushAsync(changePopup);
+            //            }
+            //        }
+            //    }
+            //    catch (Exception)
+            //    {
+            //        // binding exception occurred, just skip display
+            //    }
+            //}
+        }
+
+        //bool hasOnAppearingAnimationEnded = false;
+        //bool hasOnBindingContextChanged = false;
+        //bool hasEventChangeLogFullOpened = false;
+
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
+            //hasOnBindingContextChanged = true;
 
             var eventItem = BindingContext as GenEvent;
             if (eventItem != null && eventItem.HasUpdateNotifications)
             {
-                var changePopup = new EventChangeLogFull();
+                var changePopup = (PopupPage)Activator.CreateInstance(typeof(EventChangeLogFull));
                 changePopup.BindingContext = eventItem;
-                Navigation.PushModalAsync(changePopup);
+                //await this.Navigation.PushAsync(page);
+
+                //if (!hasEventChangeLogFullOpened)
+                //{
+                //    hasEventChangeLogFullOpened = true;
+                //    PopupNavigation.Instance.PushAsync(changePopup);
+                //}
+
+                // this is a bad solution but I can't figure out any other way at present on slower devices. it seems to always pop up 2 windows otherwise
+                // or a pop-under.
+                Task.Factory.StartNew(async () =>
+                {
+                    await Task.Delay(1500);
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await PopupNavigation.Instance.PushAsync(changePopup);
+                    });
+                });
+
+                //var changePopup = new EventChangeLogFull();
+                //changePopup.BindingContext = eventItem;
+                //Navigation.PushModalAsync(changePopup);
             }
         }
     }

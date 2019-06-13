@@ -1,18 +1,20 @@
-﻿using ConventionMobile.Data;
-using ConventionMobile.Model;
-using Plugin.Share;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ConventionMobile.Business;
+using ConventionMobile.Data;
+using ConventionMobile.Model;
+using ConventionMobile.Pages;
+using Plugin.Share;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 
 namespace ConventionMobile.Views
 {
-	public class UserListPage : OrientationContentPage
-	{
+    public class GenUserListView : GenContentView
+    {
         private AbsoluteLayout outerContainer;
         private Thickness paddingAmount = new Thickness(0, 0, 0, 0);
         private Picker eventListPicker;
@@ -63,7 +65,7 @@ namespace ConventionMobile.Views
         private bool isShowingEventList = false;
 
         private bool isInMultiSelectMode = false;
-        
+
         private ObservableCollectionEx<GenEvent> onScreenObservableEventsCollection = new ObservableCollectionEx<GenEvent>();
 
         private bool isObservableCollectionEventsBound = false;
@@ -72,12 +74,13 @@ namespace ConventionMobile.Views
 
         private ToolbarItem shareListToolbarItem;
 
-        public UserListPage ()
-        {
-            CalculatePaddingAmount();
+        private readonly GenMainPage _parentPage;
 
-            this.Title = GlobalVars.userListsTitle;
-            
+        public GenUserListView(GenMainPage parentPage) : base(GlobalVars.userListsTitle)
+        {
+            GlobalVars.View_GenUserListView = null;
+            _parentPage = parentPage;
+
             outerContainer = new AbsoluteLayout
             {
                 Padding = 0
@@ -272,11 +275,11 @@ namespace ConventionMobile.Views
 
             // start here, and add the bookmarked multi-select-view functionality to a new class, copied from geneventlist
 
-		    genEventListView = new ListView(ListViewCachingStrategy.RecycleElement)
-		    {
-		        RowHeight = (int) GlobalVars.sizeListCellHeight,
-		        SeparatorVisibility = SeparatorVisibility.None
-		    };
+            genEventListView = new ListView(ListViewCachingStrategy.RecycleElement)
+            {
+                RowHeight = (int)GlobalVars.sizeListCellHeight,
+                SeparatorVisibility = SeparatorVisibility.None
+            };
 
             loadingListView = new ListView
             {
@@ -302,7 +305,7 @@ namespace ConventionMobile.Views
                 BackgroundColor = Color.White,
                 IsVisible = false
             };
-            
+
             listEntryLabel = new Label
             {
                 Text = "Creating new list - please give your new list a name:"
@@ -409,7 +412,7 @@ namespace ConventionMobile.Views
                 Padding = 0,
                 Margin = 0
             };
-            
+
             shareListMessageLabel = new Label
             {
                 Text = ""
@@ -464,7 +467,7 @@ namespace ConventionMobile.Views
 
             shareListPopup.Children.Add(shareListButtonHolder);
             shareListPopup.Children.Add(shareListCloseButton);
-            
+
             shareListPopup.IsVisible = false;
 
             wholePage.Children.Insert(0, shareListPopup);
@@ -504,22 +507,25 @@ namespace ConventionMobile.Views
 
             Content = outerContainer;
 
-            OnOrientationChanged += DeviceRotated;
+            this.OnAppearingHandler += GenUserListView_OnAppearingHandler;
+
+            GlobalVars.View_GenUserListView = this;
         }
 
-        protected override void OnAppearing()
+        /// <summary>
+        /// This method fires in place of OnAppearing. 
+        /// We need to check if another point in the program has altered the contents of this page and need it updated
+        /// </summary>
+        private void GenUserListView_OnAppearingHandler(object sender, EventArgs e)
         {
-            base.OnAppearing();
             try
             {
-                if (IsUpdateRequested || ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested)
+                if (IsUpdateRequested || GlobalVars.View_GenUserListView.IsUpdateRequested)
                 {
                     IsUpdateRequested = false;
-                    ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested = false;
+                    GlobalVars.View_GenUserListView.IsUpdateRequested = false;
                     UpdateUserLists();
                 }
-                //UserListPage updatePage = this.CurrentPage as UserListPage;
-                //updatePage.UpdateUserLists();
             }
             catch (Exception)
             {
@@ -610,7 +616,7 @@ namespace ConventionMobile.Views
                             });
 
                             shareListLinkLabel.IsVisible = true;
-                            
+
                             if (currentlySelectedList.HasEventListChangedSinceSync)
                             {
                                 shareListUpdateOnlineButton.IsVisible = true;
@@ -642,7 +648,7 @@ namespace ConventionMobile.Views
                     string createNewString = "Create A New Link";
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        var questionResult = await DisplayActionSheet("Which would you like to do?", "Cancel", null, updateString, createNewString);
+                        var questionResult = await _parentPage.DisplayActionSheet("Which would you like to do?", "Cancel", null, updateString, createNewString);
                         if (questionResult == updateString)
                         {
                             await Task.Factory.StartNew(async () =>
@@ -718,7 +724,7 @@ namespace ConventionMobile.Views
                         GlobalVars.DoToast("Unfortunately, we were unable to sync the list online. Please check your internet connection or try again later.", GlobalVars.ToastType.Red, 5000);
                     }
                 }
-                
+
 
                 ////show pop up window "generating link..." then generate a link. if the link already exists, show popup with a share button or generate new link or cancel
                 //Task.Factory.StartNew(async () =>
@@ -835,7 +841,7 @@ namespace ConventionMobile.Views
                     {
                         //SHOW POP UP CONFIRMATION WINDOW ARE YOU SURE
                         string plural = selectedCount > 1 ? "s" : "";
-                        var confirmDelete = await DisplayAlert("Confirmation", $"Are you sure you want to delete the selected {selectedCount} event{plural} from this list?", "Delete", "Cancel");
+                        var confirmDelete = await _parentPage.DisplayAlert("Confirmation", $"Are you sure you want to delete the selected {selectedCount} event{plural} from this list?", "Delete", "Cancel");
                         if (confirmDelete)
                         {
                             //IF USER TAPPED YES, DELETE THE SELECTED EVENTS FROM THE LIST AND COMMIT TO DATABASE
@@ -849,7 +855,7 @@ namespace ConventionMobile.Views
                             //Device.BeginInvokeOnMainThread(() =>
                             //{
                             UpdateUserLists();
-                        //});
+                            //});
                         }
                     });
                 }
@@ -928,14 +934,14 @@ namespace ConventionMobile.Views
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     //SHOW POP UP CONFIRMATION WINDOW ARE YOU SURE
-                    var confirmDelete = await DisplayAlert("Confirmation", $"Are you sure you want to delete your list \"{(string)eventListPicker.SelectedItem}\"?", "Delete", "Cancel");
+                    var confirmDelete = await _parentPage.DisplayAlert("Confirmation", $"Are you sure you want to delete your list \"{(string)eventListPicker.SelectedItem}\"?", "Delete", "Cancel");
                     if (confirmDelete)
                     {
                         //IF USER TAPPED YES, DELETE THE LIST FROM THE DATABASE AND UPDATE SCREEN
                         await GlobalVars.db.DeleteUserEventList(currentlySelectedList);
                         //Device.BeginInvokeOnMainThread(() =>
                         //{
-                            UpdateUserLists();
+                        UpdateUserLists();
                         //});
                     }
                 });
@@ -1056,7 +1062,7 @@ namespace ConventionMobile.Views
                     {
                         try
                         {
-                            
+
                             Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                             {
                                 //var tempItemTemplate = new DataTemplate(typeof(TextCell));
@@ -1089,7 +1095,7 @@ namespace ConventionMobile.Views
                                 UpdateToolBarItems();
                                 //dontCloseAutoComplete = true;
                             });
-                            
+
                         }
                         catch (Exception ex)
                         {
@@ -1121,9 +1127,10 @@ namespace ConventionMobile.Views
                 {
                     GenEvent selectedEvent = (GenEvent)sender;
 
-                    Page page = (Page)Activator.CreateInstance(typeof(GenEventFull));
+                    var page = (PopupPage)Activator.CreateInstance(typeof(GenEventFull));
                     page.BindingContext = selectedEvent;
-                    this.Navigation.PushAsync(page);
+                    //await this.Navigation.PushAsync(page);
+                    PopupNavigation.Instance.PushAsync(page);
                 }
             }
         }
@@ -1191,7 +1198,7 @@ namespace ConventionMobile.Views
         public void UpdateUserLists()
         {
             var innerCurrentlySelectedTitle = currentlySelectedList?.Title;
-            
+
             userLists = GlobalVars.db.UserEventLists;
             eventListPicker.ItemsSource = UserListsTitles;
 
@@ -1295,7 +1302,7 @@ namespace ConventionMobile.Views
                 }
             }
 
-            
+
         }
 
         private List<string> UserListsTitles

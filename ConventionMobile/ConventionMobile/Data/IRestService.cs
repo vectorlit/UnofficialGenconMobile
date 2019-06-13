@@ -16,8 +16,8 @@ namespace ConventionMobile.Data
         //Task<List<GenEvent>> RefreshNewAsync(DateTime lastSyncTime);
         Task<List<GenEvent>> Test100();
 
-        Task<int> GetNumberOfEvents();
-        Task<int> GetNumberOfEventsAfterSyncTime(DateTime lastSyncTime);
+        Task<int> GetNumberOfEvents(DateTime? lastSyncTime);
+        //Task<int> GetNumberOfEventsAfterSyncTime(DateTime lastSyncTime);
         Task<UserEventList> InsertUpdateUserEventListAsync(UserEventList submitList);
     }
 

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -29,10 +29,10 @@
     <MtouchDebug>true</MtouchDebug>
     <NoWarn>NU1608;</NoWarn>
     <CodesignKey>iPhone Developer: Logan Schuster (5X4C26TYM9)</CodesignKey>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <CodesignExtraArgs />
     <CodesignResourceRules />
     <CodesignEntitlements />
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -71,7 +71,7 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Distribution: VectorLit Games Limited (YXT4K3G363)</CodesignKey>
+    <CodesignKey>iPhone Developer: Logan Schuster (5X4C26TYM9)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignExtraArgs />
     <CodesignResourceRules />
@@ -79,6 +79,7 @@
     <BuildIpa>true</BuildIpa>
     <MtouchSdkVersion>12.2</MtouchSdkVersion>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -106,7 +107,7 @@
     <CodesignKey>iPhone Distribution: VectorLit Games Limited (YXT4K3G363)</CodesignKey>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <CodesignProvision>fuckingwork</CodesignProvision>
+    <CodesignProvision>DT-wildcard</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />
@@ -254,6 +255,8 @@
     <BundleResource Include="Content\exhibithallmap2018.jpg" />
     <Content Include="Content\foodtrucks.html" />
     <BundleResource Include="Content\hyattregency.jpg" />
+    <Content Include="Content\jwmarriott.svg" />
+    <Content Include="Content\marriott.svg" />
     <Content Include="Content\vegan.html" />
     <BundleResource Include="Content\westin.jpg" />
     <BundleResource Include="Resources\ic_refresh_black_24dp.png" />
@@ -326,6 +329,10 @@
     <BundleResource Include="Resources\vl_logo%402x.png" />
     <BundleResource Include="Resources\vl_logo%403x.png" />
     <BundleResource Include="Resources\add_list_plus.png" />
+    <BundleResource Include="Resources\baseline_arrow_back_24%402x.png" />
+    <BundleResource Include="Resources\baseline_arrow_back_24%403x.png" />
+    <BundleResource Include="Resources\baseline_arrow_back_24.png" />
+    <Content Include="Content\westin.svg" />
     <ITunesArtwork Include="iTunesArtwork.png" />
     <ITunesArtwork Include="iTunesArtwork%402x.png" />
   </ItemGroup>

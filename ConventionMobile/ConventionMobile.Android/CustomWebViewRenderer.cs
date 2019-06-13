@@ -68,7 +68,8 @@ namespace ConventionMobile.Droid
                 || test.EndsWith("jpeg")
                 || test.EndsWith("bmp")
                 || test.EndsWith("gif")
-                || test.EndsWith("png");
+                || test.EndsWith("png")
+                || test.EndsWith("svg");
         }
     }
 }

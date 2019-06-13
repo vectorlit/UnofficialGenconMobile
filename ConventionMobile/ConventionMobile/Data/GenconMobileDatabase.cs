@@ -945,7 +945,7 @@ namespace ConventionMobile.Data
                 returnMe = "Some events in your saved lists were updated! They have been marked in yellow.";
             }
 
-            ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested = true;
+            GlobalVars.View_GenUserListView.IsUpdateRequested = true;
 
             return returnMe;
         }

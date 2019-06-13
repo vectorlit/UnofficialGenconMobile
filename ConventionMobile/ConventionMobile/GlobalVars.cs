@@ -4,7 +4,6 @@ using ConventionMobile.Model;
 using ConventionMobile.Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-//using Plugin.Toasts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,41 @@ namespace ConventionMobile
 {
     public class GlobalVars
     {
-        public static GenConBusiness GenConBusiness = new GenConBusiness();
+        public static GenEventsLoadingViewModel GenConBusiness = new GenEventsLoadingViewModel();
+        public static GenSearchView View_GenSearchView = null;
+        public static GenMapView View_GenMapView = null;
+        public static GenUserListView View_GenUserListView = null;
+        public static GenEventsLoadingView View_GenEventsLoadingView = null;
+
+        public enum ThemeColors
+        {
+            Primary = 0,
+            Secondary = 1,
+            ActionElement = 2
+        };
+
+        public readonly static List<Color> ThemeColorsBG = new List<Color>()
+        {
+            // 2019 Colors: 
+            // Primary: Orange
+            //new Color(244/255, 178/255, 52/255),
+            new Color(0.9568, 0.6980, 0.2039),
+
+            // Secondary: Light Orange
+            //new Color(252/255, 205/255, 116/255),
+            new Color(0.9882, 0.8039, 0.4549),
+
+            // Action Element: Red
+            //new Color(213/255, 36/255, 36/255)
+            new Color(0.8352, 0.1412, 0.1412)
+        };
+
+        public readonly static List<Color> ThemeColorsText = new List<Color>()
+        {
+            new Color(0, 0, 0),
+            new Color(0, 0, 0),
+            new Color(1, 1, 1)
+        };
 
         public static GenconMobileDatabase db
         {
@@ -58,10 +91,6 @@ namespace ConventionMobile
                     new GlobalOption("minSyncTimeSpanMinutes", minSyncTimeSpanMinutes),
                     new GlobalOption("lastSyncTime", lastSyncTime),
                     new GlobalOption("NavigationChoices", NavigationChoices),
-                    //new GlobalOption("GlobalOptionsURL", GlobalOptionsURL),
-                    //new GlobalOption("GlobalOptionsURLCustomizableURL", GlobalOptionsURLCustomizableURL),
-                    //new GlobalOption("GenEventAllEventsCustomizableURL", GenEventAllEventsCustomizableURL),
-                    //new GlobalOption("GenEventAllEventsCountURL", GenEventAllEventsCountURL),
                     new GlobalOption("dbVersion", dbVersion),
                     new GlobalOption("lastGlobalVarUpdateTime", lastGlobalVarUpdateTime)
                 };
@@ -205,10 +234,6 @@ namespace ConventionMobile
             GlobalVars.lastGlobalVarUpdateTime = GlobalVars.lastGlobalVarUpdateTime;
             GlobalVars.lastSyncTime = GlobalVars.lastSyncTime;
             GlobalVars.GenEventURL = GlobalVars.GenEventURL;
-            //GlobalVars.GlobalOptionsURL = GlobalVars.GlobalOptionsURL;
-            //GlobalVars.GlobalOptionsURLCustomizableURL = GlobalVars.GlobalOptionsURLCustomizableURL;
-            //GlobalVars.GenEventAllEventsCustomizableURL = GlobalVars.GenEventAllEventsCustomizableURL;
-            //GlobalVars.GenEventAllEventsCountURL = GlobalVars.GenEventAllEventsCountURL;
             GlobalVars.useDefaultOnly = false;
         }
 
@@ -290,26 +315,6 @@ namespace ConventionMobile
                 setOption("shortTitle", value);
             }
         }
-
-        ///// <summary>
-        ///// Convenience method for checking DB first then using default value as backup
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="title"></param>
-        ///// <param name="defaultVal"></param>
-        ///// <returns></returns>
-        //private static T getDBOption<T>(string title, object defaultVal)
-        //{
-        //    var option = db.GetOption(title);
-        //    if (option != null)
-        //    {
-        //        return option.getData<T>();
-        //    }
-        //    else
-        //    {
-        //        return (T)defaultVal;
-        //    }
-        //}
 
         private static void setOption(string title, object value, bool commitToDatabase = true)
         {
@@ -503,22 +508,6 @@ namespace ConventionMobile
             }
         }
 
-
-        ///// <summary>
-        ///// Convenience URL to retrieve all events
-        ///// </summary>
-        //public static string GenEventAllEventsURL
-        //{
-        //    get
-        //    {
-        //        return GenEventURL + getOption<string>("GenEventAllEventsURL", "/timedelay/2011-01-01T01:01:01");
-        //    }
-        //    set
-        //    {
-        //        setOption("GenEventAllEventsURL", value);
-        //    }
-        //}
-
         /// <summary>
         /// Convenience URL to retrieve events after a certain sync_time (use String_Format and replace {0} with date)
         /// If you want to only return a specific # of results, add "/{1}" after this string, where {1} is the integer amount of desired results
@@ -538,27 +527,10 @@ namespace ConventionMobile
         /// <summary>
         /// Convenience URL to retrieve count of all events
         /// </summary>
-        public static string GenEventAllEventsCountURL
+        public static string GenEventAfterDateEventsCountURL(DateTime? lastSyncTime = null)
         {
-            get
-            {
-                return String.Format(GenEventAllEventsCustomizableURL, yearlyStartingDate.ToString("yyyy-MM-dd't'HH:mm:ss")) + getOption<string>("GenEventAllEventsCountURL", "/numResults");
-            }
-            set
-            {
-                setOption("GenEventAllEventsCountURL", value);
-            }
-        }
-
-        /// <summary>
-        /// URL to retrieve gencon events synchronized after a certain time.
-        /// </summary>
-        /// <param name="lastSyncTime">The time after which you wish to retrieve events</param>
-        /// <param name="numResults">Optional: set to true if you only want COUNT of these events, not the events themselves</param>
-        /// <returns></returns>
-        public static string GenEventAfterDateURL(DateTime lastSyncTime, bool countOnly = false)
-        {
-            return GenEventURL + "timeDelay/" + lastSyncTime.ToString("s") + (countOnly ? "/numResults" : "");
+            lastSyncTime = lastSyncTime == null ? yearlyStartingDate : lastSyncTime;
+            return String.Format(GenEventAllEventsCustomizableURL, ((DateTime)lastSyncTime).ToString("yyyy-MM-dd't'HH:mm:ss")) + getOption<string>("GenEventAllEventsCountURL", "/numResults");
         }
 
         /// <summary>
@@ -846,10 +818,10 @@ namespace ConventionMobile
                             new DetailChoice ("Embassy Suites", "embassysuites.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Hyatt Regency", "hyattregency.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Lucas Oil Stadium", "lucasoilstadium.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Marriott", "marriott.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("JW Marriott", "jwmarriott.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Marriott", "marriott.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("JW Marriott", "jwmarriott.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Omni", "omni.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Westin", "westin.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Westin", "westin.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Union Station", "unionstation.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Vegan/Vegetarian Guide", "vegan.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
                             new DetailChoice ("Food Trucks", "foodtrucks.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
@@ -895,7 +867,7 @@ namespace ConventionMobile
                     DoToast("Successfully imported list " + name.ToString() + "!", ToastType.Green, 5000);
                     try
                     {
-                        ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested = true;
+                        View_GenUserListView.IsUpdateRequested = true;
                     }
                     catch (Exception) { }
                 }
@@ -1261,59 +1233,6 @@ namespace ConventionMobile
         /// The actual "data" of the choice (not displayed, used for data binding)
         /// </summary>
         public string data { get; set; }
-
-        //[JsonIgnore]
-        //public ImageSource dataImage
-        //{
-        //    get
-        //    {
-        //        return ImageSource.FromResource("ConventionMobile.Resources." + data);
-        //    }
-        //}
-
-        //[JsonIgnore]
-        //public string formattedHTMLEmbeddedImageData
-        //{
-        //    get
-        //    {
-        //        var extension = Path.GetExtension(data).ToLower().Replace(".", "");
-        //        if (extension == "jpg")
-        //        {
-        //            extension = "jpeg";
-        //        }
-
-        //        var assembly = typeof(GlobalVars).GetTypeInfo().Assembly;
-        //        Stream stream = assembly.GetManifestResourceStream("ConventionMobile.Resources." + data);
-
-        //        if (extension == "html" || extension == "htm" )
-        //        {
-        //            string text = "";
-        //            using (var reader = new StreamReader(stream))
-        //            {
-        //                text = reader.ReadToEnd();
-        //            }
-
-        //            return text;
-        //        }
-        //        else
-        //        {
-        //            byte[] byteData = getByteData(stream);
-        //            String encodedImageData = Convert.ToBase64String(byteData);
-
-        //            return String.Format("<html><head></head><body><img src=\"data:image/{0};base64,{1}\" /></body></html>", extension, encodedImageData);
-        //        }
-        //    }
-        //}
-
-
-        //private byte[] getByteData(Stream sourceStream)
-        //{
-        //    using (var memoryStream = new MemoryStream())
-        //    {
-        //        sourceStream.CopyTo(memoryStream);
-        //        return memoryStream.ToArray();
-        //    }
-        //}
 
         [JsonIgnore]
         /// <summary>

@@ -1,9 +1,6 @@
 ﻿using ConventionMobile.Data;
 using ConventionMobile.Helpers;
 using ConventionMobile.Model;
-using ConventionMobile.ToolbarItems;
-using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace ConventionMobile.Views
+namespace ConventionMobile.Pages
 {
-    public class EventChangeLogFull : PopupPage
+    public class EventChangeLogFull : ContentPage
     {
         public ScrollView wholePageScroller;
         public StackLayout wholePageHolder;
@@ -22,7 +19,7 @@ namespace ConventionMobile.Views
 
         public EventChangeLogFull()
         {
-            wholePageScroller = new ScrollView { HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand, Margin = 0, Padding = 0 };
+            wholePageScroller = new ScrollView { HorizontalOptions = LayoutOptions.Fill, VerticalOptions = LayoutOptions.Fill, Margin = 0, Padding = 0 };
 
             wholePageHolder = new StackLayout
             {
@@ -46,51 +43,7 @@ namespace ConventionMobile.Views
 
             wholePageHolder.Children.Add(wholePageScroller);
 
-            wholePageHolder.BackgroundColor = Color.White;
-
-            Label titleLabel = new Label
-            {
-                FontSize = GlobalVars.sizeLarge,
-                FontAttributes = FontAttributes.Bold,
-                TextColor = GlobalVars.ThemeColorsText[(int)GlobalVars.ThemeColors.Primary],
-                HorizontalTextAlignment = TextAlignment.Start,
-                VerticalTextAlignment = TextAlignment.Center,
-                Margin = new Thickness(4)
-            };
-            titleLabel.SetBinding(Label.TextProperty, "Title");
-
-            var titleBar = new StackLayout
-            {
-                Orientation = StackOrientation.Horizontal,
-                Children =
-                {
-                    new CloseEventPageToolbarItem(),
-                    new StackLayout
-                    {
-                        HorizontalOptions = LayoutOptions.FillAndExpand,
-                        Orientation = StackOrientation.Vertical,
-                        VerticalOptions = LayoutOptions.CenterAndExpand,
-                        Children =
-                        {
-                            titleLabel
-                        },
-                        Margin = new Thickness(4)
-                    }
-                },
-                BackgroundColor = GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Primary],
-            };
-
-            var actualContent = new StackLayout
-            {
-                Children =
-                {
-                    titleBar,
-                    wholePageHolder
-                },
-                Spacing = 0
-            };
-
-            this.Content = actualContent;
+            this.Content = wholePageHolder;
         }
 
         protected override void OnDisappearing()
@@ -217,7 +170,7 @@ namespace ConventionMobile.Views
 
         private void CloseButton_Clicked(object sender, EventArgs e)
         {
-            PopupNavigation.Instance.PopAsync();
+            Navigation.PopModalAsync();
         }
     }
 }

@@ -1,100 +1,43 @@
-﻿//using Plugin.Toasts;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reactive.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using ConventionMobile.Data;
-using System.Collections.Generic;
-using System.Reactive.Linq;
 using ConventionMobile.Model;
-using System.Linq;
+using ConventionMobile.Pages;
 using MoreLinq;
-using System.Collections.ObjectModel;
-using ConventionMobile.Business;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
 
 namespace ConventionMobile.Views
 {
-    public class GenSearchPage : OrientationContentPage
+    public class GenSearchView : GenContentView
     {
-        private StackLayout eventDisplay;
-        private StackLayout eventDisplayWrapper;
-        
-        private GenEventList genEventList;
+        private readonly GenMainPage _parentPage;
+        private DateTime _lastSyncTime;
 
-        private Label lastUpdatedEventsLabel;
-        private Label eventsTotalCountLabel;
-
-        private Entry searchEntry;
-
-        private Picker dayPicker;
-        private Picker afterPicker;
-        private Picker beforePicker;
-        private Picker sortPicker;
-
-        private SearchTerm searchTerm;
-
-        private StackLayout autoCompleteHolder;
-        private ListView matchListView;
-        private ListView genEventListView;
-        private ListView loadingListView;
-        private ActivityIndicator loadingIndicator;
-        //private Label loadingLabel;
-        private Image changeSortButton;
-
-        private Thickness paddingAmount = 0;
-
-        private CancellationTokenSource searchCTS = null;
-
-        private AbsoluteLayout outerContainer;
-
-        private bool isShowingEventList = false;
-        private ObservableCollection<GenEvent> AutoCompleteMatches = new ObservableCollection<GenEvent>();
-        private int MatchCount = 0;
-
-        private bool dontCloseAutoComplete = false;
-        private bool dontUpdatePicker = false;
-
-        private bool isSortDescending = true;
-        
-        //private bool ShowResult = false;
-
-        private class DefaultSortChoice
+        public GenSearchView(GenMainPage parentPage) : base(GlobalVars.searchTitle)
         {
-            public string Name { get; set; }
-            public bool isSortDescending { get; set; }
+            GlobalVars.View_GenSearchView = null;
+            _parentPage = parentPage;
+            _lastSyncTime = DateTime.Now;
 
-            public DefaultSortChoice()
-            {
-
-            }
-
-            public DefaultSortChoice(string Name, bool isSortDescending)
-            {
-                this.Name = Name;
-                this.isSortDescending = isSortDescending;
-            }
-        }
-
-        private List<DefaultSortChoice> defaultSortChoices = new List<DefaultSortChoice>()
-        {
-            new DefaultSortChoice("Time", false),
-            new DefaultSortChoice("Title", false),
-            new DefaultSortChoice("Ticket", true),
-            new DefaultSortChoice("Price", false)
-        };
-                
-
-        public GenSearchPage()
-        {
-            CalculatePaddingAmount();
-
-            this.Title = GlobalVars.searchTitle;
             outerContainer = new AbsoluteLayout { Padding = 0 };
 
-            StackLayout wholePage = new StackLayout { Orientation = StackOrientation.Vertical, Padding = 0, Spacing = 0, HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand };
-
-            //StackLayout searchNavSectionTwo = new StackLayout { Orientation = StackOrientation.Horizontal, Padding = 0, Spacing = 0, HorizontalOptions = LayoutOptions.FillAndExpand };
-
+            var wholePage = new StackLayout
+            {
+                Orientation = StackOrientation.Vertical,
+                Padding = 0,
+                Spacing = 0,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
+            
             var searchNavSectionTwo = new Grid
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -120,7 +63,7 @@ namespace ConventionMobile.Views
                 Spacing = 0,
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
-           
+
             searchEntry = new Entry
             {
                 Keyboard = Keyboard.Create(0),
@@ -141,10 +84,10 @@ namespace ConventionMobile.Views
             var clearWatcher = searchTerm.observer
                 .ObserveOn(SynchronizationContext.Current)
                 .Subscribe(final =>
-            {
-                searchTerm.isIgnoringNextEvent = false;
-                outerContainer.Children.Remove(autoCompleteHolder);
-            });
+                {
+                    searchTerm.isIgnoringNextEvent = false;
+                    outerContainer.Children.Remove(autoCompleteHolder);
+                });
 
             //only run the below on legit text entry
             var autoCompleteWatcher = searchTerm.observer
@@ -153,65 +96,65 @@ namespace ConventionMobile.Views
                     .DistinctUntilChanged()
                     .ObserveOn(SynchronizationContext.Current)
                     .Subscribe((x) =>
-            {
-                Observable.FromAsync((_) => {
-                    string term = x.Trim();
-                    if ((term.Length == 10 || term.Length == 11) && GlobalVars.isTypedEventID(term))
                     {
-                        Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
-                        {
-                            SetGenListContent();
-                        });
-                        return new Task<IList<GenEvent>>(() =>
-                        {
-                            var returnMe = new List<GenEvent>();
-                            return returnMe;
-                        });
-                    }
-                    return GlobalVars.db.GetItemsFTS4(term, new GenconMobileDatabase.DBOptions[] { });
-                })        //MatchOnEmail returns Task<IEnumerable<T>>
-                    .TakeUntil(searchTerm.observer)                        //If seachterm changes abandon the current request
-                    .ObserveOn(SynchronizationContext.Current)        //To be safe marshall response to the UI thread
-                    .Subscribe(final =>                           //final holds the IEnumerable<T>    
-                    {
-                        try
-                        {
-                            if (!searchTerm.isIgnoringNextEvent)
+                        Observable.FromAsync((_) => {
+                            string term = x.Trim();
+                            if ((term.Length == 10 || term.Length == 11) && GlobalVars.isTypedEventID(term))
                             {
-                                AutoCompleteMatches.Clear();
-                                if (final == null || !final.Any())
+                                Device.BeginInvokeOnMainThread(() =>
                                 {
-                                    MatchCount = 0;
-                                    //ShowResult = false;
-                                    RemoveAutoCompleteView();
-                                }
-                                else
+                                    SetGenListContent();
+                                });
+                                return new Task<IList<GenEvent>>(() =>
                                 {
-                                    foreach (var g in final.DistinctBy(d => d.Title).OrderBy(d => d.Title).Take(5))
-                                        AutoCompleteMatches.Add(g);
-                                    MatchCount = AutoCompleteMatches.Count;
-                                    matchListView.ItemsSource = AutoCompleteMatches;
-                                    var r = AbsoluteLayout.GetLayoutBounds(autoCompleteHolder);
-                                    r.Y = searchEntry.Y + (searchEntry.Height);
-                                    r.Height = wholePage.Height;
-                                    AbsoluteLayout.SetLayoutFlags(autoCompleteHolder, AbsoluteLayoutFlags.HeightProportional);
-                                    AbsoluteLayout.SetLayoutBounds(autoCompleteHolder, r);
-                                    //autoCompleteHolder.MinimumHeightRequest = wholePage.Height;
-                                    matchListView.HeightRequest = searchEntry.Height * Math.Min(AutoCompleteMatches.Count, 3);
-                                    //ShowResult = true;
-                                    if (!outerContainer.Children.Contains(autoCompleteHolder))
+                                    var returnMe = new List<GenEvent>();
+                                    return returnMe;
+                                });
+                            }
+                            return GlobalVars.db.GetItemsFTS4(term, new GenconMobileDatabase.DBOptions[] { });
+                        })        //MatchOnEmail returns Task<IEnumerable<T>>
+                        .TakeUntil(searchTerm.observer)                        //If seachterm changes abandon the current request
+                        .ObserveOn(SynchronizationContext.Current)        //To be safe marshall response to the UI thread
+                        .Subscribe(final =>                           //final holds the IEnumerable<T>    
+                            {
+                            try
+                            {
+                                if (!searchTerm.isIgnoringNextEvent)
+                                {
+                                    AutoCompleteMatches.Clear();
+                                    if (final == null || !final.Any())
                                     {
-                                        outerContainer.Children.Add(autoCompleteHolder);
+                                        MatchCount = 0;
+                                            //ShowResult = false;
+                                            RemoveAutoCompleteView();
+                                    }
+                                    else
+                                    {
+                                        foreach (var g in final.DistinctBy(d => d.Title).OrderBy(d => d.Title).Take(5))
+                                            AutoCompleteMatches.Add(g);
+                                        MatchCount = AutoCompleteMatches.Count;
+                                        matchListView.ItemsSource = AutoCompleteMatches;
+                                        var r = AbsoluteLayout.GetLayoutBounds(autoCompleteHolder);
+                                        r.Y = searchEntry.Y + (searchEntry.Height);
+                                        r.Height = wholePage.Height;
+                                        AbsoluteLayout.SetLayoutFlags(autoCompleteHolder, AbsoluteLayoutFlags.HeightProportional);
+                                        AbsoluteLayout.SetLayoutBounds(autoCompleteHolder, r);
+                                            //autoCompleteHolder.MinimumHeightRequest = wholePage.Height;
+                                            matchListView.HeightRequest = searchEntry.Height * Math.Min(AutoCompleteMatches.Count, 3);
+                                            //ShowResult = true;
+                                            if (!outerContainer.Children.Contains(autoCompleteHolder))
+                                        {
+                                            outerContainer.Children.Add(autoCompleteHolder);
+                                        }
                                     }
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            string error = ex.Message;
-                        }
+                            catch (Exception ex)
+                            {
+                                string error = ex.Message;
+                            }
+                        });
                     });
-            });
 
 
             var clearSearchButton = new Image { Aspect = Aspect.AspectFit, HorizontalOptions = LayoutOptions.End };
@@ -229,7 +172,6 @@ namespace ConventionMobile.Views
             startSearchTap.Tapped += StartSearchTap_Tapped;
             //startSearchTap.Tapped += DEBUGDEMO_Tapped;
             searchStartButton.GestureRecognizers.Add(startSearchTap);
-            
             autoCompleteHolder = new StackLayout
             {
                 Padding = 0,
@@ -239,7 +181,6 @@ namespace ConventionMobile.Views
                 Orientation = StackOrientation.Vertical,
                 BackgroundColor = Color.FromRgba(0.2, 0.2, 0.2, 0.5)
             };
-            
             var matchListTemplate = new DataTemplate(typeof(TextCell));
             matchListTemplate.SetBinding(TextCell.TextProperty, "Title");
 
@@ -251,9 +192,9 @@ namespace ConventionMobile.Views
                 ItemTemplate = matchListTemplate,
                 BackgroundColor = Color.White
             };
-            
+
             autoCompleteHolder.Children.Add(matchListView);
-            
+
             searchNavSection.Children.Add(searchEntry);
             searchNavSection.Children.Add(clearSearchButton);
             searchNavSection.Children.Add(searchStartButton);
@@ -306,7 +247,7 @@ namespace ConventionMobile.Views
             afterPicker.Items.Add("09:00PM");
             afterPicker.Items.Add("10:00PM");
             afterPicker.Items.Add("11:00PM");
-            
+
             beforePicker = new Picker
             {
                 Title = "Before",
@@ -345,7 +286,7 @@ namespace ConventionMobile.Views
                 Title = "Sort",
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.FillAndExpand
-                
+
             };
 
             sortPicker.Items.Add("Time");
@@ -447,13 +388,12 @@ namespace ConventionMobile.Views
                 IsVisible = false,
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-                BackgroundColor = Color.White,
+                BackgroundColor = Color.Transparent,
                 MinimumWidthRequest = 400,
                 MinimumHeightRequest = 400
             };
 
             outerContainer.Children.Add(wholePage);
-            
             outerContainer.Children.Add(loadingIndicator);
 
             AbsoluteLayout.SetLayoutBounds(wholePage, new Rectangle(0, 0, 1, 1));
@@ -465,14 +405,24 @@ namespace ConventionMobile.Views
                 new Rectangle(0.5,
                               0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
-           
 
             Content = outerContainer;
 
 
-            ToolbarItems.Add(new ToolbarItem("Refresh", "ic_refresh_black_24dp.png", () =>
+            this.ToolbarItems.Add(new ToolbarItem("Refresh", "ic_refresh_black_24dp.png", () =>
             {
-                
+                //var testView = new Label
+                //{
+                //    Text = "testing refresh",
+                //    HorizontalOptions = LayoutOptions.FillAndExpand,
+                //    VerticalOptions = LayoutOptions.FillAndExpand,
+                //    BackgroundColor = Color.Lavender
+                //};
+
+                //_parentPage.NotificationBox.UpdateView(testView);
+
+                GlobalVars.View_GenEventsLoadingView.StartLoad();
+
                 //var homePage = ((App)Application.Current).HomePage;
 
                 //homePage.overrideUpdateCheckEvents = true;
@@ -488,7 +438,7 @@ namespace ConventionMobile.Views
             sortPicker.SelectedIndexChanged += OnSortPickerSelected;
             afterPicker.SelectedIndexChanged += OnAfterPickerSelected;
             beforePicker.SelectedIndexChanged += OnBeforePickerSelected;
-            
+
             matchListView.ItemSelected += MatchListView_ItemSelected;
             //genEventListView.ItemTapped += GenEventListView_ItemTapped;
 
@@ -501,11 +451,86 @@ namespace ConventionMobile.Views
 
             this.LayoutChanged += GenNavigationPage_LayoutChanged;
 
+            this.OnAppearedHandler     += Event_CheckForUpdates;
+            this.CheckForUpdateHandler += Event_CheckForUpdates;
 
-            OnOrientationChanged += DeviceRotated;
-
+            GlobalVars.View_GenSearchView = this;
         }
 
+        private void Event_CheckForUpdates(object sender, EventArgs arts)
+        {
+            if (GlobalVars.lastSyncTime >= this._lastSyncTime)
+            {
+                this.UpdateEventInfo();
+                this._lastSyncTime = DateTime.Now;
+            }
+        }
+
+        private StackLayout eventDisplay;
+        private StackLayout eventDisplayWrapper;
+
+        private GenEventList genEventList;
+
+        private Label lastUpdatedEventsLabel;
+        private Label eventsTotalCountLabel;
+
+        private Entry searchEntry;
+
+        private Picker dayPicker;
+        private Picker afterPicker;
+        private Picker beforePicker;
+        private Picker sortPicker;
+
+        private SearchTerm searchTerm;
+
+        private StackLayout autoCompleteHolder;
+        private ListView matchListView;
+        private ListView genEventListView;
+        private ListView loadingListView;
+        private ActivityIndicator loadingIndicator;
+        //private Label loadingLabel;
+        private Image changeSortButton;
+
+        private Thickness paddingAmount = 0;
+
+        private CancellationTokenSource searchCTS = null;
+
+        private AbsoluteLayout outerContainer;
+
+        private bool isShowingEventList = false;
+        private ObservableCollection<GenEvent> AutoCompleteMatches = new ObservableCollection<GenEvent>();
+        private int MatchCount = 0;
+
+        private bool dontCloseAutoComplete = false;
+        private bool dontUpdatePicker = false;
+
+        private bool isSortDescending = true;
+        
+        private class DefaultSortChoice
+        {
+            public string Name { get; set; }
+            public bool isSortDescending { get; set; }
+
+            public DefaultSortChoice()
+            {
+
+            }
+
+            public DefaultSortChoice(string Name, bool isSortDescending)
+            {
+                this.Name = Name;
+                this.isSortDescending = isSortDescending;
+            }
+        }
+
+        private List<DefaultSortChoice> defaultSortChoices = new List<DefaultSortChoice>()
+        {
+            new DefaultSortChoice("Time", false),
+            new DefaultSortChoice("Title", false),
+            new DefaultSortChoice("Ticket", true),
+            new DefaultSortChoice("Price", false)
+        };
+        
         private void CalculatePaddingAmount()
         {
             paddingAmount = DependencyService.Get<ISafeAreaInsets>().Padding();
@@ -520,7 +545,7 @@ namespace ConventionMobile.Views
                 paddingAmount = new Thickness(0, 0, 0, 0);
             }
         }
-
+        
         private void DeviceRotated(object sender, PageOrientationEventArgs e)
         {
             CalculatePaddingAmount();
@@ -540,18 +565,10 @@ namespace ConventionMobile.Views
                 changeSortButton.Source = ImageSource.FromFile("ic_arrow_upward_black_24dp.png");
             }
 
-            if (!dontUpdatePicker) {
+            if (!dontUpdatePicker)
+            {
                 SetGenListContent();
             }
-        }
-
-        private async void DEBUGDEMO_Tapped(object sender, EventArgs e)
-        {
-            FileManager fileManager = new FileManager(new FileService());
-
-            fileManager.FileDownloadProgressUpdated += FileManager_FileDownloadProgressUpdated;
-
-            List<bool> result = await fileManager.DownloadFiles(new List<string>() { "https://vectorlit.net/Default-Portrait.png" }, new List<string>() { "Default-Fart.png" });
         }
 
         private void FileManager_FileDownloadProgressUpdated(object sender, EventArgs e)
@@ -559,14 +576,14 @@ namespace ConventionMobile.Views
             var args = ((FileDownloadUpdateEventArgs)e);
             //Device.BeginInvokeOnMainThread(() =>
             //{
-                //bool returned = await GlobalVars.notifier.Notify(ToastNotificationType.Info,
-                //    "File Progress updated", "Downloaded " + args.currentAmount.ToString() + "/" + args.totalAmount.ToString(), TimeSpan.FromSeconds(4));
-                //var returned = await GlobalVars.notifier.Notify(new NotificationOptions()
-                //{
-                //    Title = "File Progress updated.",
-                //    Description = "Downloaded " + args.currentAmount.ToString() + "/" + args.totalAmount.ToString()
-                //});
-                GlobalVars.DoToast("Downloaded " + args.currentAmount.ToString() + "/" + args.totalAmount.ToString(), GlobalVars.ToastType.Yellow);
+            //bool returned = await GlobalVars.notifier.Notify(ToastNotificationType.Info,
+            //    "File Progress updated", "Downloaded " + args.currentAmount.ToString() + "/" + args.totalAmount.ToString(), TimeSpan.FromSeconds(4));
+            //var returned = await GlobalVars.notifier.Notify(new NotificationOptions()
+            //{
+            //    Title = "File Progress updated.",
+            //    Description = "Downloaded " + args.currentAmount.ToString() + "/" + args.totalAmount.ToString()
+            //});
+            GlobalVars.DoToast("Downloaded " + args.currentAmount.ToString() + "/" + args.totalAmount.ToString(), GlobalVars.ToastType.Yellow);
             //});
         }
 
@@ -579,8 +596,6 @@ namespace ConventionMobile.Views
         {
             RemoveAutoCompleteView();
         }
-
-        // private GenEvent selectedGenEvent = null;
 
         private async void GenEventListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -597,22 +612,16 @@ namespace ConventionMobile.Views
             {
                 GenEvent selectedEvent = (GenEvent)e.SelectedItem;
 
-                Page page = (Page)Activator.CreateInstance(typeof(GenEventFull));
+                var page = (PopupPage)Activator.CreateInstance(typeof(GenEventFull));
                 page.BindingContext = selectedEvent;
-                await this.Navigation.PushAsync(page);
+                //await this.Navigation.PushAsync(page);
+                await PopupNavigation.Instance.PushAsync(page);
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    genEventListView.SelectedItem = null;
+                });
             }
         }
-
-        //private async Task GenEventListView_ItemTapped(object sender, ItemTappedEventArgs e)
-        //{
-        //    GenEvent selectedEvent = (GenEvent)e.Item;
-
-        //    Page page = (Page)Activator.CreateInstance(typeof(GenEventFull));
-        //    page.BindingContext = selectedEvent;
-        //    await this.Navigation.PushAsync(page);
-        //}
-
-
         private void ClearSearchTap_Tapped(object sender, EventArgs e)
         {
             searchTerm.setSearchTermWithoutNotification("");
@@ -627,7 +636,7 @@ namespace ConventionMobile.Views
             dontUpdatePicker = false;
 
             RemoveAutoCompleteView();
-             
+
             SetGenListContent();
         }
 
@@ -651,7 +660,6 @@ namespace ConventionMobile.Views
         {
             RemoveAutoCompleteView();
         }
-        
 
         private void RemoveAutoCompleteView()
         {
@@ -713,7 +721,7 @@ namespace ConventionMobile.Views
             Task.Factory.StartNew(() => {
                 RunSetGenListContent(this.searchCTS.Token);
             });
-            
+
         }
 
         private void RunSetGenListContent(CancellationToken ct)
@@ -731,21 +739,6 @@ namespace ConventionMobile.Views
                         eventDisplayWrapper.Children.Add(genEventList);
                     }
                     loadingIndicator.IsVisible = true;
-                    //var tempItemTemplate = new DataTemplate(typeof(TextCell));
-                    //tempItemTemplate.CreateContent();
-
-                    //loadingListView.ItemTemplate = tempItemTemplate;
-
-                    //loadingListView.ItemsSource = new List<TextCell>()
-                    //{
-                    //    new TextCell()
-                    //    {
-                    //        Text =  "Loading..."
-                    //    }
-                    //};
-
-                    //genEventList.Content = loadingListView;
-
 
                     var itemTemplate = new DataTemplate(typeof(GenEventCell));
                     itemTemplate.CreateContent();
@@ -766,21 +759,21 @@ namespace ConventionMobile.Views
 
                             Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                             {
-                            //var tempItemTemplate = new DataTemplate(typeof(TextCell));
-                            //tempItemTemplate.CreateContent();
+                                //var tempItemTemplate = new DataTemplate(typeof(TextCell));
+                                //tempItemTemplate.CreateContent();
 
-                            //loadingListView.ItemTemplate = tempItemTemplate;
+                                //loadingListView.ItemTemplate = tempItemTemplate;
 
-                            //loadingListView.ItemsSource = new List<TextCell>()
-                            //{
-                            //    new TextCell()
-                            //    {
-                            //        Text =  "Loading..."
-                            //    }
-                            //};
+                                //loadingListView.ItemsSource = new List<TextCell>()
+                                //{
+                                //    new TextCell()
+                                //    {
+                                //        Text =  "Loading..."
+                                //    }
+                                //};
 
-                            //genEventList.Content = loadingListView;
-                            genEventListView.ItemsSource = newItemsSource;
+                                //genEventList.Content = loadingListView;
+                                genEventListView.ItemsSource = newItemsSource;
                                 genEventList.Content = genEventListView;
                                 loadingIndicator.IsVisible = false;
                                 //dontCloseAutoComplete = true;
@@ -793,10 +786,10 @@ namespace ConventionMobile.Views
                     });
                 });
 
-                
+
                 // genEventListView.ItemsSource = await GlobalVars.db.GetItemsFTS4(searchEntry.Text, getDBOptions());
 
-                
+
             }
             catch (Exception ex)
             {
@@ -805,269 +798,257 @@ namespace ConventionMobile.Views
         }
 
         private GenconMobileDatabase.DBOptions[] GetDBOptions()
-        {
-            List<GenconMobileDatabase.DBOptions> returnMe = new List<GenconMobileDatabase.DBOptions>();
-
-            if (dayPicker.SelectedIndex != -1)
             {
-                switch (dayPicker.Items[dayPicker.SelectedIndex])
+                List<GenconMobileDatabase.DBOptions> returnMe = new List<GenconMobileDatabase.DBOptions>();
+
+                if (dayPicker.SelectedIndex != -1)
                 {
-                    case "ALL":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.FilterAllDays);
-                        break;
-                    case "All Days":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.FilterAllDays);
-                        break;
-                    case "WED":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.FilterWednesday);
-                        break;
-                    case "THU":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.FilterThursday);
-                        break;
-                    case "FRI":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.FilterFriday);
-                        break;
-                    case "SAT":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.FilterSaturday);
-                        break;
-                    case "SUN":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.FilterSunday);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                returnMe.Add(GenconMobileDatabase.DBOptions.FilterAllDays);
-            }
-            
-
-            if (afterPicker.SelectedIndex != -1)
-            {
-                switch (afterPicker.Items[afterPicker.SelectedIndex])
-                {
-                    case "---":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After00);
-                        break;
-                    case "01:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After01);
-                        break;
-                    case "02:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After02);
-                        break;
-                    case "03:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After03);
-                        break;
-                    case "04:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After04);
-                        break;
-                    case "05:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After05);
-                        break;
-                    case "06:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After06);
-                        break;
-                    case "07:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After07);
-                        break;
-                    case "08:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After08);
-                        break;
-                    case "09:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After09);
-                        break;
-                    case "10:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After10);
-                        break;
-                    case "11:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After11);
-                        break;
-                    case "12:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After12);
-                        break;
-                    case "01:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After13);
-                        break;
-                    case "02:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After14);
-                        break;
-                    case "03:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After15);
-                        break;
-                    case "04:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After16);
-                        break;
-                    case "05:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After17);
-                        break;
-                    case "06:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After18);
-                        break;
-                    case "07:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After19);
-                        break;
-                    case "08:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After20);
-                        break;
-                    case "09:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After21);
-                        break;
-                    case "10:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After22);
-                        break;
-                    case "11:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.After23);
-                        break;
-                }
-            }
-
-            if (beforePicker.SelectedIndex != -1)
-            {
-                switch (beforePicker.Items[beforePicker.SelectedIndex])
-                {
-                    case "---":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before24);
-                        break;
-                    case "01:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before01);
-                        break;
-                    case "02:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before02);
-                        break;
-                    case "03:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before03);
-                        break;
-                    case "04:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before04);
-                        break;
-                    case "05:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before05);
-                        break;
-                    case "06:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before06);
-                        break;
-                    case "07:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before07);
-                        break;
-                    case "08:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before08);
-                        break;
-                    case "09:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before09);
-                        break;
-                    case "10:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before10);
-                        break;
-                    case "11:00AM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before11);
-                        break;
-                    case "12:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before12);
-                        break;
-                    case "01:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before13);
-                        break;
-                    case "02:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before14);
-                        break;
-                    case "03:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before15);
-                        break;
-                    case "04:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before16);
-                        break;
-                    case "05:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before17);
-                        break;
-                    case "06:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before18);
-                        break;
-                    case "07:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before19);
-                        break;
-                    case "08:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before20);
-                        break;
-                    case "09:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before21);
-                        break;
-                    case "10:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before22);
-                        break;
-                    case "11:00PM":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.Before23);
-                        break;
-                }
-            }
-
-
-            string sortPickerChoice = "";
-            if (sortPicker.SelectedIndex != -1)
-            {
-                sortPickerChoice = sortPicker.Items[sortPicker.SelectedIndex];
-                switch (sortPicker.Items[sortPicker.SelectedIndex])
-                {
-                    case "Time":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.SortTime);
-                        break;
-                    case "Title":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.SortTitle);
-                        break;
-                    case "Ticket":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.SortTickets);
-                        break;
-                    case "Price":
-                        returnMe.Add(GenconMobileDatabase.DBOptions.SortPrice);
-                        break;
-                    default:
-                        returnMe.Add(GenconMobileDatabase.DBOptions.SortTime);
-                        break;                            
-                }
-            }
-            else
-            {
-                sortPickerChoice = "Time";
-                returnMe.Add(GenconMobileDatabase.DBOptions.SortTime);
-            }
-
-            if (isSortDescending)
-            {
-                if (defaultSortChoices.First(d => d.Name == sortPickerChoice).isSortDescending)
-                {
-                    returnMe.Add(GenconMobileDatabase.DBOptions.SortDescending);
+                    switch (dayPicker.Items[dayPicker.SelectedIndex])
+                    {
+                        case "ALL":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.FilterAllDays);
+                            break;
+                        case "All Days":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.FilterAllDays);
+                            break;
+                        case "WED":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.FilterWednesday);
+                            break;
+                        case "THU":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.FilterThursday);
+                            break;
+                        case "FRI":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.FilterFriday);
+                            break;
+                        case "SAT":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.FilterSaturday);
+                            break;
+                        case "SUN":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.FilterSunday);
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 else
                 {
-                    returnMe.Add(GenconMobileDatabase.DBOptions.SortAscending);
+                    returnMe.Add(GenconMobileDatabase.DBOptions.FilterAllDays);
                 }
-            }
-            else
-            {
-                if (defaultSortChoices.First(d => d.Name == sortPickerChoice).isSortDescending)
+
+
+                if (afterPicker.SelectedIndex != -1)
                 {
-                    returnMe.Add(GenconMobileDatabase.DBOptions.SortAscending);
+                    switch (afterPicker.Items[afterPicker.SelectedIndex])
+                    {
+                        case "---":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After00);
+                            break;
+                        case "01:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After01);
+                            break;
+                        case "02:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After02);
+                            break;
+                        case "03:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After03);
+                            break;
+                        case "04:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After04);
+                            break;
+                        case "05:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After05);
+                            break;
+                        case "06:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After06);
+                            break;
+                        case "07:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After07);
+                            break;
+                        case "08:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After08);
+                            break;
+                        case "09:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After09);
+                            break;
+                        case "10:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After10);
+                            break;
+                        case "11:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After11);
+                            break;
+                        case "12:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After12);
+                            break;
+                        case "01:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After13);
+                            break;
+                        case "02:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After14);
+                            break;
+                        case "03:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After15);
+                            break;
+                        case "04:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After16);
+                            break;
+                        case "05:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After17);
+                            break;
+                        case "06:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After18);
+                            break;
+                        case "07:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After19);
+                            break;
+                        case "08:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After20);
+                            break;
+                        case "09:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After21);
+                            break;
+                        case "10:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After22);
+                            break;
+                        case "11:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.After23);
+                            break;
+                    }
+                }
+
+                if (beforePicker.SelectedIndex != -1)
+                {
+                    switch (beforePicker.Items[beforePicker.SelectedIndex])
+                    {
+                        case "---":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before24);
+                            break;
+                        case "01:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before01);
+                            break;
+                        case "02:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before02);
+                            break;
+                        case "03:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before03);
+                            break;
+                        case "04:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before04);
+                            break;
+                        case "05:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before05);
+                            break;
+                        case "06:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before06);
+                            break;
+                        case "07:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before07);
+                            break;
+                        case "08:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before08);
+                            break;
+                        case "09:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before09);
+                            break;
+                        case "10:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before10);
+                            break;
+                        case "11:00AM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before11);
+                            break;
+                        case "12:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before12);
+                            break;
+                        case "01:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before13);
+                            break;
+                        case "02:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before14);
+                            break;
+                        case "03:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before15);
+                            break;
+                        case "04:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before16);
+                            break;
+                        case "05:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before17);
+                            break;
+                        case "06:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before18);
+                            break;
+                        case "07:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before19);
+                            break;
+                        case "08:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before20);
+                            break;
+                        case "09:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before21);
+                            break;
+                        case "10:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before22);
+                            break;
+                        case "11:00PM":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.Before23);
+                            break;
+                    }
+                }
+
+
+                string sortPickerChoice = "";
+                if (sortPicker.SelectedIndex != -1)
+                {
+                    sortPickerChoice = sortPicker.Items[sortPicker.SelectedIndex];
+                    switch (sortPicker.Items[sortPicker.SelectedIndex])
+                    {
+                        case "Time":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.SortTime);
+                            break;
+                        case "Title":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.SortTitle);
+                            break;
+                        case "Ticket":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.SortTickets);
+                            break;
+                        case "Price":
+                            returnMe.Add(GenconMobileDatabase.DBOptions.SortPrice);
+                            break;
+                        default:
+                            returnMe.Add(GenconMobileDatabase.DBOptions.SortTime);
+                            break;
+                    }
                 }
                 else
                 {
-                    returnMe.Add(GenconMobileDatabase.DBOptions.SortDescending);
+                    sortPickerChoice = "Time";
+                    returnMe.Add(GenconMobileDatabase.DBOptions.SortTime);
                 }
+
+                if (isSortDescending)
+                {
+                    if (defaultSortChoices.First(d => d.Name == sortPickerChoice).isSortDescending)
+                    {
+                        returnMe.Add(GenconMobileDatabase.DBOptions.SortDescending);
+                    }
+                    else
+                    {
+                        returnMe.Add(GenconMobileDatabase.DBOptions.SortAscending);
+                    }
+                }
+                else
+                {
+                    if (defaultSortChoices.First(d => d.Name == sortPickerChoice).isSortDescending)
+                    {
+                        returnMe.Add(GenconMobileDatabase.DBOptions.SortAscending);
+                    }
+                    else
+                    {
+                        returnMe.Add(GenconMobileDatabase.DBOptions.SortDescending);
+                    }
+                }
+
+                return returnMe.ToArray();
             }
-
-            return returnMe.ToArray();
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            GlobalVars.GenConBusiness.ShowLoadingEventMessage("Data is still loading, Events may not be up to date.");
-
-            genEventListView?.ClearValue(ListView.SelectedItemProperty);
-
-
-            //checkForNewEvents();
-        }
 
         public void UpdateEventInfo()
         {
@@ -1089,8 +1070,6 @@ namespace ConventionMobile.Views
             });
             await Task.Delay(250);
         }
-
         
-
     }
 }
