@@ -7,19 +7,20 @@ using Newtonsoft.Json.Linq;
 //using Plugin.Toasts;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using ConventionMobile.Business;
 using Xamarin.Forms;
 
 namespace ConventionMobile
 {
     public class GlobalVars
     {
+        public static GenConBusiness GenConBusiness = new GenConBusiness();
+
         public static GenconMobileDatabase db
         {
             get
@@ -32,7 +33,6 @@ namespace ConventionMobile
             }
         }
         private static GenconMobileDatabase _db = null;
-        
 
         public static List<GlobalOption> allOptions
         {
@@ -895,7 +895,7 @@ namespace ConventionMobile
                     DoToast("Successfully imported list " + name.ToString() + "!", ToastType.Green, 5000);
                     try
                     {
-                        ((App)Application.Current).homePage.userListPage.IsUpdateRequested = true;
+                        ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested = true;
                     }
                     catch (Exception) { }
                 }

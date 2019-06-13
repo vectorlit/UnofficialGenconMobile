@@ -443,7 +443,7 @@ namespace ConventionMobile.Views
                 BackgroundColor = Color.White
             };
 
-            Label entryLabel = new Label
+            var entryLabel = new Label
             {
                 Text = "Select a list from below: "
             };
@@ -519,18 +519,6 @@ namespace ConventionMobile.Views
             AbsoluteLayout.SetLayoutBounds(wholePageHolder, new Rectangle(0, 0, 1, 1));
             AbsoluteLayout.SetLayoutFlags(wholePageHolder, AbsoluteLayoutFlags.All);
 
-            //AbsoluteLayout.SetLayoutFlags(loadingLabel,
-            //    AbsoluteLayoutFlags.PositionProportional);
-            //AbsoluteLayout.SetLayoutBounds(loadingLabel,
-            //    new Rectangle(0.5,
-            //        0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
-
-            //AbsoluteLayout.SetLayoutFlags(popupHolder,
-            //    AbsoluteLayoutFlags.PositionProportional);
-            //AbsoluteLayout.SetLayoutBounds(popupHolder,
-            //    new Rectangle(0.5,
-            //                  0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
-
             wholePageHolder.Children.Add(wholePageScroller);
 
             this.Content = wholePageHolder;
@@ -563,7 +551,7 @@ namespace ConventionMobile.Views
                                 newList.Events.Add(currentEvent);
                                 newList.HasEventListChangedSinceSync = true;
                                 await GlobalVars.db.UpdateUserEventListWithChildrenAsync(newList);
-                                ((App)Application.Current).homePage.userListPage.IsUpdateRequested = true;
+                                ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested = true;
                                 //selectedList = newList.Title;
                             }
                             else
@@ -575,7 +563,7 @@ namespace ConventionMobile.Views
                                     currentList.Events = currentList.Events.Distinct().OrderBy(d => d.StartDateTime).ToList();
                                     currentList.HasEventListChangedSinceSync = true;
                                     await GlobalVars.db.UpdateUserEventListWithChildrenAsync(currentList);
-                                    ((App)Application.Current).homePage.userListPage.IsUpdateRequested = true;
+                                    ((App)Application.Current).HomePage.UserListPage.IsUpdateRequested = true;
                                 }
                             }
 
