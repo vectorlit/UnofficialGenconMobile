@@ -797,9 +797,10 @@ namespace ConventionMobile
         {
             return Regex.IsMatch(input, EventIDPrefixesRegexPattern, RegexOptions.IgnoreCase);
         }
-        
+
         /// <summary>
         /// Items to be used on the main navigation page
+        /// Set to a new list in order to reset to code defaults
         /// </summary>
         public static List<DetailChoice> NavigationChoices
         {
@@ -809,20 +810,20 @@ namespace ConventionMobile
                 {
                     _navigationChoicesDefault = JsonConvert.SerializeObject(new List<DetailChoice>
                         {
-                            new DetailChoice ("Convention Floor 1", "convention-1.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Convention Floor 2", "convention-2.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Exhibit Hall", "exhibithallmap2019.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Convention Floor 1", "convention-1.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Convention Floor 2", "convention-2.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Exhibit Hall", "exhibithallmap2019.html", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Parking", "Parking.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Skywalk/Downtown", "Skywalk-DTHotel.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Crowne Plaza", "crowneplaza.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Embassy Suites", "embassysuites.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Hyatt Regency", "hyattregency.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Lucas Oil Stadium", "lucasoilstadium.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Crowne Plaza", "crowneplaza.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Embassy Suites", "embassysuites.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Hyatt Regency", "hyattregency.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Lucas Oil Stadium", "lucasoilstadium.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Marriott", "marriott.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("JW Marriott", "jwmarriott.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Omni", "omni.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Omni", "omni.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Westin", "westin.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Union Station", "unionstation.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Union Station", "unionstation.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Vegan/Vegetarian Guide", "vegan.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
                             new DetailChoice ("Food Trucks", "foodtrucks.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
                             new DetailChoice ("Driving Directions", "DrivingDirections.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
@@ -831,6 +832,13 @@ namespace ConventionMobile
                 }
 
                 string dbItem = getOption<string>("NavigationChoices", _navigationChoicesDefault);
+
+                // allows for manual reset of the navigation choices to default by setting "NavigationChoices" to a new list.
+                if (dbItem.Length < 20)
+                {
+                    setOption("NavigationChoices", JsonConvert.SerializeObject(_navigationChoicesDefault));
+                    return JsonConvert.DeserializeObject<List<DetailChoice>>(_navigationChoicesDefault);
+                }
 
                 return JsonConvert.DeserializeObject<List<DetailChoice>>(dbItem);
             }

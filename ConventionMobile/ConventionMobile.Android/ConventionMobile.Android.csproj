@@ -128,28 +128,10 @@
     <AndroidAsset Include="Assets\DrivingDirections.html" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\embassysuites.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="Assets\exhibithallmap2018.jpg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\foodtrucks.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\hyattregency.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\jwmarriott.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\lucasoilstadium.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\marriott.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\omni.jpg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Parking.jpg" />
@@ -158,22 +140,7 @@
     <AndroidAsset Include="Assets\Skywalk-DTHotel.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\unionstation.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="Assets\vegan.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\westin.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\convention-1.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\convention-2.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\crowneplaza.jpg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\ic_arrow_downward_black_24dp.png" />
@@ -588,6 +555,30 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\jwmarriott.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\convention-1.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\convention-2.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\crowneplaza.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\embassysuites.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\hyattregency.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\lucasoilstadium.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\omni.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\unionstation.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

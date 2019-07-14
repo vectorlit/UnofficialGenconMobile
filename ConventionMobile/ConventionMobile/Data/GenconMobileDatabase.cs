@@ -152,27 +152,17 @@ namespace ConventionMobile.Data
 
 
                 GlobalVars.resetDefaultOptions();
-                GlobalVars.dbVersion = 7;
+                GlobalVars.dbVersion = 8;
 
                 GlobalVars.isActivityReloadRequested = true;
             }
-            //else if (GlobalVars.dbVersion == 4)
-            //{
-            //    //reset only options for this version
-            //    await database.DropTableAsync<GlobalOption>();
-            //    await database.CreateTableAsync<GlobalOption>();
-            //    GlobalVars.db = this;
-            //    await initDatabase();
-            //    GlobalVars
+            else if (GlobalVars.dbVersion == 7)
+            {
+                GlobalVars.NavigationChoices = new List<DetailChoice>();
+                GlobalVars.dbVersion = 8;
 
-            //    GlobalVars.resetDefaultOptions();
-
-            //    GlobalVars.lastSyncTime = await GlobalVars.serverLastSyncTime();
-
-            //    GlobalVars.dbVersion = 5;
-
-            //    GlobalVars.isActivityReloadRequested = true;
-            //}
+                GlobalVars.isActivityReloadRequested = true;
+            }
         }
 
         private void InitDatabase()
@@ -188,8 +178,8 @@ namespace ConventionMobile.Data
                     //this here is some hodgepodge. we should really fix it later.
                     if (optionExists.ID == "NavigationChoices")
                     {
-                        PropertyInfo prop = gv.GetRuntimeProperty(option.ID);
-                        prop.SetValue(null, JsonConvert.DeserializeObject<List<DetailChoice>>(optionExists.getStringData()), null);
+                        //PropertyInfo prop = gv.GetRuntimeProperty(option.ID);
+                        //prop.SetValue(null, JsonConvert.DeserializeObject<List<DetailChoice>>(optionExists.getStringData()), null);
                     }
                     else if (optionExists.type == "System.DateTime")
                     {
@@ -644,7 +634,7 @@ namespace ConventionMobile.Data
                     {
                         case DBOptions.SortPrice:
                             sortOrder = "ASC";
-                            query.Append(" ORDER BY parsedCost {sortOrder}");
+                            query.Append(" ORDER BY parsedCost {sortOrder}, StartDateTime DESC");
                             break;
                         case DBOptions.SortTickets:
                             sortOrder = "DESC";

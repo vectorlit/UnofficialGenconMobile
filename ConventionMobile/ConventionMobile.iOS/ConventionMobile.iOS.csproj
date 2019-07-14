@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -225,17 +225,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <BundleResource Include="Content\jwmarriott.jpg" />
     <BundleResource Include="Resources\Icon-29%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Content\lucasoilstadium.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Content\marriott.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Content\omni.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Content\Parking.jpg" />
@@ -244,21 +234,20 @@
     <BundleResource Include="Content\Skywalk-DTHotel.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Content\unionstation.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Content\convention-1.jpg" />
-    <BundleResource Include="Content\convention-2.jpg" />
-    <BundleResource Include="Content\crowneplaza.jpg" />
+    <Content Include="Content\convention-1.svg" />
+    <Content Include="Content\convention-2.svg" />
+    <Content Include="Content\crowneplaza.svg" />
     <Content Include="Content\DrivingDirections.html" />
-    <BundleResource Include="Content\embassysuites.jpg" />
     <BundleResource Include="Content\exhibithallmap2018.jpg" />
+    <Content Include="Content\embassysuites.svg" />
     <Content Include="Content\foodtrucks.html" />
-    <BundleResource Include="Content\hyattregency.jpg" />
+    <Content Include="Content\hyattregency.svg" />
     <Content Include="Content\jwmarriott.svg" />
+    <Content Include="Content\lucasoilstadium.svg" />
     <Content Include="Content\marriott.svg" />
+    <Content Include="Content\omni.svg" />
+    <Content Include="Content\unionstation.svg" />
     <Content Include="Content\vegan.html" />
-    <BundleResource Include="Content\westin.jpg" />
     <BundleResource Include="Resources\ic_refresh_black_24dp.png" />
     <BundleResource Include="Resources\ic_refresh_black_24dp%402x.png" />
     <BundleResource Include="Resources\ic_refresh_black_24dp%403x.png" />
