@@ -634,19 +634,19 @@ namespace ConventionMobile.Data
                     {
                         case DBOptions.SortPrice:
                             sortOrder = "ASC";
-                            query.Append(" ORDER BY parsedCost {sortOrder}, StartDateTime DESC");
+                            query.Append(" ORDER BY parsedCost {sortOrder}, StartDateTime ASC");
                             break;
                         case DBOptions.SortTickets:
                             sortOrder = "DESC";
-                            query.Append(" ORDER BY AvailableTickets {sortOrder}");
+                            query.Append(" ORDER BY AvailableTickets {sortOrder}, StartDateTime ASC");
                             break;
                         case DBOptions.SortTime:
                             sortOrder = "ASC";
-                            query.Append(" ORDER BY StartDateTime {sortOrder}");
+                            query.Append(" ORDER BY StartDateTime {sortOrder}, Title ASC");
                             break;
                         case DBOptions.SortTitle:
                             sortOrder = "ASC";
-                            query.Append(" ORDER BY Title {sortOrder}");
+                            query.Append(" ORDER BY Title {sortOrder}, StartDateTime ASC");
                             break;
                         case DBOptions.SortAscending:
                             overrideSortOrder = "ASC";
