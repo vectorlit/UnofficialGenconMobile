@@ -238,8 +238,8 @@
     <Content Include="Content\convention-2.svg" />
     <Content Include="Content\crowneplaza.svg" />
     <Content Include="Content\DrivingDirections.html" />
-    <BundleResource Include="Content\exhibithallmap2018.jpg" />
     <Content Include="Content\embassysuites.svg" />
+    <Content Include="Content\exhibithallmap2019.html" />
     <Content Include="Content\foodtrucks.html" />
     <Content Include="Content\hyattregency.svg" />
     <Content Include="Content\jwmarriott.svg" />

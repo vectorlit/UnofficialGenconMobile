@@ -128,9 +128,6 @@
     <AndroidAsset Include="Assets\DrivingDirections.html" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\exhibithallmap2018.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="Assets\foodtrucks.html" />
   </ItemGroup>
   <ItemGroup>
@@ -579,6 +576,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\unionstation.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\exhibithallmap2019.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
