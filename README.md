@@ -4,7 +4,11 @@ This is the Unofficial Gen Con Mobile application - Xamarin version. This is the
 **WE NEED HELP!** Please see "Code Contributions" and "Other Contributions" below!
 
 ## How to build
-You may install the Xamarin toolset and Visual Studio 2017+, and open the SLN file like any other project.
+You may install the Xamarin toolset and Visual Studio 2019, and open the SLN file like any other project.
+
+## Special Build Note
+Sometimes when opening on Visual Studio 2019 for the first time, the build will fail with a cannot find DLL error. To fix this, right-click on each project (ConventionMobile, ConventionMobile.Android, etc) and choose "clean" then "rebuild". It should fix the problem and you should be able to run again.
+*Make sure to set your startup project as the platform project you're running on! e.g. if you're on Android, right-click "ConventionMobile.Android" and choose "set as startup project"*
 
 ## Contributing
 All accepted contributions will be merged into the main branch and then deployed to the production app stores (Play Store, App Store) in release waves preceding the convention.
