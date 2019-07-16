@@ -168,6 +168,23 @@ namespace Xam.Plugin.TabView
             SetPosition(SelectedTabIndex, true);
         }
 
+        protected override void OnSizeAllocated(
+            double dblWidth,
+            double dblHeight
+            )
+        {
+            base.OnSizeAllocated(dblWidth, dblHeight);
+
+            // fix for carouselview orientation bug on android
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                _carouselView.Orientation =
+                    CarouselView.FormsPlugin.Abstractions.CarouselViewOrientation.Vertical;
+                _carouselView.Orientation =
+                    CarouselView.FormsPlugin.Abstractions.CarouselViewOrientation.Horizontal;
+            }
+        }
+
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();

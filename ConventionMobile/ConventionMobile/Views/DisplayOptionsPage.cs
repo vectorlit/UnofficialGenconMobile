@@ -55,7 +55,9 @@ namespace ConventionMobile.Views
                 Minimum = GlobalVars.fontSizeAdjustmentMinimum,
                 Maximum = GlobalVars.fontSizeAdjustmentMaximum,
                 Value = GlobalVars.fontSizeAdjustment,
-                WidthRequest = 350
+                WidthRequest = 350,
+                MaximumTrackColor = Color.Orange,
+                MinimumTrackColor = Color.Orange
             };
 
             slider.ValueChanged += (sender, e) =>
