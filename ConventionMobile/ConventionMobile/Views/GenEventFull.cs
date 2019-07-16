@@ -516,18 +516,65 @@ namespace ConventionMobile.Views
                 Padding = new Thickness(6)
             };
 
+            var leftBar = new BoxView
+            {
+            };
+
+            var swipeHolder = new RelativeLayout
+            {
+                BackgroundColor = Color.White
+            };
+
+            swipeHolder.Children.Add(wholePageHolder, Constraint.RelativeToParent((parent) => {
+                return 0;
+            }), Constraint.RelativeToParent((parent) => {
+                return 0;
+            }), Constraint.RelativeToParent((parent) => {
+                return parent.Width;
+            }), Constraint.RelativeToParent((parent) => {
+                return parent.Height;
+            }));
+
+            swipeHolder.Children.Add(leftBar, Constraint.RelativeToParent((parent) => {
+                return 0;
+            }), Constraint.RelativeToParent((parent) => {
+                return 0;
+            }), Constraint.RelativeToParent((parent) => {
+                return parent.Width * .02;
+            }), Constraint.RelativeToParent((parent) => {
+                return parent.Height;
+            }));
+
+            var rightSwipeGesture = new SwipeGestureRecognizer { Direction = SwipeDirection.Right, Threshold = 10000 };
+
+            rightSwipeGesture.Swiped += OnSwiped;
+
+            leftBar.GestureRecognizers.Add(rightSwipeGesture);
+
             var actualContent = new StackLayout
             {
                 Children =
                 {
                     titleBar,
                     optionButtons,
-                    wholePageHolder
+                    swipeHolder
                 },
                 Spacing = 0
             };
 
             this.Content = actualContent;
+        }
+
+        private void OnSwiped(object sender, SwipedEventArgs e)
+        {
+            try
+            {
+                PopupNavigation.Instance.PopAsync();
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void Cancel_Clicked(object sender, EventArgs e)

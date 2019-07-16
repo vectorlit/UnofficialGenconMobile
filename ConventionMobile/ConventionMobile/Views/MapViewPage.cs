@@ -6,6 +6,7 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 
+
 namespace ConventionMobile.Views
 {
     public class MapViewPage : PopupPage
@@ -22,8 +23,10 @@ namespace ConventionMobile.Views
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
 
+
+
             BackgroundColor = Color.Transparent;
-            
+
             titleLabel = new Label
             {
                 Text = "",
@@ -45,15 +48,64 @@ namespace ConventionMobile.Views
                 BackgroundColor = GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Primary],
             };
 
-            Content = new StackLayout
+            var leftBar = new BoxView
+            {
+            };
+
+            var innerHolder = new RelativeLayout
+            {
+                BackgroundColor = Color.White
+            };
+
+            innerHolder.Children.Add(_customWeb, Constraint.RelativeToParent((parent) => {
+                return 0;
+            }), Constraint.RelativeToParent((parent) => {
+                return 0;
+            }), Constraint.RelativeToParent((parent) => {
+                return parent.Width;
+            }), Constraint.RelativeToParent((parent) => {
+                return parent.Height;
+            }));
+
+            innerHolder.Children.Add(leftBar, Constraint.RelativeToParent((parent) => {
+                return 0;
+            }), Constraint.RelativeToParent((parent) => {
+                return 0;
+            }), Constraint.RelativeToParent((parent) => {
+                return parent.Width * .02;
+            }), Constraint.RelativeToParent((parent) => {
+                return parent.Height;
+            }));
+
+            var holder = new StackLayout
             {
                 Children =
                 {
                     titleBar,
-                    _customWeb
+                    innerHolder
                 },
                 Spacing = 0
             };
+            
+            var rightSwipeGesture = new SwipeGestureRecognizer { Direction = SwipeDirection.Right, Threshold = 10000 };
+
+            rightSwipeGesture.Swiped += OnSwiped;
+
+            leftBar.GestureRecognizers.Add(rightSwipeGesture);
+
+            Content = holder;
+        }
+
+        private void OnSwiped(object sender, SwipedEventArgs e)
+        {
+            try
+            {
+                PopupNavigation.Instance.PopAsync();
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         protected override void OnBindingContextChanged()
