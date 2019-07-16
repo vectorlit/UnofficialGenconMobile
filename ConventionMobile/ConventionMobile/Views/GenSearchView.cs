@@ -408,6 +408,11 @@ namespace ConventionMobile.Views
 
             Content = outerContainer;
 
+            this.ToolbarItems.Add(new ToolbarItem("Font Size", "baseline_format_size_black_24.png", async () =>
+            {
+                var page = new DisplayOptionsPage();
+                await PopupNavigation.Instance.PushAsync(page);
+            }));
 
             this.ToolbarItems.Add(new ToolbarItem("Refresh", "ic_refresh_black_24dp.png", () =>
             {
@@ -430,6 +435,7 @@ namespace ConventionMobile.Views
                 //Task.Factory.StartNew(homePage.CheckForNewEventsAsync);
                 //GlobalVars.LoadingView.Start();
             }));
+                       
 
             //Start of hidden event portion RESUME CODING HERE
 

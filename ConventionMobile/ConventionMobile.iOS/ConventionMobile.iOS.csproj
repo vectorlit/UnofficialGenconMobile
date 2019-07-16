@@ -228,26 +228,26 @@
     <BundleResource Include="Resources\Icon-29%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Content\Parking.jpg" />
+    <BundleResource Include="Content\Parking19.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Content\Skywalk-DTHotel.jpg" />
+    <BundleResource Include="Content\Skywalk-DTHotel19.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\convention-1.svg" />
     <Content Include="Content\convention-2.svg" />
     <Content Include="Content\crowneplaza.svg" />
-    <Content Include="Content\DrivingDirections.html" />
+    <Content Include="Content\DrivingDirections19.html" />
     <Content Include="Content\embassysuites.svg" />
     <Content Include="Content\exhibithallmap2019.html" />
-    <Content Include="Content\foodtrucks.html" />
+    <Content Include="Content\foodtrucks19.html" />
     <Content Include="Content\hyattregency.svg" />
     <Content Include="Content\jwmarriott.svg" />
     <Content Include="Content\lucasoilstadium.svg" />
     <Content Include="Content\marriott.svg" />
     <Content Include="Content\omni.svg" />
     <Content Include="Content\unionstation.svg" />
-    <Content Include="Content\vegan.html" />
+    <Content Include="Content\vegan19.html" />
     <BundleResource Include="Resources\ic_refresh_black_24dp.png" />
     <BundleResource Include="Resources\ic_refresh_black_24dp%402x.png" />
     <BundleResource Include="Resources\ic_refresh_black_24dp%403x.png" />
@@ -322,6 +322,9 @@
     <BundleResource Include="Resources\baseline_arrow_back_24%403x.png" />
     <BundleResource Include="Resources\baseline_arrow_back_24.png" />
     <Content Include="Content\westin.svg" />
+    <BundleResource Include="Resources\baseline_format_size_black_24%402x.png" />
+    <BundleResource Include="Resources\baseline_format_size_black_24%403x.png" />
+    <BundleResource Include="Resources\baseline_format_size_black_24.png" />
     <ITunesArtwork Include="iTunesArtwork.png" />
     <ITunesArtwork Include="iTunesArtwork%402x.png" />
   </ItemGroup>

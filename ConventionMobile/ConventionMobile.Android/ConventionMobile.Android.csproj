@@ -122,19 +122,19 @@
     <Folder Include="Resources\raw\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\DrivingDirections.html" />
+    <AndroidAsset Include="Assets\DrivingDirections19.html" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\foodtrucks.html" />
+    <AndroidAsset Include="Assets\foodtrucks19.html" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Parking.jpg" />
+    <AndroidAsset Include="Assets\Parking19.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Skywalk-DTHotel.jpg" />
+    <AndroidAsset Include="Assets\Skywalk-DTHotel19.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\vegan.html" />
+    <AndroidAsset Include="Assets\vegan19.html" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\ic_arrow_downward_black_24dp.png" />
@@ -576,6 +576,24 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\exhibithallmap2019.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\baseline_format_size_24.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\baseline_format_size_black_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\baseline_format_size_black_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\baseline_format_size_black_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\baseline_format_size_black_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\baseline_format_size_black_24.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

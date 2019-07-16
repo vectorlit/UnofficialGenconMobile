@@ -92,7 +92,8 @@ namespace ConventionMobile
                     new GlobalOption("lastSyncTime", lastSyncTime),
                     new GlobalOption("NavigationChoices", NavigationChoices),
                     new GlobalOption("dbVersion", dbVersion),
-                    new GlobalOption("lastGlobalVarUpdateTime", lastGlobalVarUpdateTime)
+                    new GlobalOption("lastGlobalVarUpdateTime", lastGlobalVarUpdateTime),
+                    new GlobalOption("fontSizeAdjustment", fontSizeAdjustment)
                 };
             }
         }
@@ -131,19 +132,6 @@ namespace ConventionMobile
             });
         }
 
-        //public static IToastNotificator notifier
-        //{
-        //    get
-        //    {
-        //        if (_notifier == null)
-        //        {
-        //            _notifier = DependencyService.Get<IToastNotificator>();
-        //        }
-        //        return _notifier;
-        //    }
-        //}
-        //private static IToastNotificator _notifier = null;
-
         /// <summary>
         /// Returns the last sync time as specified by the server. Since this is UTC, does NOT relate to local last time the user synchronized.
         /// </summary>
@@ -151,6 +139,27 @@ namespace ConventionMobile
         {
             return await db.GetLastSyncTime();
         }
+
+        /// <summary>
+        /// The adjustment modifier (plus or minus) to default font size on certain screens.
+        /// In user select situations, this amount is to be constrained via the fontSizeAdjustmentMinimum and fontSizeAdjustmentMaximum values.
+        /// </summary>
+        public static int fontSizeAdjustment
+        {
+            get
+            {
+                return getOption<int>("fontSizeAdjustment", 0);
+            }
+            set
+            {
+                setOption("fontSizeAdjustment", value);
+                resetSizeListCellHeight = true;
+            }
+        }
+
+        public static int fontSizeAdjustmentMinimum = -4;
+        public static int fontSizeAdjustmentMaximum = 4;
+        public static int fontSizeAdjustmentSteps = 2;
 
         /// <summary>
         /// Returns the last local time the user successfully downloaded events. Does not look at event synctimes, just an internal value.
@@ -234,6 +243,7 @@ namespace ConventionMobile
             GlobalVars.lastGlobalVarUpdateTime = GlobalVars.lastGlobalVarUpdateTime;
             GlobalVars.lastSyncTime = GlobalVars.lastSyncTime;
             GlobalVars.GenEventURL = GlobalVars.GenEventURL;
+            GlobalVars.fontSizeAdjustment = GlobalVars.fontSizeAdjustment;
             GlobalVars.useDefaultOnly = false;
         }
 
@@ -625,9 +635,10 @@ namespace ConventionMobile
         {
             get
             {
-                if (_sizeListCellHeight == 0)
+                if (_sizeListCellHeight == 0 || resetSizeListCellHeight)
                 {
-                    _sizeListCellHeight = Device.GetNamedSize(NamedSize.Large, typeof(Label)) * 3;
+                    resetSizeListCellHeight = false;
+                    _sizeListCellHeight = (Device.GetNamedSize(NamedSize.Large, typeof(Label)) + fontSizeAdjustment) * 3;
                 }
                 return _sizeListCellHeight;
             }
@@ -637,6 +648,11 @@ namespace ConventionMobile
             }
         }
         private static double _sizeListCellHeight = 0;
+
+        /// <summary>
+        /// Set to true to invalidate the cache on sizeListCellHeight - next time the variable is pulled it will recalculate
+        /// </summary>
+        public static bool resetSizeListCellHeight = false;
 
 
         /// <summary>
@@ -813,8 +829,8 @@ namespace ConventionMobile
                             new DetailChoice ("Convention Floor 1", "convention-1.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Convention Floor 2", "convention-2.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Exhibit Hall", "exhibithallmap2019.html", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Parking", "Parking.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Skywalk/Downtown", "Skywalk-DTHotel.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Parking", "Parking19.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Skywalk/Downtown", "Skywalk-DTHotel19.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Crowne Plaza", "crowneplaza.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Embassy Suites", "embassysuites.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Hyatt Regency", "hyattregency.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
@@ -824,9 +840,9 @@ namespace ConventionMobile
                             new DetailChoice ("Omni", "omni.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Westin", "westin.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Union Station", "unionstation.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Vegan/Vegetarian Guide", "vegan.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
-                            new DetailChoice ("Food Trucks", "foodtrucks.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
-                            new DetailChoice ("Driving Directions", "DrivingDirections.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
+                            new DetailChoice ("Vegan/Vegetarian Guide", "vegan19.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
+                            new DetailChoice ("Food Trucks", "foodtrucks19.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
+                            new DetailChoice ("Driving Directions", "DrivingDirections19.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
                             new DetailChoice ("Interactive Online Map", "https://www.gencon.com/map?lt=13.81674404684894&lg=37.705078125&f=1&z=5", typeof(MapViewPage), true, "ic_public_black_24dp.png")
                         });
                 }

@@ -33,7 +33,7 @@ namespace ConventionMobile.Views
             {
                 ColumnDefinitions =
                 {
-                    new ColumnDefinition { Width = new GridLength(4, GridUnitType.Star) },
+                    new ColumnDefinition { Width = new GridLength(5 - (GlobalVars.fontSizeAdjustment * .5), GridUnitType.Star) },
                     new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
@@ -60,8 +60,9 @@ namespace ConventionMobile.Views
             {
                 Text = "Event Name Goes Here",
                 LineBreakMode = LineBreakMode.TailTruncation,
-                FontSize = GlobalVars.sizeLarge,
+                FontSize = GlobalVars.sizeLarge + GlobalVars.fontSizeAdjustment,
                 FontAttributes = FontAttributes.Bold,
+                VerticalTextAlignment = TextAlignment.Center
                 //HorizontalTextAlignment = TextAlignment.Start
             };
             //eventNameLabel.SetBinding(Label.TextProperty, "Title");
@@ -71,10 +72,11 @@ namespace ConventionMobile.Views
             priceLabel = new Label
             {
                 Text = "$-1",
-                FontSize = GlobalVars.sizeLarge,
+                FontSize = GlobalVars.sizeLarge + GlobalVars.fontSizeAdjustment,
                 LineBreakMode = LineBreakMode.NoWrap,
                 TextColor = GlobalVars.colorMoney,
-                HorizontalTextAlignment = TextAlignment.End
+                HorizontalTextAlignment = TextAlignment.End,
+                VerticalTextAlignment = TextAlignment.Center
             };
             //priceLabel.SetBinding(Label.TextProperty, "FormattedCost");
             wholeLayout.Children.Add(priceLabel, 1, 0);
@@ -83,9 +85,9 @@ namespace ConventionMobile.Views
             staticTicketNumbersPreface = new Label
             {
                 Text = "Avail:",
-                FontSize = GlobalVars.sizeMedium,
+                FontSize = GlobalVars.sizeMedium + GlobalVars.fontSizeAdjustment,
                 LineBreakMode = LineBreakMode.NoWrap,
-                VerticalTextAlignment = TextAlignment.End
+                VerticalTextAlignment = TextAlignment.Center
                 //VerticalOptions = LayoutOptions.EndAndExpand
 
             };
@@ -94,9 +96,10 @@ namespace ConventionMobile.Views
             ticketNumbersLabel = new Label
             {
                 Text = "-999",
-                FontSize = GlobalVars.sizeLarge,
+                FontSize = GlobalVars.sizeLarge + GlobalVars.fontSizeAdjustment,
                 LineBreakMode = LineBreakMode.NoWrap,
-                HorizontalTextAlignment = TextAlignment.End
+                HorizontalTextAlignment = TextAlignment.End,
+                VerticalTextAlignment = TextAlignment.Center
             };
             //ticketNumbersLabel.SetBinding(Label.TextProperty, "AvailableTickets");
             //ticketNumbersLabel.SetBinding(Label.TextColorProperty, new Binding("AvailableTickets", converter: new AvailableAmountConverter()));
@@ -118,8 +121,9 @@ namespace ConventionMobile.Views
             descriptionLabel = new Label
             {
                 Text = "Event Game, Event Game Edition, Etc Information",
-                FontSize = GlobalVars.sizeSmall,
-                LineBreakMode = LineBreakMode.TailTruncation
+                FontSize = GlobalVars.sizeSmall + GlobalVars.fontSizeAdjustment,
+                LineBreakMode = LineBreakMode.TailTruncation,
+                VerticalTextAlignment = TextAlignment.Center
             };
             //descriptionLabel.SetBinding(Label.TextProperty, "Description");
             wholeLayout.Children.Add(descriptionLabel, 0, 1);
@@ -130,8 +134,9 @@ namespace ConventionMobile.Views
             timeLabel = new Label
             {
                 Text = "Wed@10:00(2hrs)",
-                FontSize = GlobalVars.sizeSmall,
+                FontSize = GlobalVars.sizeSmall + GlobalVars.fontSizeAdjustment,
                 HorizontalTextAlignment = TextAlignment.End,
+                VerticalTextAlignment = TextAlignment.Center
                 //MinimumWidthRequest = MinWidthSize
             };
             //timeLabel.SetBinding(Label.TextProperty, "FormattedDate");
