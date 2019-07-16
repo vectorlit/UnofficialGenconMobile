@@ -113,7 +113,7 @@ namespace ConventionMobile.Views
                             }
                             return GlobalVars.db.GetItemsFTS4(term, new GenconMobileDatabase.DBOptions[] { });
                         })        //MatchOnEmail returns Task<IEnumerable<T>>
-                        .TakeUntil(searchTerm.observer)                        //If seachterm changes abandon the current request
+                        .TakeUntil(searchTerm.observer)                        //If searchterm changes abandon the current request
                         .ObserveOn(SynchronizationContext.Current)        //To be safe marshall response to the UI thread
                         .Subscribe(final =>                           //final holds the IEnumerable<T>    
                             {
@@ -183,6 +183,9 @@ namespace ConventionMobile.Views
             };
             var matchListTemplate = new DataTemplate(typeof(TextCell));
             matchListTemplate.SetBinding(TextCell.TextProperty, "Title");
+
+            itemTemplate = new DataTemplate(typeof(GenEventCell));
+            itemTemplate.CreateContent();
 
             matchListView = new ListView
             {
@@ -408,32 +411,15 @@ namespace ConventionMobile.Views
 
             Content = outerContainer;
 
-            this.ToolbarItems.Add(new ToolbarItem("Font Size", "baseline_format_size_black_24.png", async () =>
+            this.ToolbarItems.Add(new ToolbarItem("Font Size", "baseline_format_size_black_24.png", () =>
             {
                 var page = new DisplayOptionsPage();
-                await PopupNavigation.Instance.PushAsync(page);
+                PopupNavigation.Instance.PushAsync(page);
             }));
 
             this.ToolbarItems.Add(new ToolbarItem("Refresh", "ic_refresh_black_24dp.png", () =>
             {
-                //var testView = new Label
-                //{
-                //    Text = "testing refresh",
-                //    HorizontalOptions = LayoutOptions.FillAndExpand,
-                //    VerticalOptions = LayoutOptions.FillAndExpand,
-                //    BackgroundColor = Color.Lavender
-                //};
-
-                //_parentPage.NotificationBox.UpdateView(testView);
-
                 GlobalVars.View_GenEventsLoadingView.StartLoad();
-
-                //var homePage = ((App)Application.Current).HomePage;
-
-                //homePage.overrideUpdateCheckEvents = true;
-                //homePage.overrideUpdateCheckOptions = true;
-                //Task.Factory.StartNew(homePage.CheckForNewEventsAsync);
-                //GlobalVars.LoadingView.Start();
             }));
                        
 
@@ -491,7 +477,7 @@ namespace ConventionMobile.Views
 
         private StackLayout autoCompleteHolder;
         private ListView matchListView;
-        private ListView genEventListView;
+        public ListView genEventListView;
         private ListView loadingListView;
         private ActivityIndicator loadingIndicator;
         //private Label loadingLabel;
@@ -511,7 +497,9 @@ namespace ConventionMobile.Views
         private bool dontUpdatePicker = false;
 
         private bool isSortDescending = true;
-        
+        private DataTemplate itemTemplate;
+
+
         private class DefaultSortChoice
         {
             public string Name { get; set; }
@@ -745,10 +733,7 @@ namespace ConventionMobile.Views
                         eventDisplayWrapper.Children.Add(genEventList);
                     }
                     loadingIndicator.IsVisible = true;
-
-                    var itemTemplate = new DataTemplate(typeof(GenEventCell));
-                    itemTemplate.CreateContent();
-
+                                        
                     genEventListView.ItemTemplate = itemTemplate;
 
                     ListView listView = new ListView
@@ -765,19 +750,6 @@ namespace ConventionMobile.Views
 
                             Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                             {
-                                //var tempItemTemplate = new DataTemplate(typeof(TextCell));
-                                //tempItemTemplate.CreateContent();
-
-                                //loadingListView.ItemTemplate = tempItemTemplate;
-
-                                //loadingListView.ItemsSource = new List<TextCell>()
-                                //{
-                                //    new TextCell()
-                                //    {
-                                //        Text =  "Loading..."
-                                //    }
-                                //};
-
                                 //genEventList.Content = loadingListView;
                                 genEventListView.ItemsSource = newItemsSource;
                                 genEventList.Content = genEventListView;
@@ -791,11 +763,7 @@ namespace ConventionMobile.Views
                         }
                     });
                 });
-
-
-                // genEventListView.ItemsSource = await GlobalVars.db.GetItemsFTS4(searchEntry.Text, getDBOptions());
-
-
+                               
             }
             catch (Exception ex)
             {

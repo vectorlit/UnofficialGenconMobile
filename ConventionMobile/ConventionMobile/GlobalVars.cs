@@ -781,7 +781,7 @@ namespace ConventionMobile
         {
             get
             {
-                return getOption<string>("eventsFinalInfoPretty", "** Food trucks and other outstanding information will be added/updated to 2019 as soon as Gen Con releases them!\r\n\r\nThis app is NOT officially endorsed by Gen Con. It is a fan-created app service, provided for free.");
+                return getOption<string>("eventsFinalInfoPretty", "** Big thank you to everyone who contributed this year! Special thanks to Jim Zell, Kenneth Garza, and Andrew D!\r\n\r\nThis app is NOT officially endorsed by Gen Con. It is a fan-created app service, provided for free.");
             }
             set
             {

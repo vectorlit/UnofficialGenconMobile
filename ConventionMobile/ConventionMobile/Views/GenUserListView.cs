@@ -20,7 +20,7 @@ namespace ConventionMobile.Views
         private Picker eventListPicker;
         private List<UserEventList> userLists = new List<UserEventList>();
         private GenEventList genEventList;
-        private ListView genEventListView;
+        public ListView genEventListView;
         private ListView loadingListView;
         private ActivityIndicator loadingIndicator;
         private StackLayout eventDisplayWrapper;
@@ -508,6 +508,17 @@ namespace ConventionMobile.Views
             Content = outerContainer;
 
             this.OnAppearingHandler += GenUserListView_OnAppearingHandler;
+
+            this.ToolbarItems.Add(new ToolbarItem("Font Size", "baseline_format_size_black_24.png", () =>
+            {
+                var page = new DisplayOptionsPage();
+                PopupNavigation.Instance.PushAsync(page);
+            }));
+
+            this.ToolbarItems.Add(new ToolbarItem("Refresh", "ic_refresh_black_24dp.png", () =>
+            {
+                GlobalVars.View_GenEventsLoadingView.StartLoad();
+            }));
 
             GlobalVars.View_GenUserListView = this;
         }

@@ -11,16 +11,22 @@ namespace ConventionMobile.Views
     {
         private readonly GenMainPage _parentPage;
         private readonly List<GenContentView> _tabList;
+        public GenSearchView genSearchView;
+        public GenUserListView genUserListView;
+        public GenMapView genMapView;
 
         public GenMainTabbedView(GenMainPage parentPage)
         {
             _parentPage = parentPage;
+            genSearchView = new GenSearchView(_parentPage);
+            genMapView = new GenMapView(_parentPage);
+            genUserListView = new GenUserListView(_parentPage);
 
             _tabList = new List<GenContentView> //needed for tab controls
             {
-                new GenMapView(_parentPage),
-                new GenSearchView(_parentPage),
-                new GenUserListView(_parentPage)
+                genMapView,
+                genSearchView,
+                genUserListView
             };
 
             // main tabbed view

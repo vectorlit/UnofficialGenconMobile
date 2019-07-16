@@ -6,9 +6,11 @@ namespace ConventionMobile.Pages
     public class GenMainPage : ContentPage
     {
         public ClosableNotificationBox NotificationBox;
+        public GenMainTabbedView tabbedView = null;
+
         public GenMainPage()
         {
-            var tabbedView = new GenMainTabbedView(this);
+            tabbedView = new GenMainTabbedView(this);
             NotificationBox = new ClosableNotificationBox();
             var loadingView = new GenEventsLoadingView();
             

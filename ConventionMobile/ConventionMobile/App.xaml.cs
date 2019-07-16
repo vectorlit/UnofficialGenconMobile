@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using ConventionMobile.Data;
+using ConventionMobile.Model;
 using ConventionMobile.Pages;
 using ConventionMobile.Views;
 using Xamarin.Forms;
@@ -11,7 +14,7 @@ namespace ConventionMobile
 	{
         public static GenEventManager GenEventManager { get; private set; }
 
-	    public GenMainPage HomePage;
+	    public GenMainPage HomePage = null;
 
         public App ()
 		{
@@ -30,6 +33,38 @@ namespace ConventionMobile
         {
             Device.BeginInvokeOnMainThread(() =>
             {
+                // this is an attempt to invalidate some of the list view sources before refreshing the app's view.
+                // This alleviates some, but not all of the bugs associated with switching tabs quickly following a refresh
+                if (HomePage != null)
+                {
+                    try
+                    {
+                        HomePage.tabbedView.genMapView.navigationListView.ItemsSource = null;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                    try
+                    {
+                        HomePage.tabbedView.genSearchView.genEventListView.ItemsSource = null;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                    try
+                    {
+                        HomePage.tabbedView.genUserListView.genEventListView.ItemsSource = null;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+                                
                 HomePage = new GenMainPage();
                 var mainPage = new NavigationPage(HomePage);
                 mainPage.BarTextColor = GlobalVars.ThemeColorsText[(int)GlobalVars.ThemeColors.Primary];

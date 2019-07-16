@@ -38,6 +38,7 @@ namespace ConventionMobile.Views
                 Orientation = StackOrientation.Vertical,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 BackgroundColor = Color.White,
+                Padding = 5
             };
 
             holderLayout.Children.Add(new Label { Text = "Change Font Size:", FontSize = 20 });
@@ -75,18 +76,7 @@ namespace ConventionMobile.Views
                 oldSliderValue = newValue;
             };
 
-            //sliderTickLayout = new StackLayout
-            //{
-            //    Orientation = StackOrientation.Horizontal,
-            //    WidthRequest = 350
-            //};
-
-            //sliderCoverGrid.Children.Add(sliderTickLayout);
             sliderCoverGrid.Children.Add(slider);
-
-            //sliderCoverLayout.Children.Add(slider);
-
-            //AddTickMarksForSlider(sliderTickLayout);
 
             holderLayout.Children.Add(sliderCoverGrid);
 
@@ -101,7 +91,7 @@ namespace ConventionMobile.Views
                 ItemTemplate = genEventCellTemplate,
                 VerticalOptions = LayoutOptions.Start,
                 ItemsSource = new List<GenEvent>() { new GenEvent() {
-                        Title = "Super long event name - The Reckoning of The King Part IV",
+                        Title = "Super long event name - The Reckoning of The Name Part IV",
                         Description = "Here lies a fantastic description, the most descriptive description ever to be described, of all descriptions beyond script",
                         Cost = "4",
                         AvailableTickets = 25,
@@ -120,7 +110,8 @@ namespace ConventionMobile.Views
             // Add cancel and OK buttons
             buttonCoverLayout = new StackLayout
             {
-                Orientation = StackOrientation.Horizontal
+                Orientation = StackOrientation.Horizontal,
+                HorizontalOptions = LayoutOptions.CenterAndExpand
             };
 
             cancelButton = new Button
@@ -128,12 +119,12 @@ namespace ConventionMobile.Views
                 Text = "Cancel"
             };
 
-            cancelButton.Clicked += async (object sender, EventArgs e) =>
+            cancelButton.Clicked += (object sender, EventArgs e) =>
             {
                 try
                 {
                     GlobalVars.fontSizeAdjustment = originalValue;
-                    await PopupNavigation.Instance.PopAsync();
+                    PopupNavigation.Instance.PopAsync();
                 }
                 catch (Exception)
                 {
@@ -147,34 +138,13 @@ namespace ConventionMobile.Views
             };
 
 
-            okButton.Clicked += async (object sender, EventArgs e) =>
+            okButton.Clicked += (object sender, EventArgs e) =>
             {
                 try
                 {
                     updateFontSize();
-                    GlobalVars.DoToast("Update success - **REFRESHING SCREEN**", GlobalVars.ToastType.Green);
-
-                    GlobalVars.View_GenSearchView?.UpdateEventInfo();
-
-                    if (GlobalVars.View_GenSearchView != null)
-                    {
-                        await GlobalVars.View_GenSearchView.CloseAllPickers();
-                    }
-
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        try
-                        {
-                            await Task.Delay(1000);
-                            (Application.Current as App)?.ShowMainPage();
-                        }
-                        catch (Exception)
-                        {
-
-                        }
-                    });
-
-                    await PopupNavigation.Instance.PopAsync();
+                    Task.Factory.StartNew(okButtonClickedAsync);
+                    
                 }
                 catch (Exception)
                 {
@@ -190,6 +160,34 @@ namespace ConventionMobile.Views
             Content = holderLayout;
         }
 
+        private async Task okButtonClickedAsync()
+        {
+            GlobalVars.DoToast("Update success - **REFRESHING SCREEN**", GlobalVars.ToastType.Green);
+
+            GlobalVars.View_GenSearchView?.UpdateEventInfo();
+
+            if (GlobalVars.View_GenSearchView != null)
+            {
+                await GlobalVars.View_GenSearchView.CloseAllPickers();
+            }
+
+            await Task.Delay(1000);
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    (Application.Current as App)?.ShowMainPage();
+                }
+                catch (Exception)
+                {
+
+                }
+            });
+
+            await PopupNavigation.Instance.PopAsync();
+        }
+
         private void updateFontSize(bool updatePage = false)
         {
             GlobalVars.fontSizeAdjustment = (int)slider.Value;
@@ -199,8 +197,10 @@ namespace ConventionMobile.Views
             }
         }
 
+
         private void updateListView()
         {
+            // Use a cache for DataTemplates because Android has max datatemplate render
             var genEventCellTemplate = genEventCellTemplateCache.FirstOrDefault(d => d.Key == GlobalVars.fontSizeAdjustment);
             if (genEventCellTemplate.Equals(default(KeyValuePair<int, DataTemplate>)))
             {
@@ -209,52 +209,8 @@ namespace ConventionMobile.Views
                 genEventCellTemplateCache.Add(genEventCellTemplate);
             }
 
-            //genEventDemoListView = new ListView()
-            //{
-            //    ItemTemplate = genEventCellTemplate,
-            //    VerticalOptions = LayoutOptions.Start,
-            //    ItemsSource = new List<GenEvent>() { new GenEvent() {
-            //            Title = "Super long event name - The Reckoning of The King Part IV",
-            //            Description = "Here lies a fantastic description, the most descriptive description ever to be described, of all descriptions beyond script",
-            //            Cost = "4",
-            //            AvailableTickets = 25,
-            //            StartDateTime = GlobalVars.startingDate,
-            //            EndDateTime = GlobalVars.startingDate.AddHours(2)
-            //        }
-            //    },
-            //    RowHeight = (int)GlobalVars.sizeListCellHeight
-            //};
-
             genEventDemoListView.RowHeight = (int)GlobalVars.sizeListCellHeight;
             genEventDemoListView.ItemTemplate = genEventCellTemplate.Value;
         }
-
-
-        // provides a visual indicator and was worth a shot but it doesn't work cross platform properly
-        //public void AddTickMarksForSlider(StackLayout view)
-        //{
-        //    int ticksDivider = GlobalVars.fontSizeAdjustmentSteps;
-        //    int ticks = (int)(slider.Maximum - slider.Minimum) / ticksDivider;
-
-        //    view.BackgroundColor = Color.Transparent;
-
-        //    // make a UIImageView with tick for each tick in the slider
-        //    for (int i = 0; i <= ticks; i++)
-        //    {
-
-        //        Label tick = new Label();
-        //        tick.WidthRequest = 2;
-        //        tick.HeightRequest = 2;
-
-        //        view.Padding = new Thickness(15, 0, 14, 0);
-
-        //        tick.Margin = new Thickness((350 / ticks) * i, 0, 0, 0);
-
-        //        tick.BackgroundColor = Color.Red;
-
-        //        view.Children.Add(tick);
-
-        //    }
-        //}
     }
 }
