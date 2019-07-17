@@ -71,7 +71,7 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Developer: Logan Schuster (5X4C26TYM9)</CodesignKey>
+    <CodesignKey>iPhone Distribution: VectorLit Games Limited (YXT4K3G363)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignExtraArgs />
     <CodesignResourceRules />
@@ -79,7 +79,7 @@
     <BuildIpa>true</BuildIpa>
     <MtouchSdkVersion>12.2</MtouchSdkVersion>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>BBDT-Prod</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -226,6 +226,18 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <BundleResource Include="Resources\Icon-29%402x.png" />
+    <BundleResource Include="Content\exhibithallmap2019-19.jpg" />
+    <BundleResource Include="Content\convention-1-19.png" />
+    <BundleResource Include="Content\convention-2-19.png" />
+    <BundleResource Include="Content\crowneplaza-19.png" />
+    <BundleResource Include="Content\embassysuites-19.png" />
+    <BundleResource Include="Content\hyattregency-19.png" />
+    <BundleResource Include="Content\jwmarriott-19.png" />
+    <BundleResource Include="Content\lucasoilstadium-19.png" />
+    <BundleResource Include="Content\marriott-19.png" />
+    <BundleResource Include="Content\omni-19.png" />
+    <BundleResource Include="Content\unionstation-19.png" />
+    <BundleResource Include="Content\westin-19.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Content\Parking19.jpg" />

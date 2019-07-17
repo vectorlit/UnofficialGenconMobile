@@ -156,11 +156,17 @@ namespace ConventionMobile.Data
 
                 GlobalVars.isActivityReloadRequested = true;
             }
-            else if (GlobalVars.dbVersion == 7)
+            else if (GlobalVars.dbVersion <= 8)
             {
                 GlobalVars.NavigationChoices = new List<DetailChoice>();
+                database.DropTableAsync<GlobalOption>().Wait();
+                database.CreateTableAsync<GlobalOption>().Wait();
+                GlobalVars.db = this;
+                InitDatabase();
+                GlobalVars.resetDefaultOptions();
+                GlobalVars.isActivityReloadRequested = true;
                 GlobalVars.eventsFinalInfoPretty = "** Big thank you to everyone who contributed this year! Special thanks to Jim Zell, Kenneth Garza, and Andrew D!\r\n\r\nThis app is NOT officially endorsed by Gen Con. It is a fan-created app service, provided for free.";
-                GlobalVars.dbVersion = 8;
+                GlobalVars.dbVersion = 9;
 
                 GlobalVars.isActivityReloadRequested = true;
             }

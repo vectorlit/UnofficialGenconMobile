@@ -5,7 +5,8 @@ using ConventionMobile.ToolbarItems;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
-
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace ConventionMobile.Views
 {
@@ -23,7 +24,10 @@ namespace ConventionMobile.Views
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
 
-
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                _customWeb.On<Android>().EnableZoomControls(true);
+            }
 
             BackgroundColor = Color.Transparent;
 
@@ -48,52 +52,68 @@ namespace ConventionMobile.Views
                 BackgroundColor = GlobalVars.ThemeColorsBG[(int)GlobalVars.ThemeColors.Primary],
             };
 
-            var leftBar = new BoxView
+            if (Device.RuntimePlatform == Device.iOS)
             {
-            };
-
-            var innerHolder = new RelativeLayout
-            {
-                BackgroundColor = Color.White
-            };
-
-            innerHolder.Children.Add(_customWeb, Constraint.RelativeToParent((parent) => {
-                return 0;
-            }), Constraint.RelativeToParent((parent) => {
-                return 0;
-            }), Constraint.RelativeToParent((parent) => {
-                return parent.Width;
-            }), Constraint.RelativeToParent((parent) => {
-                return parent.Height;
-            }));
-
-            innerHolder.Children.Add(leftBar, Constraint.RelativeToParent((parent) => {
-                return 0;
-            }), Constraint.RelativeToParent((parent) => {
-                return 0;
-            }), Constraint.RelativeToParent((parent) => {
-                return parent.Width * .02;
-            }), Constraint.RelativeToParent((parent) => {
-                return parent.Height;
-            }));
-
-            var holder = new StackLayout
-            {
-                Children =
+                var leftBar = new BoxView
                 {
-                    titleBar,
-                    innerHolder
-                },
-                Spacing = 0
-            };
+                };
+
+                var innerHolder = new RelativeLayout
+                {
+                    BackgroundColor = Color.White
+                };
+
+                innerHolder.Children.Add(_customWeb, Constraint.RelativeToParent((parent) => {
+                    return 0;
+                }), Constraint.RelativeToParent((parent) => {
+                    return 0;
+                }), Constraint.RelativeToParent((parent) => {
+                    return parent.Width;
+                }), Constraint.RelativeToParent((parent) => {
+                    return parent.Height;
+                }));
+
+                innerHolder.Children.Add(leftBar, Constraint.RelativeToParent((parent) => {
+                    return 0;
+                }), Constraint.RelativeToParent((parent) => {
+                    return 0;
+                }), Constraint.RelativeToParent((parent) => {
+                    return parent.Width * .02;
+                }), Constraint.RelativeToParent((parent) => {
+                    return parent.Height;
+                }));
+
+                var holder = new StackLayout
+                {
+                    Children =
+                    {
+                        titleBar,
+                        innerHolder
+                    },
+                    Spacing = 0
+                };
             
-            var rightSwipeGesture = new SwipeGestureRecognizer { Direction = SwipeDirection.Right, Threshold = 10000 };
+                var rightSwipeGesture = new SwipeGestureRecognizer { Direction = SwipeDirection.Right, Threshold = 10000 };
 
-            rightSwipeGesture.Swiped += OnSwiped;
+                rightSwipeGesture.Swiped += OnSwiped;
 
-            leftBar.GestureRecognizers.Add(rightSwipeGesture);
+                leftBar.GestureRecognizers.Add(rightSwipeGesture);
 
-            Content = holder;
+                Content = holder;
+            }
+            else
+            {
+                Content = new StackLayout
+                {
+                    Children =
+                    {
+                        titleBar,
+                        _customWeb
+                    },
+                    Spacing = 0,
+                    VerticalOptions = LayoutOptions.FillAndExpand
+                };
+            }
         }
 
         private void OnSwiped(object sender, SwipedEventArgs e)

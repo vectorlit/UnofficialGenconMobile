@@ -38,7 +38,6 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
-    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -127,6 +126,18 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\DrivingDirections19.html" />
+    <AndroidAsset Include="Assets\exhibithallmap2019-19.jpg" />
+    <AndroidAsset Include="Assets\convention-1-19.png" />
+    <AndroidAsset Include="Assets\convention-2-19.png" />
+    <AndroidAsset Include="Assets\crowneplaza-19.png" />
+    <AndroidAsset Include="Assets\embassysuites-19.png" />
+    <AndroidAsset Include="Assets\hyattregency-19.png" />
+    <AndroidAsset Include="Assets\jwmarriott-19.png" />
+    <AndroidAsset Include="Assets\lucasoilstadium-19.png" />
+    <AndroidAsset Include="Assets\marriott-19.png" />
+    <AndroidAsset Include="Assets\omni-19.png" />
+    <AndroidAsset Include="Assets\unionstation-19.png" />
+    <AndroidAsset Include="Assets\westin-19.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\foodtrucks19.html" />

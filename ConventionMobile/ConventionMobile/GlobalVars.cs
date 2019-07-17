@@ -828,7 +828,7 @@ namespace ConventionMobile
                         {
                             new DetailChoice ("Convention Floor 1", "convention-1.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Convention Floor 2", "convention-2.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
-                            new DetailChoice ("Exhibit Hall", "exhibithallmap2019.html", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Interactive Exhibit Hall (offline!)", "exhibithallmap2019.html", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Parking", "Parking19.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Skywalk/Downtown", "Skywalk-DTHotel19.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                             new DetailChoice ("Crowne Plaza", "crowneplaza.svg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
@@ -843,7 +843,19 @@ namespace ConventionMobile
                             new DetailChoice ("Vegan/Vegetarian Guide", "vegan19.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
                             new DetailChoice ("Food Trucks", "foodtrucks19.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
                             new DetailChoice ("Driving Directions", "DrivingDirections19.html", typeof(MapViewPage), true, "ic_directions_black_24dp.png"),
-                            new DetailChoice ("Interactive Online Map", "https://www.gencon.com/map?lt=13.81674404684894&lg=37.705078125&f=1&z=5", typeof(MapViewPage), true, "ic_public_black_24dp.png")
+                            new DetailChoice ("Interactive Online Map", "https://www.gencon.com/map?lt=13.81674404684894&lg=37.705078125&f=1&z=5", typeof(MapViewPage), true, "ic_public_black_24dp.png"),
+                            new DetailChoice ("Convention Floor 1 (older phones)", "convention-1-19.png", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Convention Floor 2 (older phones)", "convention-2-19.png", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Exhibit Hall (older phones)", "exhibithallmap2019-19.jpg", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Crowne Plaza (older phones)", "crowneplaza-19.png", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Embassy Suites (older phones)", "embassysuites-19.png", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Hyatt Regency (older phones)", "hyattregency-19.png", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Lucas Oil Stadium (older phones)", "lucasoilstadium-19.png", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Marriott (older phones)", "marriott-19.png", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("JW Marriott (older phones)", "jwmarriott-19.png", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Omni (older phones)", "omni-19.png", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Westin (older phones)", "westin-19.png", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
+                            new DetailChoice ("Union Station (older phones)", "unionstation-19.png", typeof(MapViewPage), true, "ic_map_black_24dp.png"),
                         });
                 }
 

@@ -62,6 +62,8 @@ namespace ConventionMobile.Views
         private Image deleteSelectedItemsButton;
         private Label selectedItemCountLabel;
 
+        private DataTemplate itemTemplate;
+
         private bool isShowingEventList = false;
 
         private bool isInMultiSelectMode = false;
@@ -80,6 +82,9 @@ namespace ConventionMobile.Views
         {
             GlobalVars.View_GenUserListView = null;
             _parentPage = parentPage;
+
+            itemTemplate = new DataTemplate(typeof(GenEventSelectableCell));
+            itemTemplate.CreateContent();
 
             outerContainer = new AbsoluteLayout
             {
@@ -270,7 +275,8 @@ namespace ConventionMobile.Views
 
             genEventList = new GenEventList
             {
-                VerticalOptions = LayoutOptions.FillAndExpand
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                HorizontalOptions = LayoutOptions.FillAndExpand
             };
 
             // start here, and add the bookmarked multi-select-view functionality to a new class, copied from geneventlist
@@ -278,7 +284,8 @@ namespace ConventionMobile.Views
             genEventListView = new ListView(ListViewCachingStrategy.RecycleElement)
             {
                 RowHeight = (int)GlobalVars.sizeListCellHeight,
-                SeparatorVisibility = SeparatorVisibility.None
+                SeparatorVisibility = SeparatorVisibility.None,
+                HorizontalOptions = LayoutOptions.FillAndExpand
             };
 
             loadingListView = new ListView
@@ -1057,10 +1064,7 @@ namespace ConventionMobile.Views
                         eventDisplayWrapper.Children.Add(genEventList);
                     }
                     loadingIndicator.IsVisible = true;
-
-
-                    var itemTemplate = new DataTemplate(typeof(GenEventSelectableCell));
-                    itemTemplate.CreateContent();
+                                                           
 
                     genEventListView.ItemTemplate = itemTemplate;
 
