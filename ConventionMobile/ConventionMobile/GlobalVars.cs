@@ -1030,7 +1030,11 @@ namespace ConventionMobile
             {
                 return (NavigationChoices.FirstOrDefault(d => d.data.Contains("jw")));
             }
-            else if (loc1.StartsWith("los") || loc1.Contains("lucas"))
+            else if (loc1.Contains("marriott"))
+            {
+                return (NavigationChoices.FirstOrDefault(d => d.data.Contains("marriott") && !d.data.Contains("jw")));
+            }
+            else if (loc1.StartsWith("los") || loc1.Contains("lucas") || loc1.Contains("stadium") || loc1.Contains("field"))
             {
                 return (NavigationChoices.FirstOrDefault(d => d.data.Contains("lucas")));
             }

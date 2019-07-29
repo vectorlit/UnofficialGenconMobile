@@ -60,7 +60,7 @@
     <CodesignKey>iPhone Developer: Logan Schuster (5X4C26TYM9)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>BBDT-Dev</CodesignProvision>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -71,7 +71,7 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Distribution: VectorLit Games Limited (YXT4K3G363)</CodesignKey>
+    <CodesignKey>iPhone Developer: Logan Schuster (5X4C26TYM9)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignExtraArgs />
     <CodesignResourceRules />
@@ -79,7 +79,7 @@
     <BuildIpa>true</BuildIpa>
     <MtouchSdkVersion>12.2</MtouchSdkVersion>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <CodesignProvision>BBDT-Prod</CodesignProvision>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -104,10 +104,10 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
-    <CodesignKey>iPhone Distribution: VectorLit Games Limited (YXT4K3G363)</CodesignKey>
+    <CodesignKey>iPhone Developer: Logan Schuster (5X4C26TYM9)</CodesignKey>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <CodesignProvision>DT-wildcard</CodesignProvision>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />
