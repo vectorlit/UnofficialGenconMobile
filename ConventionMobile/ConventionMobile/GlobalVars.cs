@@ -33,18 +33,18 @@ namespace ConventionMobile
 
         public readonly static List<Color> ThemeColorsBG = new List<Color>()
         {
-            // 2019 Colors: 
-            // Primary: Orange
-            //new Color(244/255, 178/255, 52/255),
-            new Color(0.9568, 0.6980, 0.2039),
+            // 2022 Colors: 
+            // Primary: Red
+            //new Color(226/255, 68/255, 70/255), #e24446
+            new Color(0.8863, 0.2667, 0.2745),
 
-            // Secondary: Light Orange
-            //new Color(252/255, 205/255, 116/255),
-            new Color(0.9882, 0.8039, 0.4549),
+            // Secondary: Light Red
+            //new Color(239/255, 117/255, 119/255), #ef7577
+            new Color(0.9373, 0.4589, 0.4667),
 
-            // Action Element: Red
-            //new Color(213/255, 36/255, 36/255)
-            new Color(0.8352, 0.1412, 0.1412)
+            // Action Element: Purple
+            //new Color(102/255, 51/255, 152/255)
+            new Color(0.4, 0.2, 0.5961)
         };
 
         public readonly static List<Color> ThemeColorsText = new List<Color>()
@@ -303,7 +303,7 @@ namespace ConventionMobile
         {
             get
             {
-                return getOption<string>("appTitle", "Unofficial Gen Con 2019");
+                return getOption<string>("appTitle", "Unofficial Gen Con");
             }
             set
             {
@@ -318,7 +318,7 @@ namespace ConventionMobile
         {
             get
             {
-                return getOption<string>("shortTitle", "Gen Con 2019");
+                return getOption<string>("shortTitle", "UO Gen Con");
             }
             set
             {
@@ -432,7 +432,7 @@ namespace ConventionMobile
         {
             get
             {
-                return getOption<DateTime>("startingDate", new DateTime(2019, 7, 31, 0, 0, 0));
+                return getOption<DateTime>("startingDate", new DateTime(2022, 8, 3, 0, 0, 0));
             }
             set
             {
@@ -447,7 +447,7 @@ namespace ConventionMobile
         {
             get
             {
-                return getOption<DateTime>("yearlyStartingDate", new DateTime(2019, 4, 30));
+                return getOption<DateTime>("yearlyStartingDate", new DateTime(2022, 5, 1));
             }
             set
             {
@@ -781,7 +781,7 @@ namespace ConventionMobile
         {
             get
             {
-                return getOption<string>("eventsFinalInfoPretty", "** Big thank you to everyone who contributed this year! Special thanks to Jim Zell, Kenneth Garza, and Andrew D!\r\n\r\nThis app is NOT officially endorsed by Gen Con. It is a fan-created app service, provided for free.");
+                return getOption<string>("eventsFinalInfoPretty", "This app is NOT officially endorsed by Gen Con. It is a fan-created app service, provided for free.");
             }
             set
             {

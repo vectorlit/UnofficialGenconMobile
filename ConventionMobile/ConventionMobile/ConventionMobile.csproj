@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -44,17 +44,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Acr.UserDialogs" Version="7.0.4" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.2.0.564" />
     <PackageReference Include="modernhttpclient" Version="2.4.2" />
-    <PackageReference Include="morelinq" Version="3.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="morelinq" Version="3.3.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Plugin.Share" Version="7.1.1" />
-    <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.188" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
     <PackageReference Include="sqlite-net-standard" Version="1.5.1" />
     <PackageReference Include="SQLiteNetExtensionsCore.Async" Version="2.0.0" />
-    <PackageReference Include="System.Reactive.Linq" Version="4.1.5" />
-    <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
-    <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
+    <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
+    <PackageReference Include="CarouselView.FormsPlugin" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Xam.Plugin.TabView\" />

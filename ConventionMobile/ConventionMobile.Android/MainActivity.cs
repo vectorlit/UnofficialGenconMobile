@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ConventionMobile.Droid
 {
-    [Activity(Label = "Unofficial Gen Con 2019", Icon = "@mipmap/cm_launcher", RoundIcon = "@mipmap/cm_launcher_round", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Unofficial Gen Con", Icon = "@mipmap/cm_launcher", RoundIcon = "@mipmap/cm_launcher_round", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     [IntentFilter(new [] { Intent.ActionView },
         Categories = new[] {
             Intent.ActionView,
@@ -31,7 +31,8 @@ namespace ConventionMobile.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
-            Rg.Plugins.Popup.Popup.Init(this, bundle);
+            //Rg.Plugins.Popup.Popup.Init(this, bundle);
+            Rg.Plugins.Popup.Popup.Init(this);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 

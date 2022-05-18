@@ -53,7 +53,7 @@ namespace ConventionMobile.Views
             oldTabbedpage.OnLeaving(this, e);
         }
 
-        private void TabView_PositionChanged(object sender, PositionChangedEventArgs e)
+        private void TabView_PositionChanged(object sender, Xam.Plugin.TabView.PositionChangedEventArgs e)
         {
             // update toolbar items
             if (_parentPage.ToolbarItems.Any())
