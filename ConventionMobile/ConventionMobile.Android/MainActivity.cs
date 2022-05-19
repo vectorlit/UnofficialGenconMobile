@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ConventionMobile.Droid
 {
-    [Activity(Label = "Unofficial Gen Con", Icon = "@mipmap/cm_launcher", RoundIcon = "@mipmap/cm_launcher_round", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Unofficial Gen Con", Icon = "@mipmap/cm_launcher", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     [IntentFilter(new [] { Intent.ActionView },
         Categories = new[] {
             Intent.ActionView,
