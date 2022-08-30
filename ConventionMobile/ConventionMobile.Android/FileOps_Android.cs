@@ -32,6 +32,7 @@ namespace ConventionMobile.Droid
 
         string IFileOps.GetFileLocation(string fileName)
         {
+            // string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
             string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal); // Documents folder
             var path = Path.Combine(documentsPath, fileName);
             return path;

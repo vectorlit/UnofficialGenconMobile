@@ -14,6 +14,7 @@ namespace ConventionMobile.Views
             get { return (string)GetValue(UriProperty); }
             set { SetValue(UriProperty, value); }
         }
+
         
     }
 }

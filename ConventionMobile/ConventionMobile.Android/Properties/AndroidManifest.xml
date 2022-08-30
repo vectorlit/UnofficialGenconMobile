@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="39" android:versionName="6.0.0" package="com.vectorlit.genconevents" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="40" android:versionName="6.0.1" package="com.vectorlit.genconevents" android:installLocation="auto">
 	<uses-sdk android:targetSdkVersion="31" android:minSdkVersion="23" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:label="Unofficial Gen Con" android:icon="@drawable/cm_launcher" android:theme="@android:style/Theme.Material.Light"></application>
+	<application android:label="Unofficial Gen Con" android:usesCleartextTraffic="true" android:icon="@drawable/cm_launcher" android:theme="@android:style/Theme.Material.Light"></application>
 </manifest>

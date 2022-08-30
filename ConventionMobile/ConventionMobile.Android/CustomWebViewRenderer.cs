@@ -12,6 +12,7 @@ namespace ConventionMobile.Droid
     {
         public CustomWebViewRenderer(Context context) : base(context)
         {
+
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<WebView> e)
@@ -24,6 +25,9 @@ namespace ConventionMobile.Droid
                 Control.Settings.AllowUniversalAccessFromFileURLs = true;
                 Control.Settings.BuiltInZoomControls = true;
                 Control.Settings.DisplayZoomControls = true;
+                Control.Settings.AllowFileAccess = true;
+                Control.Settings.AllowFileAccessFromFileURLs = true;
+                Control.Settings.AllowUniversalAccessFromFileURLs = true;
 
                 if (customWebView.Uri.StartsWith("/"))
                 {

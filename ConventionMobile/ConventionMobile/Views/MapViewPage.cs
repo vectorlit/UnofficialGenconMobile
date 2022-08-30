@@ -12,7 +12,7 @@ namespace ConventionMobile.Views
 {
     public class MapViewPage : PopupPage
     {
-        private readonly CustomWebView _customWeb;
+        private CustomWebView _customWeb;
         private Label titleLabel;
 
         public MapViewPage()
